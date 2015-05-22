@@ -25,8 +25,8 @@ use App\Commands\Test\TestCommand as TestCommand;
 class RBot
 {
     const PRODUCTION = 'prod';
-    const SANDBOX = 'dev';
-    const VERSION = '0.1b';
+    const SANDBOX    = 'dev';
+    const VERSION    = '0.1b';
 
     private static $_config;
     private static $_db;
@@ -104,9 +104,7 @@ class RBot
         self::$_db->setAsGlobal();
 
        /* $users = Capsule::table('test')->get();
-
         print_r($users);*/
-
     }
 
     /**

@@ -47,19 +47,30 @@ abstract class Application
 
         array_shift($argv);
 
+        print_r($argv);
+
         if(!empty($argv)) {
 
-            if(substr($argv[0],0,2) === $this->rbot_command_prefix) {
+            $first_char = substr($argv[0],0,1);
+
+            if($first_char === $this->rbot_command_prefix && strlen($argv[0]) == 1) {
                 $classname = 'RBot\Commands\RBotCommand';
+            }
+            elseif($first_char === $this->rbot_command_prefix && strlen($argv[0]) > 1) {
+                $cmd = substr($argv[0], 1, strlen($argv[0]));
+                $classname = 'RBot\Commands\\'.ucfirst($cmd).'Command';
+                echo $classname;
             }
             else {
                 $cmd = $argv[0];
                 $classname = NS_APP.ucfirst($cmd).'\\'.ucfirst($cmd).'Command';
-
-                if(!class_exists($classname, true)) {
-                    throw new CommandNotFound("Command not found... $ -l to view all commands");
-                }
             }
+
+            if(!class_exists($classname, true)) {
+                throw new CommandNotFound("Command not found... $ -l to view all commands");
+            }
+
+
             RBot::run(new $classname);
         }
     }

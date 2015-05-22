@@ -69,7 +69,7 @@ class RBot
     }
 
     /**
-     * Retreive arguments
+     * Retreive/Set arguments
      * 
      * @param  array $new_argv refine request
      * @return array

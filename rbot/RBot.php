@@ -59,6 +59,14 @@ class RBot
     }
 
     /**
+     * Get db manager
+     */
+    static function db()
+    {
+        return self::$_db;
+    }
+
+    /**
      * Get App Commands path
      * 
      * @return string

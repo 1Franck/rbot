@@ -47,8 +47,6 @@ abstract class Application
 
         array_shift($argv);
 
-        print_r($argv);
-
         if(!empty($argv)) {
 
             $first_char = substr($argv[0],0,1);
@@ -68,7 +66,6 @@ abstract class Application
             if(!class_exists($classname, true)) {
                 throw new CommandNotFound("Command not found... $ -l to view all commands");
             }
-
 
             RBot::run(new $classname);
         }

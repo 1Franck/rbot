@@ -59,7 +59,6 @@ abstract class Application
             elseif($first_char === $this->rbot_command_prefix && strlen($argv[0]) > 1) {
                 $cmd = substr($argv[0], 1, strlen($argv[0]));
                 $classname = 'RBot\Commands\\'.ucfirst($cmd).'Command';
-                echo $classname;
             }
             else {
                 $cmd = $argv[0];

@@ -12,6 +12,10 @@ namespace RBot\Commands;
 use RBot\RBot;
 use RBot\Command;
 
+use Illuminate\Database\Capsule\Manager as Capsule;
+use Illuminate\Container\Container as Container;
+use Illuminate\Events\Dispatcher as Dispatcher;
+
 /*
  * Generic test function for rbot 
  *
@@ -59,15 +63,27 @@ class TestCommand extends Command
     }
 
     /**
-     * [run description]
-     * @return [type] [description]
+     * Process the command
      */
     public function process()
     {
         echo $this->help();
         $this->debug();
+
+        /**
+         * Example of db query
+         */
+        /*
+        Capsule::table('test')->get());
+        Capsule::insert('insert into test (id, name) values (?, ?)', array(1, 'Dayle'));
+        */
     }
 
+    /**
+     * Command option "foo"
+     * 
+     * @param  mixed $value
+     */
     public function opt_foo($value)
     {
         echo "Foo >>> ".$value;

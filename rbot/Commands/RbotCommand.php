@@ -10,8 +10,8 @@
 namespace RBot\Commands;
 
 use RBot\RBot;
-use RBot\Console;
 use RBot\Command;
+use RBot\Console;
 
 /*
  * RBot main command
@@ -57,14 +57,19 @@ class RbotCommand extends Command
     public function opt_version($value)
     {
 
+        if(!defined('RBOT_CLI')) {
+            Console::Add([
+                '██████╗ ██████╗  ██████╗ ████████╗',
+                '██╔══██╗██╔══██╗██╔═══██╗╚══██╔══╝',
+                '██████╔╝██████╔╝██║   ██║   ██║   ',
+                '██╔══██╗██╔══██╗██║   ██║   ██║   ',
+                '██║  ██║██████╔╝╚██████╔╝   ██║   ',
+                '╚═╝  ╚═╝╚═════╝  ╚═════╝    ╚═╝   ',
+                ' ',
+            ]);
+        }
+
         Console::AddAndDie([
-            '██████╗ ██████╗  ██████╗ ████████╗',
-            '██╔══██╗██╔══██╗██╔═══██╗╚══██╔══╝',
-            '██████╔╝██████╔╝██║   ██║   ██║   ',
-            '██╔══██╗██╔══██╗██║   ██║   ██║   ',
-            '██║  ██║██████╔╝╚██████╔╝   ██║   ',
-            '╚═╝  ╚═╝╚═════╝  ╚═════╝    ╚═╝   ',
-            ' ',
             'rbot version '.RBot::VERSION.' / php '.phpversion().' / '.date('D j F Y H:i:s O'),
         ]);
     }

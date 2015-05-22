@@ -10,6 +10,7 @@ require __DIR__.'/../rbot/loader.php';
 use RBot\RBot;
 use RBot\Exception\CommandNotFound;
 use App\App;
+use Exception;
 
 ?><!DOCTYPE html>
 <html style="">
@@ -46,6 +47,10 @@ use App\App;
        font-size: 14px;
        line-height: 15px;
     }
+
+    span.red {
+        color:#cc0000;
+    }
 -->
 </style>
 </head>
@@ -72,8 +77,8 @@ try {
 
 
 }
-catch(CommandNotFound $e) {
-    echo $e->getMessage();
+catch(Exception $e) {
+    echo '<span class="red">'.$e->getMessage().'</span>';
 }
 ?>
 </pre>

@@ -1,0 +1,32 @@
+{
+    "name": "1franck/rbot",
+    "description": "Web command-line robot",
+    "version": "1.0.0",
+    "license": "MIT",
+    "type": "project",
+	"require": {
+        "php": ">=5.4.0",
+		"corneltek/getoptionkit": "~2",
+        "illuminate/database": "5.1.*@dev",
+        "illuminate/container": "5.1.*@dev",
+        "illuminate/contracts": "5.1.*@dev",
+        "illuminate/support": "5.1.*@dev",
+        "illuminate/events": "5.1.*@dev",
+        "sinergi/config": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0"
+    },
+	"authors": [
+        {
+            "name": "Francois Lajoie",
+            "email": "snake386@hotmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4" : {
+            "RBot\\" : "rbot",
+            "App\\" : "app"
+        }
+    }
+}

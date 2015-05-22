@@ -13,10 +13,11 @@ use GetOptionKit\OptionCollection;
 use GetOptionKit\OptionParser;
 use GetOptionKit\OptionPrinter\ConsoleOptionPrinter;
 
-use Exception;
 use GetOptionKit\Exception\InvalidOptionException;
 use GetOptionKit\Exception\RequireValueException;
 use GetOptionKit\Exception\NonNumericException;
+
+use Exception;
 
 /**
  * Base class for App Commands

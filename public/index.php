@@ -52,7 +52,7 @@ use App\App;
 <body>
     
     <form action="" method="post">
-        <input type="text" name="cmd" style="" autofocus>
+        <input type="text" name="cmd" style="" autofocus spellcheck="false">
         <button type="submit">go</button>
     </form>
 <pre>

@@ -9,6 +9,8 @@
  */
 namespace RBot;
 
+use RBot\Exception;
+
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Container\Container as Container;
 use Illuminate\Events\Dispatcher as Dispatcher;
@@ -104,15 +106,17 @@ class RBot
      */
     private static function _connect()
     {
-        self::$_db = new Capsule;
-        self::$_db->addConnection(self::conf('db'));
-        self::$_db->setEventDispatcher(new Dispatcher(new Container));
-        self::$_db->bootEloquent();
+        if(!empty(self::conf('db'))) {
+            self::$_db = new Capsule;
+            self::$_db->addConnection(self::conf('db'));
+            self::$_db->setEventDispatcher(new Dispatcher(new Container));
+            self::$_db->bootEloquent();
 
-        self::$_db->setAsGlobal();
-
-       /* $users = Capsule::table('test')->get();
-        print_r($users);*/
+            self::$_db->setAsGlobal();
+        }
+        else {
+            throw new Exception\ConfigMissing('Database "db" config missing');
+        }
     }
 
     /**

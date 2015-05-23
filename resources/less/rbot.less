@@ -1,32 +1,43 @@
-* {
-    font-family: "Source Code Pro";
+/**
+ * Rbot main stylesheet
+ */
+@import "reset.less";
+@import "vars.less";
+
+html, body {
+    min-height: 100%;
 }
+
 body {
-    background:#222;
-    color:#999;
+    background:@body_bg;
+    color:@body_color;
+    font-family: @body_font;
     overflow-x:hidden;
-    padding-top:20px;
 }
-input {
+
+input, textarea, select {
+    font-family: @mono_font;
+}
+
+#cmd {
     position:absolute;
     width:100%;
     top:0;
     left:0;
-    height:30px;
-    background:#444;
-    color:#fff;
+    height:@cmd_height;
+    background:@cmd_bg;
+    color:@cmd_color;
     border:0;
     outline:none;
     box-shadow:none;
     padding:0 5px;
     font-size: 16px;
 }
-button {
-    display: none;
-}
-pre {
+
+#console {
    font-size: 14px;
    line-height: 15px;
+   margin-top:@cmd_height + 10px;
 }
 
 span.red {

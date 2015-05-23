@@ -20,8 +20,8 @@ app.filter('to_trusted', ['$sce', function($sce){
 app.controller('consoleController', ['$scope', '$http', function($s, $http) {
 
     $s.cmd_history       = [];
-    $s.cmd_input         = "$ ";
-    $s.cmd_input_default = "$ ";
+    $s.cmd_input         = "$";
+    $s.cmd_input_default = "$";
     $s.console           = "";
 
     $s.cmdTyping = function($event) {

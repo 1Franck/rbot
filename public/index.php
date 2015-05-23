@@ -15,44 +15,7 @@ use Exception;
 ?><!DOCTYPE html>
 <html style="">
 <head>
-<style>
-<!--
-    * {
-        font-family: "Source Code Pro";
-    }
-    body {
-        background:#222;
-        color:#999;
-        overflow-x:hidden;
-        padding-top:20px;
-    }
-    input {
-        position:absolute;
-        width:100%;
-        top:0;
-        left:0;
-        height:30px;
-        background:#444;
-        color:#fff;
-        border:0;
-        outline:none;
-        box-shadow:none;
-        padding:0 5px;
-        font-size: 16px;
-    }
-    button {
-        display: none;
-    }
-    pre {
-       font-size: 14px;
-       line-height: 15px;
-    }
-
-    span.red {
-        color:#cc0000;
-    }
--->
-</style>
+    <link rel="stylesheet" href="assets/css/rbot.css">
 </head>
 <body>
     
@@ -82,5 +45,7 @@ catch(Exception $e) {
 }
 ?>
 </pre>
+<script src="assets/js/libs.js"></script>
+<script src="assets/js/rbot.min.js"></script>
 </body>
 </html>

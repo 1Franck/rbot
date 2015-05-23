@@ -46,11 +46,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 
     <div ng-controller="consoleController">
-        <form>
-            <input type="text" id="cmd" ng-model="cmd_input" ng-keydown="cmdTyping($event)" autofocus spellcheck="false">
-            <!-- <button type="submit">go</button> -->
-        </form>
-        <pre ng-bind-html="console | to_trusted">{{ console }} </pre>
+        <input type="text" id="cmd" ng-model="cmd_input" ng-keydown="cmdTyping($event)" autofocus spellcheck="false">
+        <pre id="console" ng-bind-html="console | to_trusted"></pre>
     </div>
 
     <script src="assets/js/libs.js"></script>

@@ -38,7 +38,7 @@ module.exports = function(grunt) {
           cleancss: true,
         },
         files: {
-          "public/assets/css/rbot.css": "resources/assets/css/rbot.less",
+          "public/assets/css/rbot.css": "resources/less/rbot.less",
         }
       }
     },
@@ -49,7 +49,7 @@ module.exports = function(grunt) {
       },
       dist: {
         src: ['resources/js/angular.min.js'],
-        dest: 'build/libs.js',
+        dest: 'public/assets/js/libs.js',
       },
     },
 

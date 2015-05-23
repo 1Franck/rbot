@@ -24,6 +24,15 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
     $s.cmd_input_default = "$";
     $s.console           = "";
 
+    var ui_cmds = {
+        clear: function() {
+            $s.console = '';
+        }
+    }
+
+    /**
+     * Analyse cmd input keydown
+     */
     $s.cmdTyping = function($event) {
 
         var keycode = (window.event ? $event.keyCode : $event.which);
@@ -53,9 +62,15 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
         }
     };
 
-
-
+    /**
+     * Send cmd request
+     */
     function request() {
+
+        if(isUiCmd($s.cmd_input)) {
+            ui_cmds[$s.cmd_input]();
+            return;
+        }
 
         //console.log($s.cmd_input);
         $http.post('index.php', {cmd: $s.cmd_input})
@@ -68,8 +83,16 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
         });
     }
 
-    function init() { }
+    /**
+     * Check if command is a ui command
+     * 
+     * @param  string  cmd
+     * @return boolean
+     */
+    function isUiCmd(cmd) {
+        return ui_cmds[cmd] ? true : false;
+    }
 
+    function init() {}
     init();
-
 }]);

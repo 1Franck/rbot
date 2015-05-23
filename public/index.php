@@ -8,9 +8,8 @@ session_start('rbot-web');
 require __DIR__.'/../rbot/loader.php';
 
 use RBot\RBot;
-use RBot\Exception\CommandNotFound;
+use RBot\Exception;
 use App\App;
-use Exception;
 
 // process ajax request
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -31,9 +30,12 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     }
-    catch(Exception $e) {
-        echo '<span class="red">'.$e->getMessage().'</span>';
+    catch(Exception\GenericException $e) {
+        echo '<span class="red">'.get_class($e).' '.$e->getMessage().'</span>';
     }
+    /*catch(Exception $e) {
+        echo '<span class="red">'.$e->getMessage().'</span>';
+    }*/
 
     exit();
 }

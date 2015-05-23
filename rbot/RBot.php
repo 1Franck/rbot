@@ -111,7 +111,6 @@ class RBot
             self::$_db->addConnection(self::conf('db'));
             self::$_db->setEventDispatcher(new Dispatcher(new Container));
             self::$_db->bootEloquent();
-
             self::$_db->setAsGlobal();
         }
         else {

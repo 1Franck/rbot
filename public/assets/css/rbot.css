@@ -194,7 +194,8 @@ select {
   margin-top: 40px;
   padding: 5px;
   font-size: 14px;
-  line-height: 15px;
+  line-height: 16px;
+  word-wrap: break-word;
 }
 span.red {
   color: #cc0000;

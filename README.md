@@ -4,7 +4,7 @@
 ### Requirements
 PHP 5.4+
 
-### Install dependencies via composer
+### Install dependencies via Composer
 ```
 $ composer install
 ```

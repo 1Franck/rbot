@@ -35,9 +35,13 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
         }
         else if(keycode == 38) {
             //up
+            $s.cmd_input = $s.cmd_history[$s.cmd_history.length-1];
         }
         else if(keycode == 40) {
             //down
+        }
+        else if($s.cmd_input.trim() == "" && keycode == 32) {
+            $s.cmd_input = "$";
         }
     };
 

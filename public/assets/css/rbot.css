@@ -191,9 +191,10 @@ select {
   font-size: 16px;
 }
 #console {
+  margin-top: 40px;
+  padding: 5px;
   font-size: 14px;
   line-height: 15px;
-  margin-top: 40px;
 }
 span.red {
   color: #cc0000;

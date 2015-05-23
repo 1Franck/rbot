@@ -50,7 +50,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="text" id="cmd" ng-model="cmd_input" ng-keydown="cmdTyping($event)" autofocus spellcheck="false">
             <!-- <button type="submit">go</button> -->
         </form>
-        <pre ng-model="console">{{ console }} </pre>
+        <pre ng-bind-html="console | to_trusted">{{ console }} </pre>
     </div>
 
     <script src="assets/js/libs.js"></script>

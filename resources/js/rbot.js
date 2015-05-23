@@ -6,9 +6,17 @@
 var app = angular.module('rbot', []);
 
 /**
+ * HTML filter
+ */
+app.filter('to_trusted', ['$sce', function($sce){
+    return function(text) {
+        return $sce.trustAsHtml(text);
+    };
+}]);
+
+/**
  * Main controller
  */
-
 app.controller('consoleController', ['$scope', '$http', function($s, $http) {
 
     $s.cmd_history       = [];
@@ -49,10 +57,10 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
 
     function request() {
 
-        console.log($s.cmd_input);
+        //console.log($s.cmd_input);
         $http.post('index.php', {cmd: $s.cmd_input})
             .success(function (data) {
-                console.log("Resolved: " + $s.cmd_input);   
+                //console.log("Resolved: " + $s.cmd_input);   
                 $s.console = data + "\n" + $s.console;
             })
         .error(function () {

@@ -2,9 +2,4 @@
 
 namespace RBot\Exception;
 
-use Exception;
-
-class CommandNotFound extends Exception
-{
-
-}
+class CommandNotFound extends GenericException {}

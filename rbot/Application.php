@@ -10,7 +10,8 @@
 namespace RBot;
 
 use RBot\RBot;
-use RBot\Exception\CommandNotFound;
+use RBot\Exception;
+use RBot\Console;
 
 
 /*
@@ -42,6 +43,8 @@ abstract class Application
             RBot::argv($new_argv);
         }
 
+        $this->_auth();
+
         $argv = RBot::argv();
         if(empty($argv)) return;
 
@@ -64,10 +67,59 @@ abstract class Application
             }
 
             if(!class_exists($classname, true)) {
-                throw new CommandNotFound("Command not found... $ --list to view all commands");
+                throw new Exception\CommandNotFound('Command not found... $ --list to view all commands');
             }
 
             RBot::run(new $classname);
         }
     }
+
+    /**
+     * Auth for the web cli
+     */
+    private function _auth()
+    {
+        if(RBot::cliMode()) return;
+
+        if(is_array(RBot::conf('auth'))) {
+
+            //... session is started
+            if(session_status() == PHP_SESSION_NONE) {
+                throw new Exception\AuthException('No session started, can\'t use auth');
+            }
+
+            //... not logged
+            if(!isset($_SESSION['logged'])) {
+
+                $argv = RBot::argv();
+                array_shift($argv); //remove rbot
+
+                if(!empty($argv) && count($argv) == 3 && substr($argv[0],0,1) === $this->rbot_command_prefix) {
+                    // try to log
+                    $u_hash = hash(RBot::conf('auth.hash'), $argv[1]);
+                    $p_hash = hash(RBot::conf('auth.hash'), $argv[2]);
+
+                    if($u_hash === RBot::conf('auth.user_hash') &&
+                        $p_hash === RBot::conf('auth.password_hash')) {
+
+                        $_SESSION['logged'] = true;
+                        RBot::argv([]);
+
+                        Console::noLog();
+                        Console::nl();
+                        Console::addAndDie('Greeting master...');
+                    }
+                    else {
+                        sleep(1);
+                        throw new Exception\AuthException('Login failed');
+                    }
+
+                }
+                else {
+                    throw new Exception\AuthException('You need to login first');
+                }
+            }
+        }
+    }
+
 }

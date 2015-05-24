@@ -57,7 +57,7 @@ class RBot
      */
     static function conf($opt)
     {
-        $no = ['db', 'auth'];
+        $no = ['db'];
         if(in_array(trim($opt), $no)) return;
         return self::_conf($opt);
     }

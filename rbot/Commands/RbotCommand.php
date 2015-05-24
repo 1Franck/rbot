@@ -13,6 +13,8 @@ use RBot\RBot;
 use RBot\Command;
 use RBot\Console;
 
+use PDOException;
+
 /*
  * RBot main command
  */
@@ -27,11 +29,9 @@ class RbotCommand extends Command
     public function setOptions() 
     {
         // works for -vvv  => verbose = 3
-        $this->_specs->add('v|version', 'rbot version')
-            ->isa('Number')
-            ->incremental();
-
-        $this->_specs->add('list', 'list all commands');
+        $this->_options->add('v|version', 'rbot version');
+        $this->_options->add('list', 'list all application commands');
+        $this->_options->add('install', 'install rbot');
 
     }
 
@@ -94,5 +94,53 @@ class RbotCommand extends Command
         }
 
         Console::output();
+    }
+
+    /**
+     * Install rbot
+     * 
+     * @return
+     */
+    public function opt_install()
+    {
+        // database exists ?
+        try {
+            RBot::db()->schema();
+        }
+        catch(PDOException $e) {
+            throw new Exception\Database('Can\'t find database '.RBot::conf('db.database'));
+            return;
+        }
+
+        // table exists ?
+        if(RBot::db()->schema()->hasTable('queue') || RBot::db()->schema()->hasTable('users')) {
+            Console::AddAndDie('System already installed or database is not empty');
+            return;
+        }
+
+        // create tables
+        RBot::db()->schema()->create('queue', function($table) {
+
+            $table->engine = 'InnoDB';
+            $table->bigIncrements('id')->unsigned();
+            $table->string('command', 255);
+            $table->text('task');
+            $table->timestamp('dt_created');
+            $table->timestamp('dt_executed');
+            $table->tinyInteger('repeat')->unsigned();
+            $table->integer('repeat_time')->unsigned();
+        });
+
+        RBot::db()->schema()->create('console', function($table) {
+
+            $table->engine = 'InnoDB';
+            $table->bigIncrements('id')->unsigned();
+            $table->text('line');
+            $table->timestamp('dt_created');
+            $table->text('command');
+        });
+        
+
+        Console::AddAndDie('Installation completed successfully');
     }
 }

@@ -29,15 +29,37 @@ class Console
     {
         if(!is_array($data)) $data = [$data];
 
+        $cmd = join(' ',RBot::argv());
+
         if(!empty($data)) {
             foreach($data as $d) {
                 self::$_lines[] = [
-                    'line' => $d,
-                    'ts'   => date('Y-m-d H:i:s'),
-                    'cmd'  => join(' ',RBot::argv())
+                    'line'       => $d,
+                    'dt_created' => date('Y-m-d H:i:s'),
+                    'command'    => $cmd
                 ];
             }
         }
+    }
+
+    /**
+     * Newline (return)
+     * 
+     * @param  integer $many
+     */
+    static function nl($many = 1)
+    {
+        $nl = [''];
+        self::add(array_pad($nl, $many, ''));
+    }
+
+    /**
+     * Desactivated db log
+     * @return;
+     */
+    static function noLog()
+    {
+        Console::$log = false;
     }
 
     /**
@@ -65,12 +87,6 @@ class Console
         self::outputDie();
     }
 
-    static function nl($many = 1)
-    {
-        $nl = [''];
-        self::add(array_pad($nl, $many, ''));
-    }
-
     /**
      * die the output!
      */
@@ -96,26 +112,12 @@ class Console
     }
 
     /**
-     * Log console line into database
+     * Log console lines into database
      */
-    static protected function _log($line)
-    {
-        RBot::db()->table('console')->insert([
-            'dt_created' => $line['ts'], 
-            'line'       => $line['line'], 
-            'command'    => $line['cmd']
-        ]);
-     
-    }
-
     static protected function _logAll()
     {
         if(self::$log === true) {
-            if(!empty(self::$_lines)) {
-                foreach(self::$_lines as $l) { 
-                    self::_log($l);
-                }
-            }
+            RBot::db()->table('console')->insert(self::$_lines);
         }
     }
 }

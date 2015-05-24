@@ -32,7 +32,7 @@ class RbotCommand extends Command
         $this->_options->add('v|version', 'rbot version');
         $this->_options->add('list', 'list all application commands');
         $this->_options->add('install', 'install rbot');
-
+        $this->_options->add('logout', 'logout user if apply');
     }
 
     /**
@@ -77,6 +77,16 @@ class RbotCommand extends Command
             'rbot version '.RBot::VERSION.' / php '.phpversion().' / '.date('D j F Y H:i:s O'),
             '',
         ]);
+    }
+
+    /**
+     * Logout
+     */
+    public function opt_logout()
+    {
+        @session_destroy();
+        Console::noLog();
+        Console::AddAndDie('Good bye...');
     }
 
     /**

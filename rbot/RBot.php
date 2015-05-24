@@ -50,12 +50,25 @@ class RBot
     }
 
     /**
-     * Get conf
+     * Get conf with restriction
      * 
      * @param   string $opt  
      * @return  mixed
      */
     static function conf($opt)
+    {
+        $no = ['db', 'auth'];
+        if(in_array(trim($opt), $no)) return;
+        return self::_conf($opt);
+    }
+
+    /**
+     * Get conf 
+     * 
+     * @param   string $opt  
+     * @return  mixed
+     */
+    static public function _conf($opt)
     {
         return self::$_config->get('rbot.'.self::$_env.'.'.$opt);
     }
@@ -106,12 +119,15 @@ class RBot
      */
     private static function _connect()
     {
-        if(!empty(self::conf('db'))) {
+        if(is_array(self::_conf('db')) && !empty(self::_conf('db'))) {
             self::$_db = new Capsule;
-            self::$_db->addConnection(self::conf('db'));
+            self::$_db->addConnection(self::_conf('db'));
             self::$_db->setEventDispatcher(new Dispatcher(new Container));
             self::$_db->bootEloquent();
             self::$_db->setAsGlobal();
+
+            self::$_config->set('rbot.'.self::$_env.'.db.username', "YOOOO");
+
         }
         else {
             throw new Exception\ConfigMissing('Database "db" config missing');

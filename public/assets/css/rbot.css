@@ -225,6 +225,16 @@ select {
   /* Gecko Browsers */
   color: #000000;
 }
+#console span.red::selection {
+  background: #cc0000;
+  /* WebKit/Blink Browsers */
+  color: #ccc;
+}
+#console span.red::-moz-selection {
+  background: #cc0000;
+  /* Gecko Browsers */
+  color: #ccc;
+}
 span.red {
   color: #ff0000;
 }

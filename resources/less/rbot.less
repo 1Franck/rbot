@@ -59,6 +59,15 @@ input, textarea, select {
         background: @console_bg_textselection; /* Gecko Browsers */
         color: @console_color_textselection;
     }
+
+    span.red::selection {
+        background: #cc0000; /* WebKit/Blink Browsers */
+        color: #ccc;
+    }
+    span.red::-moz-selection {
+        background: #cc0000; /* Gecko Browsers */
+        color: #ccc;
+    }
 }
 
 

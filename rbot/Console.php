@@ -29,12 +29,14 @@ class Console
     {
         if(!is_array($data)) $data = [$data];
 
-        foreach($data as $d) {
-            self::$_lines[] = [
-                'line' => $d,
-                'ts'   => date('Y-m-d H:i:s'),
-                'cmd'  => join(' ',RBot::argv())
-            ];
+        if(!empty($data)) {
+            foreach($data as $d) {
+                self::$_lines[] = [
+                    'line' => $d,
+                    'ts'   => date('Y-m-d H:i:s'),
+                    'cmd'  => join(' ',RBot::argv())
+                ];
+            }
         }
     }
 
@@ -82,17 +84,25 @@ class Console
         $lines = [];
         if(!empty(self::$_lines)) {
             foreach(self::$_lines as $l) {
-                if(self::$log === true) {
-                    RBot::db()->table('console')->insert([
-                        'dt_created' => $l['ts'], 
-                        'line' => $l['line'], 
-                        'command' => $l['cmd']
-                    ]);
-                }
+                self::_log($l);
                 $lines[] = $l['line'];
             }
             
         }
         return join("\n", $lines);
+    }
+
+    /**
+     * Log console line into database
+     */
+    static protected function _log($line)
+    {
+        if(self::$log === true) {
+            RBot::db()->table('console')->insert([
+                'dt_created' => $line['ts'], 
+                'line'       => $line['line'], 
+                'command'    => $line['cmd']
+            ]);
+        }
     }
 }

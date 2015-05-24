@@ -113,7 +113,6 @@ abstract class Application
                         sleep(1);
                         throw new Exception\AuthException('Login failed');
                     }
-
                 }
                 else {
                     throw new Exception\AuthException('You need to login first');

@@ -12,7 +12,6 @@ namespace RBot;
 use GetOptionKit\Option;
 use GetOptionKit\OptionCollection;
 use GetOptionKit\OptionParser;
-use GetOptionKit\OptionPrinter\ConsoleOptionPrinter;
 
 use GetOptionKit\Exception\InvalidOptionException;
 use GetOptionKit\Exception\RequireValueException;
@@ -83,6 +82,8 @@ abstract class Command
                 }
             }
         }
+
+        //print_r($this->_result);
         
         $this->process();
     }
@@ -92,9 +93,6 @@ abstract class Command
      */
     public function help()
     {
-        $printer = new ConsoleOptionPrinter;
-        //return $printer->render($this->_options);
-
         $max_length = 0;
         foreach($this->_options as $i => $o) {
             $opt_line = $this->_renderOption($o);
@@ -114,10 +112,6 @@ abstract class Command
 
             Console::add($opt_line.' '.$o->desc);
         }
-
-    /*     Console::add();
-            Console::add($o->desc);
-            //Console::add($option->desc);*/
 
         Console::add('');
         Console::outputDie();

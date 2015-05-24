@@ -59,6 +59,7 @@ class RbotCommand extends Command
      */
     public function opt_version($value)
     {
+        Console::noLog();
         Console::nl();
         if(!defined('RBOT_CLI')) {
             Console::Add([

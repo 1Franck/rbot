@@ -47,9 +47,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
 
-    <div ng-controller="consoleController">
-        <input type="text" id="cmd" ng-model="cmd_input" ng-keydown="cmdTyping($event)" autofocus spellcheck="false">
+    <div ng-controller="consoleController" ng-dblclick="focusCmd()">
         <pre id="console" ng-bind-html="console | to_trusted"></pre>
+        <input type="text" id="cmd" ng-model="cmd_input" ng-keydown="cmdTyping($event)" autofocus spellcheck="false">
     </div>
 
     <script src="assets/js/libs.js"></script>

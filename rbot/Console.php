@@ -46,8 +46,13 @@ class Console
      */
     static function output($die = false)
     {
-        if($die) die(self::_renderAll());
+        if($die) {
+            self::_logAll();
+            die(self::_renderAll());
+        }
         echo self::_renderAll();
+        self::_logAll();
+
     }
 
     /**
@@ -83,11 +88,9 @@ class Console
     {
         $lines = [];
         if(!empty(self::$_lines)) {
-            foreach(self::$_lines as $l) {
-                self::_log($l);
+            foreach(self::$_lines as $l) { 
                 $lines[] = $l['line'];
             }
-            
         }
         return join("\n", $lines);
     }
@@ -97,12 +100,22 @@ class Console
      */
     static protected function _log($line)
     {
+        RBot::db()->table('console')->insert([
+            'dt_created' => $line['ts'], 
+            'line'       => $line['line'], 
+            'command'    => $line['cmd']
+        ]);
+     
+    }
+
+    static protected function _logAll()
+    {
         if(self::$log === true) {
-            RBot::db()->table('console')->insert([
-                'dt_created' => $line['ts'], 
-                'line'       => $line['line'], 
-                'command'    => $line['cmd']
-            ]);
+            if(!empty(self::$_lines)) {
+                foreach(self::$_lines as $l) { 
+                    self::_log($l);
+                }
+            }
         }
     }
 }

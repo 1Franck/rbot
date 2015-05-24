@@ -61,7 +61,7 @@ class RbotCommand extends Command
     {
         Console::noLog();
         Console::nl();
-        if(!defined('RBOT_CLI')) {
+        if(!RBot::cliMode()) {
             Console::Add([
                 '██████╗ ██████╗  ██████╗ ████████╗',
                 '██╔══██╗██╔══██╗██╔═══██╗╚══██╔══╝',

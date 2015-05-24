@@ -92,6 +92,17 @@ class RBot
     }
 
     /**
+     * Rbot in cli mode ?
+     * 
+     * @return boolean
+     */
+    static function cliMode()
+    {
+        if(defined('RBOT_CLI') && RBOT_CLI === true) return true;
+        return false;
+    }
+
+    /**
      * Retreive/Set arguments
      * 
      * @param  array $new_argv refine request

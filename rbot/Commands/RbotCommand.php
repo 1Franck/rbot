@@ -41,8 +41,11 @@ class RbotCommand extends Command
      */
     public function process()
     {
-        if($this->_no_result) {
-            echo $this->help();
+        if($this->_no_result === true) {
+            $this->help();
+        }
+        else {
+
         }
 
         //echo $this->help();
@@ -71,6 +74,7 @@ class RbotCommand extends Command
 
         Console::AddAndDie([
             'rbot version '.RBot::VERSION.' / php '.phpversion().' / '.date('D j F Y H:i:s O'),
+            '',
         ]);
     }
 
@@ -90,9 +94,9 @@ class RbotCommand extends Command
             foreach($app_commands as $c) {
                 Console::add(' '.strtolower($c));
             }
-            
         }
 
+        Console::nl();
         Console::output();
     }
 

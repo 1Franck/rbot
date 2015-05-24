@@ -9,6 +9,7 @@
  */
 namespace RBot;
 
+use GetOptionKit\Option;
 use GetOptionKit\OptionCollection;
 use GetOptionKit\OptionParser;
 use GetOptionKit\OptionPrinter\ConsoleOptionPrinter;
@@ -24,15 +25,10 @@ use Exception;
  */
 abstract class Command
 {
-    /**
-     * Command options
-     * @var [type]
-     */
-    public $options = [];
 
     /**
      * Commands spec
-     * @var [type]
+     * @var array
      */
     protected $_options;
 
@@ -77,8 +73,8 @@ abstract class Command
         $this->preProcess();
         $this->_parseArgv();
 
+        $this->_no_result = true;
         foreach($this->_options as $k => $s) {
-            $this->_no_result = true;
             if($this->_result->has($k)) {
                 $this->_no_result = false;
                 if(method_exists($this, 'opt_'.$k)) {
@@ -91,17 +87,78 @@ abstract class Command
         $this->process();
     }
 
+    /**
+     * Show help
+     */
     public function help()
     {
         $printer = new ConsoleOptionPrinter;
-        return $printer->render($this->_options);
+        //return $printer->render($this->_options);
+
+        $max_length = 0;
+        foreach($this->_options as $i => $o) {
+            $opt_line = $this->_renderOption($o);
+            $length = strlen($opt_line);
+            if($length > $max_length) {
+                $max_length = $length;
+            }
+        }
+
+        foreach($this->_options as $o) {
+            $opt_line = $this->_renderOption($o);
+            $length = strlen($opt_line);
+
+            for($i=1;$i <= (($max_length-$length)+8);++$i) {
+                $opt_line .= ' ';
+            }
+
+            Console::add($opt_line.' '.$o->desc);
+        }
+
+    /*     Console::add();
+            Console::add($o->desc);
+            //Console::add($option->desc);*/
+
+        Console::add('');
+        Console::outputDie();
     }
 
+    /**
+     * Format option to a string
+     * 
+     * @param  object $opt GetOptionKit\Option
+     * @return string
+     */
+    public function _renderOption($opt)
+    {
+        $c1 = '';
+        if ( $opt->short && $opt->long ) {
+            $c1 = sprintf('-%s, --%s',$opt->short,$opt->long);
+        } elseif( $opt->short ) {
+            $c1 = sprintf('-%s',$opt->short);
+        } elseif( $opt->long ) {
+            $c1 = sprintf('--%s',$opt->long );
+        }
+        if(!defined('RBOT_CLI')) {
+            $c1 .= str_replace(['<','>'], ['(',')'], strtolower($opt->renderValueHint()));
+        }
+        else $c1 .= $opt->renderValueHint();
+        return trim($c1);
+    }
+
+    /**
+     * __toString()
+     * 
+     * @return string
+     */
     public function __toString()
     {
         return $this->help();
     }
 
+    /**
+     * Parse options
+     */
     private function _parseArgv()
     {
         $parser = new OptionParser($this->_options);

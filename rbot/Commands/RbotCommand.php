@@ -59,7 +59,7 @@ class RbotCommand extends Command
      */
     public function opt_version($value)
     {
-
+        Console::nl();
         if(!defined('RBOT_CLI')) {
             Console::Add([
                 '██████╗ ██████╗  ██████╗ ████████╗',
@@ -86,6 +86,7 @@ class RbotCommand extends Command
      */
     public function opt_list()
     {
+        Console::nl();
         $app_commands = array_diff(scandir(RBot::getCmdPath()), array('..', '.'));
 
         if(!empty($app_commands)) {
@@ -139,7 +140,7 @@ class RbotCommand extends Command
 
             $table->engine = 'InnoDB';
             $table->bigIncrements('id')->unsigned();
-            $table->text('line');
+            $table->text('line')->nullable();
             $table->timestamp('dt_created');
             $table->text('command');
         });

@@ -10,6 +10,11 @@
 ```
 $ composer install
 ```
+This will install those libraries:
+ - illuminate/database (Laravel 5.1 Database Component)
+ - c9s/GetOptionKit (A powerful GetOpt toolkit for PHP)
+ - sinergi/config (PHP configurations loading library) 
+
 
 ### Install grunt for editing/theming rbot webcli assets
 ```

@@ -31,7 +31,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     }
     catch(Exception\GenericException $e) {
-        echo "\n".'<span class="red">'.get_class($e).' '.$e->getMessage().'</span>';
+        $prefix = (RBot::env() === 'dev') ? get_class($e).' ' : '';
+        echo "\n".'<span class="red">'.$prefix.$e->getMessage().'</span>'."\n";
     }
     /*catch(Exception $e) {
         echo '<span class="red">'.$e->getMessage().'</span>';

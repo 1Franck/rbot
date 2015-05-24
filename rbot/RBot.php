@@ -20,7 +20,6 @@ use Sinergi\Config\Config as Config;
 use GetOptionKit\OptionCollection;
 use GetOptionKit\ContinuousOptionParser;
 
-use App\Commands\Test\TestCommand as TestCommand;
 /**
  * RBot core
  */

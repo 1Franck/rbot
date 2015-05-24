@@ -2,9 +2,9 @@
 
 
 ### Requirements
- PHP 5.4+
- MySQL or MariaDB (for queuing system)
- http server(for web cli)
+    PHP 5.4+
+    MySQL or MariaDB (for queuing system)
+    http server(for web cli)
 
 ### Install dependencies via Composer
 ```

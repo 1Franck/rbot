@@ -30,6 +30,14 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
         }
     }
 
+    var el = {
+        cmd: document.getElementById("cmd"),
+        console: document.getElementById("console")
+    }
+
+    //set full screen console
+    //console.innerHeight = window.outerHeight;
+
     /**
      * Analyse cmd input keydown
      */
@@ -62,6 +70,10 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
         }
     };
 
+    $s.focusCmd = function() {
+        el.cmd.focus();
+    }
+
     /**
      * Send cmd request
      */
@@ -76,7 +88,10 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
         $http.post('index.php', {cmd: $s.cmd_input})
             .success(function (data) {
                 //console.log("Resolved: " + $s.cmd_input);   
-                $s.console = data + "\n" + $s.console;
+                //$s.console = data + "\n" + $s.console;
+                //$s.console = $s.console + "\n" + data;
+                el.console.innerHTML += data;
+                el.console.scrollTop = el.console.scrollHeight;
             })
         .error(function () {
             console.log("Cannot resolve: " + $s.cmd_input);
@@ -93,6 +108,11 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
         return ui_cmds[cmd] ? true : false;
     }
 
-    function init() {}
+    function init() {
+        document.body.addEventListener("dblclick",function() {
+            console.log('dlclock');
+            document.getElementById("cmd").focus();
+        })
+    }
     init();
 }]);

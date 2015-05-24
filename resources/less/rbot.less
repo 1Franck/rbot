@@ -5,14 +5,14 @@
 @import "vars.less";
 
 html, body {
-    min-height: 100%;
+    height: 100%;
 }
 
 body {
     background:@body_bg;
     color:@body_color;
     font-family: @body_font;
-    overflow-x:hidden;
+    //overflow-x:hidden;
 }
 
 input, textarea, select {
@@ -21,8 +21,9 @@ input, textarea, select {
 
 #cmd {
     position:fixed;
+    margin:0;
     width:100%;
-    top:0;
+    bottom:0;
     left:0;
     height:@cmd_height;
     background:@cmd_bg;
@@ -35,12 +36,32 @@ input, textarea, select {
 }
 
 #console {
-   margin-top:@cmd_height + 10px;
-   padding:@console_padding;
-   font-size: @console_fontsize;
-   line-height: @console_lineheigth;
-   word-wrap: break-word;
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    margin-bottom:@cmd_height;
+    //margin-top:@cmd_height + 10px;
+    padding:@console_padding;
+    font-size: @console_fontsize;
+    line-height: @console_lineheigth;
+    word-wrap: break-word;
+    //border:1px solid #ccc;
+    //height:100px;
+    overflow: auto;
+
+    &::selection {
+        background: @console_bg_textselection; /* WebKit/Blink Browsers */
+        color: @console_color_textselection;
+    }
+    &::-moz-selection {
+        background: @console_bg_textselection; /* Gecko Browsers */
+        color: @console_color_textselection;
+    }
 }
+
+
 
 span.red {
     color:#cc0000;

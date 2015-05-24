@@ -113,6 +113,7 @@ abstract class Command
             Console::add($opt_line.' '.$o->desc);
         }
 
+        Console::noLog();
         Console::add('');
         Console::outputDie();
     }

@@ -84,7 +84,7 @@ class RbotCommand extends Command
      * @param  [type] $value [description]
      * @return [type]        [description]
      */
-    public function opt_list($value)
+    public function opt_list()
     {
         $app_commands = array_diff(scandir(RBot::getCmdPath()), array('..', '.'));
 

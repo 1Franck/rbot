@@ -34,7 +34,7 @@ abstract class Command
      * Commands spec
      * @var [type]
      */
-    protected $_specs;
+    protected $_options;
 
     /**
      * Command spec result
@@ -53,7 +53,7 @@ abstract class Command
      */
     public function __construct()
     {
-        $this->_specs   = new OptionCollection;
+        $this->_options = new OptionCollection;
         $this->setOptions();
     }
 
@@ -77,7 +77,7 @@ abstract class Command
         $this->preProcess();
         $this->_parseArgv();
 
-        foreach($this->_specs as $k => $s) {
+        foreach($this->_options as $k => $s) {
             $this->_no_result = true;
             if($this->_result->has($k)) {
                 $this->_no_result = false;
@@ -94,7 +94,7 @@ abstract class Command
     public function help()
     {
         $printer = new ConsoleOptionPrinter;
-        return $printer->render($this->_specs);
+        return $printer->render($this->_options);
     }
 
     public function __toString()
@@ -104,7 +104,7 @@ abstract class Command
 
     private function _parseArgv()
     {
-        $parser = new OptionParser($this->_specs);
+        $parser = new OptionParser($this->_options);
 
         try {
             $this->_result = $parser->parse(Rbot::argv());

@@ -93,6 +93,10 @@ abstract class Command
      */
     public function help()
     {
+        Console::nl();
+        Console::add("Help for command " .$this->_getClassCmdName());
+        Console::nl();
+
         $max_length = 0;
         foreach($this->_options as $i => $o) {
             $opt_line = $this->_renderOption($o);
@@ -114,7 +118,7 @@ abstract class Command
         }
 
         Console::noLog();
-        Console::add('');
+        Console::nl(1);
         Console::outputDie();
     }
 
@@ -176,6 +180,12 @@ abstract class Command
         catch(Exception $e ) {
             Console::addAndDie($e->getMessage());
         }
+    }
+
+    protected function _getClassCmdName()
+    {
+        $part = explode('\\', get_class($this));
+        return str_ireplace('Command', '', strtolower($part[count($part)-1]));
     }
 
     public function debug()

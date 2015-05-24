@@ -22,18 +22,19 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
     $s.cmd_history       = [];
     $s.cmd_input         = "$";
     $s.cmd_input_default = "$";
-    $s.console           = "";
-
-    var ui_cmds = {
-        clear: function() {
-            $s.console = '';
-        }
-    }
+    //$s.console           = "";
 
     var el = {
         cmd: document.getElementById("cmd"),
         console: document.getElementById("console")
     }
+
+    var ui_cmds = {
+        clear: function() {
+            el.console.innerHTML = '';
+        }
+    }
+
 
     //set full screen console
     //console.innerHeight = window.outerHeight;

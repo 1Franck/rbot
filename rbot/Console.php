@@ -58,6 +58,12 @@ class Console
         self::outputDie();
     }
 
+    static function nl($many = 1)
+    {
+        $nl = [''];
+        self::add(array_pad($nl, $many, ''));
+    }
+
     /**
      * die the output!
      */

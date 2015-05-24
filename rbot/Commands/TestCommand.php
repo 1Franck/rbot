@@ -11,6 +11,7 @@ namespace RBot\Commands;
 
 use RBot\RBot;
 use RBot\Command;
+use RBot\Console;
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Container\Container as Container;
@@ -67,9 +68,11 @@ class TestCommand extends Command
      */
     public function process()
     {
-        echo $this->help();
-        $this->debug();
+        $this->help();
+        //$this->debug();
 
+        Console::add(RBot::conf('db'));
+        Console::output();
         /**
          * Example of db query
          */

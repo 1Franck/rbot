@@ -98,7 +98,7 @@ class RBot
      */
     static function cliMode()
     {
-        if(defined('RBOT_CLI') && RBOT_CLI === true) return true;
+        if(php_sapi_name() === 'cli') return true;
         return false;
     }
 

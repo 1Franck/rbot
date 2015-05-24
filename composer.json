@@ -19,8 +19,7 @@
     },
 	"authors": [
         {
-            "name": "Francois Lajoie",
-            "email": "o_o@francoislajoie.com"
+            "name": "Francois Lajoie"
         }
     ],
     "autoload": {

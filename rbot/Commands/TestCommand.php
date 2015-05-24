@@ -13,10 +13,6 @@ use RBot\RBot;
 use RBot\Command;
 use RBot\Console;
 
-use Illuminate\Database\Capsule\Manager as Capsule;
-use Illuminate\Container\Container as Container;
-use Illuminate\Events\Dispatcher as Dispatcher;
-
 /*
  * Generic test function for rbot 
  *
@@ -73,13 +69,6 @@ class TestCommand extends Command
 
         Console::add(RBot::conf('db'));
         Console::output();
-        /**
-         * Example of db query
-         */
-        /*
-        Capsule::table('test')->get());
-        Capsule::insert('insert into test (id, name) values (?, ?)', array(1, 'Dayle'));
-        */
     }
 
     /**

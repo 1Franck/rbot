@@ -9,15 +9,6 @@
  */
 namespace RBot;
 
-use GetOptionKit\OptionCollection;
-use GetOptionKit\OptionParser;
-use GetOptionKit\OptionPrinter\ConsoleOptionPrinter;
-
-use Exception;
-use GetOptionKit\Exception\InvalidOptionException;
-use GetOptionKit\Exception\RequireValueException;
-use GetOptionKit\Exception\NonNumericException;
-
 class Console 
 {
     // console lines array
@@ -25,6 +16,9 @@ class Console
 
     // end of line used
     static $EOL = PHP_EOL;
+
+    // log lines to database
+    static $log = true;
 
     /**
      * Add line(s) to console
@@ -36,7 +30,11 @@ class Console
         if(!is_array($data)) $data = [$data];
 
         foreach($data as $d) {
-            self::$_lines[] = $d;
+            self::$_lines[] = [
+                'line' => $d,
+                'ts'   => date('Y-m-d H:i:s'),
+                'cmd'  => join(' ',RBot::argv())
+            ];
         }
     }
 
@@ -75,6 +73,20 @@ class Console
      */
     static protected function _renderAll()
     {
-        return join("\n", self::$_lines);
+        $lines = [];
+        if(!empty(self::$_lines)) {
+            foreach(self::$_lines as $l) {
+                if(self::$log === true) {
+                    RBot::db()->table('console')->insert([
+                        'dt_created' => $l['ts'], 
+                        'line' => $l['line'], 
+                        'command' => $l['cmd']
+                    ]);
+                }
+                $lines[] = $l['line'];
+            }
+            
+        }
+        return join("\n", $lines);
     }
 }

@@ -52,7 +52,7 @@ class TestCommand extends Command
             })
             ->isa('File');
 
-        $this->_options->add('d|debug', 'debug message.' );
+        $this->_options->add('d|date', 'show date time' );
         $this->_options->add('long', 'long option name only.' );
         $this->_options->add('s', 'short option name only.' );
         $this->_options->add('m', 'short option m');
@@ -64,11 +64,10 @@ class TestCommand extends Command
      */
     public function process()
     {
-        $this->help();
+        if($this->_no_result) $this->help();
         //$this->debug();
 
         Console::add(RBot::conf('db'));
-        Console::output();
     }
 
     /**
@@ -78,6 +77,20 @@ class TestCommand extends Command
      */
     public function opt_foo($value)
     {
-        echo "Foo >>> ".$value;
+        Console::nl();
+        Console::add("Foo >>> ".$value);
+        Console::output();
+    }
+
+    /**
+     * Command option "date"
+     * 
+     * @param  mixed $value
+     */
+    public function opt_date($value)
+    {
+        Console::nl();
+        Console::add(date('Y-m-d H:i:s'));
+        Console::output();
     }
 }

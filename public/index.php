@@ -31,7 +31,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     }
     catch(Exception\GenericException $e) {
-        echo '<span class="red">'.get_class($e).' '.$e->getMessage().'</span>';
+        echo "\n".'<span class="red">'.get_class($e).' '.$e->getMessage().'</span>';
     }
     /*catch(Exception $e) {
         echo '<span class="red">'.$e->getMessage().'</span>';
@@ -48,7 +48,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 
     <div ng-controller="consoleController" ng-dblclick="focusCmd()">
-        <pre id="console" ng-bind-html="console | to_trusted"></pre>
+        <pre id="console"></pre>
+        <!--<pre id="console" ng-bind-html="console | to_trusted"></pre>-->
         <input type="text" id="cmd" ng-model="cmd_input" ng-keydown="cmdTyping($event)" autofocus spellcheck="false">
     </div>
 

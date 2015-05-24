@@ -75,10 +75,22 @@ class RBot
 
     /**
      * Get db manager
+     *
+     * @return object
      */
     static function db()
     {
         return self::$_db;
+    }
+
+    /**
+     * Get current env
+     * 
+     * @return string
+     */
+    static function env()
+    {
+        return self::$_env;
     }
 
     /**
@@ -137,8 +149,7 @@ class RBot
             self::$_db->bootEloquent();
             self::$_db->setAsGlobal();
 
-            self::$_config->set('rbot.'.self::$_env.'.db.username', "YOOOO");
-
+            self::$_config->set('rbot.'.self::$_env.'.db', []);
         }
         else {
             throw new Exception\ConfigMissing('Database "db" config missing');

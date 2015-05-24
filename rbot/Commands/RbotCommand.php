@@ -91,9 +91,6 @@ class RbotCommand extends Command
 
     /**
      * List App Commands
-     * 
-     * @param  [type] $value [description]
-     * @return [type]        [description]
      */
     public function opt_list()
     {
@@ -113,9 +110,7 @@ class RbotCommand extends Command
     }
 
     /**
-     * Install rbot
-     * 
-     * @return
+     * Install rbot tables
      */
     public function opt_install()
     {
@@ -130,6 +125,7 @@ class RbotCommand extends Command
 
         // table exists ?
         if(RBot::db()->schema()->hasTable('queue') || RBot::db()->schema()->hasTable('users')) {
+            Console::nl();
             Console::AddAndDie('System already installed or database is not empty');
             return;
         }
@@ -156,7 +152,7 @@ class RbotCommand extends Command
             $table->text('command');
         });
         
-
+        Console::nl();
         Console::AddAndDie('Installation completed successfully');
     }
 }

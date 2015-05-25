@@ -41,7 +41,7 @@ abstract class Command
      * No result
      * @var boolean
      */
-    protected $_no_result = true;
+    private $_has_result = false;
 
     /**
      * Construct
@@ -60,6 +60,16 @@ abstract class Command
     public function process(){}
 
     /**
+     * Check if command has options parsing result
+     * 
+     * @return boolean
+     */
+    public function hasResult()
+    {
+        return $this->_has_result;
+    }
+
+    /**
      * Run the command
      *
      * 1. Call pre specs process
@@ -72,10 +82,10 @@ abstract class Command
         $this->preProcess();
         $this->_parseArgv();
 
-        $this->_no_result = true;
+        $this->_has_result = false;
         foreach($this->_options as $k => $s) {
             if($this->_result->has($k)) {
-                $this->_no_result = false;
+                $this->_has_result = true;
                 if(method_exists($this, 'opt_'.$k)) {
                     $m = 'opt_'.$k;
                     $this->$m($s->getValue());
@@ -189,7 +199,7 @@ abstract class Command
     }
 
     /**
-     * Get command raw data arguments
+     * Get command raw data arguments as string
      * 
      * @return string
      */

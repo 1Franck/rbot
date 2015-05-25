@@ -116,7 +116,7 @@ class RBot
     /**
      * Retreive/Set arguments
      * 
-     * @param  array $new_argv refine request
+     * @param  array|string $new_argv refine request
      * @return array
      */
     static function argv($new_argv = null)
@@ -134,6 +134,23 @@ class RBot
             return $_SERVER['argv'];
         }
         return $argv;
+    }
+
+    /**
+     * Retreive arguments as string
+     * 
+     * @return array
+     */
+    static function argvString()
+    {
+        $argv = self::argv();
+        if(is_array($argv)) {
+            return implode(' ', $argv);
+        }
+        elseif(is_string($argv)) {
+            return $argv;
+        }
+        return;
     }
 
     /**

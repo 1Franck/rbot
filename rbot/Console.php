@@ -77,6 +77,7 @@ class Console
         }
         echo self::_renderAll();
         self::_logAll();
+        self::$_lines = [];
 
     }
 

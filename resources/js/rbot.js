@@ -23,6 +23,7 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
     $s.cmd_input         = "$";
     $s.cmd_input_default = "$";
     //$s.console           = "";
+    $s.console_last_id = 0;
 
     var el = {
         cmd: document.getElementById("cmd"),
@@ -34,6 +35,25 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
             el.console.innerHTML = '';
         }
     }
+
+    $s.getConsoleHistory = function()
+    {
+        $http.post('index.php', {h: $s.console_last_id})
+            .success(function (data) {
+                if(data.length>0) {
+                    el.console.innerHTML += "\n" + data;
+                    el.console.scrollTop = el.console.scrollHeight;
+                }
+            })
+        .error(function () {
+            console.log("Cannot retreive history");
+        });
+    }
+
+    setInterval(function() {
+        $s.getConsoleHistory();
+    }, 1000);
+
 
 
     //set full screen console
@@ -49,9 +69,14 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
 
         if(keycode == 13) {
             //enter
-            request();
-            $s.cmd_history.push($s.cmd_input);
-            $s.cmd_input = $s.cmd_input_default;
+            if($s.cmd_input === '$' || $s.cmd_input === '') {
+                el.console.innerHTML += "\n";
+            }
+            else {
+                request();
+                $s.cmd_history.push($s.cmd_input);
+                $s.cmd_input = $s.cmd_input_default;
+            }
         }
         else if(keycode == 8) {
             //backspace

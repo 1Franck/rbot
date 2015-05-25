@@ -9,6 +9,7 @@ require __DIR__.'/../rbot/loader.php';
 
 use RBot\RBot;
 use RBot\Exception;
+use RBot\ConsoleHistory;
 use App\App;
 
 // process ajax request
@@ -18,12 +19,22 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
 
+        RBot::init(RBot::SANDBOX);
+
         $cmd = '';
         if(isset($req['cmd'])) {
             $cmd = filter_var($req['cmd'], FILTER_SANITIZE_STRING);
         }
 
-        RBot::init(RBot::SANDBOX);
+        if(isset($req['h'])) {
+            if(!isset($_SESSION['logged'])) exit();
+            if(isset($_SESSION['last_console_id'])) $hid = $_SESSION['last_console_id'];
+            else $hid = filter_var($req['h'], FILTER_SANITIZE_NUMBER_INT);
+            ConsoleHistory::getLatestLinesFrom($hid);
+            exit();
+        }
+
+        
 
         $app = new app();
         $app->run(RBot::argv('rbot '.$cmd));
@@ -51,6 +62,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div ng-controller="consoleController" ng-dblclick="focusCmd()">
         <pre id="console"></pre>
         <!--<pre id="console" ng-bind-html="console | to_trusted"></pre>-->
+        <div id="intel" ng-model="intel"></div>
         <input type="text" id="cmd" ng-model="cmd_input" ng-keydown="cmdTyping($event)" autofocus spellcheck="false">
     </div>
 

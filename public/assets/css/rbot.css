@@ -202,6 +202,20 @@ select {
   padding: 0 5px;
   font-size: 16px;
 }
+#intel {
+  display: none;
+  position: fixed;
+  margin: 0;
+  width: 100%;
+  bottom: 30px;
+  left: 0;
+  height: 200px;
+  background: rgba(0, 0, 0, 0.2);
+  color: #ffffff;
+  box-shadow: none;
+  padding: 0 5px;
+  font-size: 16px;
+}
 #console {
   position: absolute;
   top: 0;

@@ -71,6 +71,7 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
             //enter
             if($s.cmd_input === '$' || $s.cmd_input === '') {
                 el.console.innerHTML += "\n";
+                el.console.scrollTop = el.console.scrollHeight;
             }
             else {
                 request();
@@ -116,7 +117,7 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
                 //console.log("Resolved: " + $s.cmd_input);   
                 //$s.console = data + "\n" + $s.console;
                 //$s.console = $s.console + "\n" + data;
-                el.console.innerHTML += data;
+                el.console.innerHTML += "\n" + data;
                 el.console.scrollTop = el.console.scrollHeight;
             })
         .error(function () {

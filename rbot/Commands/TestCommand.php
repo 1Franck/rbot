@@ -89,7 +89,6 @@ class TestCommand extends Command
      */
     public function opt_date($value)
     {
-        Console::nl();
         Console::add(date('Y-m-d H:i:s'));
         Console::output();
     }

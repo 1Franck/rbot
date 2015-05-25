@@ -33,7 +33,7 @@ abstract class Command
 
     /**
      * Command spec result
-     * @var [type]
+     * @var array
      */
     protected $_result;
 
@@ -169,19 +169,29 @@ abstract class Command
             }
         } 
         catch(InvalidOptionException $e ) {
-            Console::addAndDie($e->getMessage());
+            $exception = $e->getMessage();
         }
         catch(RequireValueException $e ) {
-            Console::addAndDie($e->getMessage());
+            $exception = $e->getMessage();
         }
         catch(NonNumericException $e ) {
-            Console::addAndDie($e->getMessage());
+            $exception = $e->getMessage();
         }
         catch(Exception $e ) {
-            Console::addAndDie($e->getMessage());
+            $exception = $e->getMessage();
+        }
+
+        if(isset($exception)) {
+            Console::noLog();
+            Console::nl();
+            Console::addAndDie($exception);
         }
     }
 
+    /**
+     * Get current class command name
+     * @return string
+     */
     protected function _getClassCmdName()
     {
         $part = explode('\\', get_class($this));

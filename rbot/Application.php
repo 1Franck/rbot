@@ -52,6 +52,11 @@ abstract class Application
 
         if(!empty($argv)) {
 
+            // order is:  
+            // "$ [with_or_without_arg]"
+            // "$command"
+            // "? "
+
             $first_char = substr($argv[0],0,1);
 
             if($first_char === $this->rbot_command_prefix && strlen($argv[0]) == 1) {
@@ -60,6 +65,10 @@ abstract class Application
             elseif($first_char === $this->rbot_command_prefix && strlen($argv[0]) > 1) {
                 $cmd = substr($argv[0], 1, strlen($argv[0]));
                 $classname = 'RBot\Commands\\'.ucfirst($cmd).'Command';
+            }
+            elseif($first_char === "?" && strlen($argv[0]) == 1) {
+                $cmd = substr($argv[0], 1, strlen($argv[0]));
+                $classname = 'RBot\Commands\DdgCommand';
             }
             else {
                 $cmd = $argv[0];

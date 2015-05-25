@@ -15,7 +15,7 @@
  * ex: rbot.php [app-command] [command-argv]
  * 
  */
-namespace App\Commands;
+namespace App;
 define('NS_APP', __NAMESPACE__.'\\');
 
 require __DIR__.'/rbot/loader.php';

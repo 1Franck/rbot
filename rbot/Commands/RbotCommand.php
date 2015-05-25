@@ -54,8 +54,6 @@ class RbotCommand extends Command
 
     /**
      * Rbot version
-     * @param  [type] $value [description]
-     * @return [type]        [description]
      */
     public function opt_version($value)
     {
@@ -125,6 +123,7 @@ class RbotCommand extends Command
 
         // table exists ?
         if(RBot::db()->schema()->hasTable('queue') || RBot::db()->schema()->hasTable('users')) {
+            Console::noLog();
             Console::nl();
             Console::AddAndDie('System already installed or database is not empty');
             return;
@@ -155,4 +154,7 @@ class RbotCommand extends Command
         Console::nl();
         Console::AddAndDie('Installation completed successfully');
     }
+
+
+
 }

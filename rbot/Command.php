@@ -164,7 +164,7 @@ abstract class Command
 
         try {
             $this->_result = $parser->parse(Rbot::argv());
-            if(count(Rbot::argv()) < 2) {
+            if(count(Rbot::argv()) < 1) {
                 Console::addAndDie($this->help());
             }
         } 
@@ -186,6 +186,20 @@ abstract class Command
             Console::nl();
             Console::addAndDie($exception);
         }
+    }
+
+    /**
+     * Get command raw data arguments
+     * 
+     * @return string
+     */
+    public function rawData() {
+        $argv = Rbot::argv();
+        if(is_array($argv) && count($argv) > 1) {
+            $argv = array_slice($argv, 2);
+            $argv = implode(' ',$argv);
+        }
+        return $argv;
     }
 
     /**

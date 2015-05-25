@@ -64,7 +64,7 @@ class TestCommand extends Command
      */
     public function process()
     {
-        if($this->_no_result) $this->help();
+        if(!$this->hasResult()) $this->help();
         //$this->debug();
 
         Console::add(RBot::conf('db'));

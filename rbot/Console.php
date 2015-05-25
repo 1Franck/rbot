@@ -29,7 +29,10 @@ class Console
     {
         if(!is_array($data)) $data = [$data];
 
-        $cmd = join(' ',RBot::argv());
+        $argv = RBot::argv();
+        if(is_array($argv)) $cmd = join(' ',$argv);
+        else $cmd = '';
+        
 
         if(!empty($data)) {
             foreach($data as $d) {
@@ -108,6 +111,7 @@ class Console
                 $lines[] = $l['line'];
             }
         }
+
         return join("\n", $lines);
     }
 

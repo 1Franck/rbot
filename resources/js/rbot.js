@@ -74,7 +74,7 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
                 el.console.scrollTop = el.console.scrollHeight;
             }
             else {
-                request();
+                request($s.getConsoleHistory);
                 $s.cmd_history.push($s.cmd_input);
                 $s.cmd_input = $s.cmd_input_default;
             }
@@ -104,7 +104,7 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
     /**
      * Send cmd request
      */
-    function request() {
+    function request(success_fn) {
 
         if(isUiCmd($s.cmd_input)) {
             ui_cmds[$s.cmd_input]();
@@ -114,10 +114,13 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
         //console.log($s.cmd_input);
         $http.post('index.php', {cmd: $s.cmd_input})
             .success(function (data) {
+                if(success_fn) {
+                    success_fn();
+                }
                 //console.log("Resolved: " + $s.cmd_input);   
                 //$s.console = data + "\n" + $s.console;
                 //$s.console = $s.console + "\n" + data;
-                el.console.innerHTML += "\n" + data;
+                //el.console.innerHTML += "\n" + data;
                 el.console.scrollTop = el.console.scrollHeight;
             })
         .error(function () {

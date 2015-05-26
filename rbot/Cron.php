@@ -56,7 +56,10 @@ class Cron
                     //update task
                     Capsule::table('queue')
                         ->where('id', '=', $r->id)
-                        ->update(['dt_executed' => date('Y-m-d H:i:s')]);
+                        ->update([
+                            'dt_executed' => date('Y-m-d H:i:s'), 
+                            'execution' => $r->execution+1]
+                        );
                 }
             }
         }

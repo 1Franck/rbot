@@ -36,8 +36,10 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
         }
     }
 
-    $s.getConsoleHistory = function()
-    {
+    /**
+     * Get console history
+     */
+    $s.getConsoleHistory = function() {
         $http.post('index.php', {h: $s.console_last_id})
             .success(function (data) {
                 if(data.length>0) {
@@ -81,7 +83,7 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
         }
         else if(keycode == 8) {
             //backspace
-            if($s.cmd_input.trim() == "$") {
+            if($s.cmd_input == "$") {
                 $s.cmd_input = "";
             }
         }
@@ -117,11 +119,6 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
                 if(success_fn) {
                     success_fn();
                 }
-                //console.log("Resolved: " + $s.cmd_input);   
-                //$s.console = data + "\n" + $s.console;
-                //$s.console = $s.console + "\n" + data;
-                //el.console.innerHTML += "\n" + data;
-                el.console.scrollTop = el.console.scrollHeight;
             })
         .error(function () {
             console.log("Cannot resolve: " + $s.cmd_input);

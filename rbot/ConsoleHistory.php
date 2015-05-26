@@ -18,13 +18,15 @@ class ConsoleHistory
 {
     static function getLatestLinesFrom($id)
     {
+        if(!RBot::dbCheck('console')) return;
+
         $lines = RBot::db()->table('console')->where('id','>', $id)->get();
 
         if(!empty($lines)) {
 
             $_SESSION['last_console_id'] = $lines[(count($lines)-1)]->id;
 
-            Console::noLog();
+            Console::$log = false;
 
             foreach($lines as $l) {
                 Console::add($l->line);

@@ -20,6 +20,16 @@ class Console
     // log lines to database
     static $log = true;
 
+    // log also empty lines to database
+    // 
+    // If false, the web cli output won't contains empty lines, 
+    // since webcli always use database history. But for regular cli, 
+    // output will contains empty since it don't use directly the database.
+    static $log_empty_line = true;
+
+    // remove empty lines at the start and the end of $_lines
+    static $log_trim_linesblock = true;
+
     /**
      * Add line(s) to console
      * 
@@ -36,6 +46,7 @@ class Console
 
         if(!empty($data)) {
             foreach($data as $d) {
+
                 self::$_lines[] = [
                     'line'       => $d,
                     'dt_created' => date('Y-m-d H:i:s'),
@@ -46,7 +57,8 @@ class Console
     }
 
     /**
-     * Newline (return)
+     * Newline (return) 
+     * don't work if $log_empty_line=false;
      * 
      * @param  integer $many
      */
@@ -62,7 +74,7 @@ class Console
      */
     static function noLog()
     {
-        Console::$log = false;
+        //Console::$log = false;
     }
 
     /**
@@ -122,7 +134,43 @@ class Console
     static protected function _logAll()
     {
         if(self::$log === true) {
-            RBot::db()->table('console')->insert(self::$_lines);
+
+            //create a copy to keep empty space for _renderAll 
+            $lines = self::$_lines; 
+
+            if(!empty($lines)) {
+
+                if(self::$log_empty_line === false) {
+                    foreach($lines as $i => $l) {
+                        if(empty($l['line'])) unset($lines[$i]);
+                    }
+                }
+
+                if(self::$log_trim_linesblock === true) {
+                    $lines = self::_trim($lines);
+                }
+            }
+
+            if(RBot::dbCheck('console')) {
+                RBot::db()->table('console')->insert($lines);
+            }
         }
+    }
+
+    static protected function _trim($lines)
+    {
+        if(!empty($lines)) {
+            foreach($lines as $i => $l) {
+                if(empty($l['line'])) unset($lines[$i]);
+                else break; 
+            }
+            $c = count($lines) - 1;
+            
+            for($i=$c;$i>0;--$i) {
+                if(empty($lines[$i]['line'])) unset($lines[$i]);
+                else break; 
+            }
+        }
+        return $lines;
     }
 }

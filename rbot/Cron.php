@@ -48,13 +48,12 @@ class Cron
 
                 $app->run(RBot::argv($r->task));
 
-                print_r($r->repeat);
-
                 if($r->repeat == 0) {
                     //delete task
                     Capsule::table('queue')->where('id', '=', $r->id)->delete();
                 }
                 else {
+                    //update task
                     Capsule::table('queue')
                         ->where('id', '=', $r->id)
                         ->update(['dt_executed' => date('Y-m-d H:i:s')]);

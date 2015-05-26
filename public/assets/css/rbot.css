@@ -180,6 +180,7 @@ body {
 body {
   background: #222222;
   color: #999999;
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
   font-family: "Source Code Pro";
 }
 input,

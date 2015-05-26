@@ -9,6 +9,7 @@ require __DIR__.'/../rbot/loader.php';
 
 use RBot\RBot;
 use RBot\Exception;
+use RBot\Console;
 use RBot\ConsoleHistory;
 use App\App;
 
@@ -43,7 +44,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     catch(Exception\GenericException $e) {
         $prefix = (RBot::env() === 'dev') ? get_class($e).' ' : '';
-        echo "\n".'<span class="red">'.$prefix.$e->getMessage().'</span>'."\n";
+        Console::addAndDie('<span class="red">'.$prefix.$e->getMessage().'</span>');
     }
     /*catch(Exception $e) {
         echo '<span class="red">'.$e->getMessage().'</span>';
@@ -56,6 +57,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html ng-app="rbot">
 <head>
     <link rel="stylesheet" href="assets/css/rbot.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>RBot</title>
 </head>
 <body>
 

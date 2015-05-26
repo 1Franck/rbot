@@ -83,6 +83,25 @@ class RBot
     }
 
     /**
+     * Return true or false
+     * 
+     * @return boolean
+     */
+    static function dbCheck($table = null)
+    {
+        try {
+            RBot::db()->schema();
+            if(isset($table)) {
+                return RBot::db()->schema()->hasTable($table);
+            }
+            return true;
+        }
+        catch(PDOException $e) {
+            return false;
+        }
+    }
+
+    /**
      * Get current env
      * 
      * @return string

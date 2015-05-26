@@ -13,6 +13,7 @@ use RBot\RBot;
 use RBot\Command;
 use RBot\Console;
 
+use Illuminate\Database\Capsule\Manager as Capsule;
 use PDOException;
 
 /*
@@ -31,7 +32,8 @@ class RbotCommand extends Command
         // works for -vvv  => verbose = 3
         $this->_options->add('v|version', 'rbot version');
         $this->_options->add('list', 'list all application commands');
-        $this->_options->add('install', 'install rbot');
+        $this->_options->add('install', 'install rbot database');
+        $this->_options->add('killdb', 'drop all tables in rbot database');
         $this->_options->add('logout', 'logout user if apply');
     }
 
@@ -41,7 +43,8 @@ class RbotCommand extends Command
      */
     public function process()
     {
-        if($this->_no_result === true) {
+        
+        if(!$this->hasResult()) {
             $this->help();
         }
         else {
@@ -140,6 +143,7 @@ class RbotCommand extends Command
             $table->timestamp('dt_executed');
             $table->tinyInteger('repeat')->unsigned();
             $table->integer('repeat_time')->unsigned();
+            $table->integer('execution')->unsigned()->default(0);
         });
 
         RBot::db()->schema()->create('console', function($table) {
@@ -151,10 +155,37 @@ class RbotCommand extends Command
             $table->text('command');
         });
         
-        Console::nl();
         Console::AddAndDie('Installation completed successfully');
     }
 
 
+    /**
+     * Drop rbot tables
+     */
+    public function opt_killdb()
+    {
+
+        if(!RBot::dbCheck()) return;
+
+        $pdo = RBot::db()->connection()->getPdo();
+        foreach($pdo->query('SHOW TABLES') as $row)  {
+            RBot::db()->schema()->dropIfExists($row[0]);
+            //die;
+            //echo "$row[0]";
+        }
+
+        die('done!');
+        //$tables = Capsule::raw("show tables")->get();
+
+       /* print_r($tables);
+
+        if(!empty($tables)) {
+            foreach($tables as $t) {
+                
+            }
+        }*/
+
+        //
+    }
 
 }

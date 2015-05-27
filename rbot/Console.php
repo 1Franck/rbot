@@ -9,6 +9,8 @@
  */
 namespace RBot;
 
+use RBot\ConsoleLine;
+
 class Console 
 {
     // console lines array
@@ -35,23 +37,23 @@ class Console
      * 
      * @param string|array $data
      */
-    static function add($data)
+    static function add($data, $options = [])
     {
         if(!is_array($data)) $data = [$data];
 
         $argv = RBot::argv();
         if(is_array($argv)) $cmd = join(' ',$argv);
         else $cmd = '';
-        
 
         if(!empty($data)) {
             foreach($data as $d) {
-
-                self::$_lines[] = [
+                $line = [
                     'line'       => $d,
                     'dt_created' => date('Y-m-d H:i:s'),
-                    'command'    => $cmd
+                    'command'    => $cmd,
+                    'options'    => $options
                 ];
+                self::$_lines[] = $line;
             }
         }
     }
@@ -83,23 +85,19 @@ class Console
      */
     static function output($die = false)
     {
-        if($die) {
-            self::_logAll();
-            die(self::_renderAll());
-        }
-        echo self::_renderAll();
         self::_logAll();
+        echo self::_renderAll();
         self::$_lines = [];
-
+        if($die) die();
     }
 
     /**
      * add() + outputDie()
      * @param string|array $data
      */
-    static function addAndDie($data)
+    static function addAndDie($data, $options = [])
     {
-        self::add($data);
+        self::add($data, $options);
         self::outputDie();
     }
 
@@ -121,7 +119,7 @@ class Console
         $lines = [];
         if(!empty(self::$_lines)) {
             foreach(self::$_lines as $l) { 
-                $lines[] = $l['line'];
+                $lines[] = ConsoleLine::render($l);
             }
         }
 
@@ -139,6 +137,10 @@ class Console
             $lines = self::$_lines; 
 
             if(!empty($lines)) {
+
+                foreach($lines as $i => $l) {
+                    $lines[$i]['options'] = serialize($lines[$i]['options']);
+                }
 
                 if(self::$log_empty_line === false) {
                     foreach($lines as $i => $l) {

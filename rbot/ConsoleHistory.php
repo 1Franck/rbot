@@ -29,7 +29,8 @@ class ConsoleHistory
             Console::$log = false;
 
             foreach($lines as $l) {
-                Console::add($l->line);
+                $l->options = unserialize($l->options);
+                Console::add($l->line, $l->options);
                 $last_id = $l->id;
             }
 

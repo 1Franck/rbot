@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the RBot app.
+ * This file is part of the RBot.
  *
  * (c) Francois Lajoie <o_o@francoislajoie.com>
  *

@@ -13,7 +13,7 @@ body {
     color:@body_color;
     font-family: @mono_font_fallback;
     font-family: @body_font;
-    //overflow-x:hidden;
+    overflow-x:hidden;
 }
 
 input, textarea, select {
@@ -57,6 +57,7 @@ input, textarea, select {
     bottom:0;
     left:0;
     right:0;
+    width:100%;
     margin-bottom:@cmd_height;
     //margin-top:@cmd_height + 10px;
     padding:@console_padding;
@@ -65,7 +66,7 @@ input, textarea, select {
     word-wrap: break-word;
     //border:1px solid #ccc;
     //height:100px;
-    overflow: auto;
+    overflow-x: auto;
 
     &::selection {
         background: @console_bg_textselection; /* WebKit/Blink Browsers */

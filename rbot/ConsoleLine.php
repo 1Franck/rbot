@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the RBot app.
+ * This file is part of the RBot.
  *
  * (c) Francois Lajoie <o_o@francoislajoie.com>
  *
@@ -15,10 +15,14 @@ use RBot\Console;
 
 class ConsoleLine
 {
+    /**
+     * Transform line to html line 
+     * 
+     * @param  array  $line
+     * @return string    
+     */
     static function render($line)
     {
-        //print_r($line);
-
         if(RBot::cliMode()) return $line['line'];
 
         $style = '';

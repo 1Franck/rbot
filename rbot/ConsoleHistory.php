@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the RBot app.
+ * This file is part of the RBot.
  *
  * (c) Francois Lajoie <o_o@francoislajoie.com>
  *
@@ -13,9 +13,13 @@ use RBot\RBot;
 use RBot\Exception;
 use RBot\Console;
 
-
 class ConsoleHistory
 {
+    /**
+     * Get latest lines from db
+     * 
+     * @param  integer $id
+     */
     static function getLatestLinesFrom($id)
     {
         if(!RBot::dbCheck('console')) return;

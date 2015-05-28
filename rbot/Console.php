@@ -88,7 +88,7 @@ class Console
         self::_logAll();
         echo self::_renderAll();
         self::$_lines = [];
-        if($die) die();
+        //if($die) die();
     }
 
     /**

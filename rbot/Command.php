@@ -128,8 +128,8 @@ abstract class Command
         }
 
         Console::noLog();
-        Console::nl(1);
-        Console::outputDie();
+        Console::nl();
+        Console::output();
     }
 
     /**
@@ -194,7 +194,7 @@ abstract class Command
         if(isset($exception)) {
             Console::noLog();
             Console::nl();
-            Console::addAndDie($exception);
+            Console::addAndOutput($exception);
         }
     }
 

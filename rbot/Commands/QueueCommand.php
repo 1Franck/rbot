@@ -14,9 +14,9 @@ use RBot\Command;
 use RBot\Console;
 
 /*
- * Generic test function for rbot 
+ * Queue command
  *
- * Do nothing
+ * Add task command to RBot queue
  */
 class QueueCommand extends Command 
 {
@@ -27,8 +27,6 @@ class QueueCommand extends Command
         'repeat'      => 0,
         'repeat_time' => 0,
     ];
-
-    private $_task = '';
 
     /**
      * Command Options

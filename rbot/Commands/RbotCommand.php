@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the RBot app.
+ * This file is part of the RBot.
  *
  * (c) Francois Lajoie <o_o@francoislajoie.com>
  *
@@ -71,13 +71,13 @@ class RbotCommand extends Command
                 '██║  ██║██████╔╝╚██████╔╝   ██║   ',
                 '╚═╝  ╚═╝╚═════╝  ╚═════╝    ╚═╝   ',
                 ' ',
-            ]);
+            ], ['color' => '#ccc']);
         }
 
-        Console::AddAndDie([
+        Console::addAndOutput([
             'rbot version '.RBot::VERSION.' / php '.phpversion().' / '.date('D j F Y H:i:s O'),
             '',
-        ]);
+        ], ['color' => '#3498DB']);
     }
 
     /**
@@ -87,7 +87,7 @@ class RbotCommand extends Command
     {
         @session_destroy();
         Console::noLog();
-        Console::AddAndDie('Good bye...');
+        Console::addAndOutput('Good bye...');
     }
 
     /**
@@ -96,15 +96,65 @@ class RbotCommand extends Command
     public function opt_list()
     {
         Console::nl();
-        $app_commands = array_diff(scandir(RBot::getCmdPath()), array('..', '.'));
 
-        if(!empty($app_commands)) {
+        /*$paths   = [__DIR__, RBot::getCmdPath()];
+        $folders = [];
+        $rows    = 0;
+
+        foreach($paths as $i => $p) {
+            $result = scandir($p);
+            if(is_array($result)) {
+                $rf = array_diff($result, array('..', '.'));
+                foreach($rf as $f) {
+                    if($i = 0) {
+                        $col2 = '$'.str_replace('command.php', '', strtolower($f));
+                    }
+                    else {
+                        $col1 = strtolower($f);
+                    }
+                    $prefix  = ($i == 0) ? '$' : '';
+                    $files[] = $prefix.str_replace('command.php', '', strtolower($f));
+                }
+
+            }
+        }
+
+
+
+       print_r($files);*/
+
+/*
+       $app_commands = array_diff(scandir(), array('..', '.'));
+        $rbot_commands = array_diff(scandir(__DIR__), array('..', '.'));
+
+        if(!empty($app_commands) || !empty($rbot_commands)) {
+            
             Console::add(count($app_commands).' command'.((count($app_commands) > 1) ? 's' : '').' found:');
+
+            if(count($app_commands) >= count($rbot_commands)) {
+                $ar1 = $app_commands;
+                $ar2 = $rbot_commands;
+            }
+            else {
+                $ar1 = $rbot_commands;
+                $ar2 = $app_commands;
+            }
+
+            foreach($ar1 as $i => $cmd) {
+                $str = strtolower($cmd);
+                if(isset($ar2[$i])) {
+                    $str .= str_repeat(" ",10).strtolower($ar2[$i]);
+                }
+                Console::add($str);
+            }
+            
+
 
             foreach($app_commands as $c) {
                 Console::add(' '.strtolower($c));
             }
         }
+        */
 
         Console::nl();
         Console::output();
@@ -128,7 +178,7 @@ class RbotCommand extends Command
         if(RBot::db()->schema()->hasTable('queue') || RBot::db()->schema()->hasTable('users')) {
             Console::noLog();
             Console::nl();
-            Console::AddAndDie('System already installed or database is not empty');
+            Console::addAndOutput('System already installed or database is not empty');
             return;
         }
 
@@ -137,12 +187,12 @@ class RbotCommand extends Command
 
             $table->engine = 'InnoDB';
             $table->bigIncrements('id')->unsigned();
-            $table->string('command', 255);
+            //$table->string('command', 255);
             $table->text('task');
             $table->timestamp('dt_created');
             $table->timestamp('dt_executed');
-            $table->tinyInteger('repeat')->unsigned();
-            $table->integer('repeat_time')->unsigned();
+            $table->tinyInteger('repeat')->unsigned()->default(0);
+            $table->integer('repeat_time')->unsigned()->default(0);
             $table->integer('execution')->unsigned()->default(0);
         });
 
@@ -153,9 +203,10 @@ class RbotCommand extends Command
             $table->text('line')->nullable();
             $table->timestamp('dt_created');
             $table->text('command');
+            $table->text('options');
         });
         
-        Console::AddAndDie('Installation completed successfully');
+        Console::AddAndOutput('Installation completed successfully');
     }
 
 

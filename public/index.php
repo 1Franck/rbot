@@ -44,7 +44,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     catch(Exception\GenericException $e) {
         $prefix = (RBot::env() === 'dev') ? get_class($e).' ' : '';
-        Console::addAndDie('<span class="red">'.$prefix.$e->getMessage().'</span>');
+        Console::addAndOutput($prefix.$e->getMessage(), ['color' => '#ff9999']);
     }
     /*catch(Exception $e) {
         echo '<span class="red">'.$e->getMessage().'</span>';

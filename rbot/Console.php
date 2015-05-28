@@ -59,6 +59,27 @@ class Console
     }
 
     /**
+     * Add an output
+     *
+     * @see  add() for params
+     */
+    static function addAndOutput($data, $options = []) 
+    {
+        self::add($data, $options);
+        self::output();
+    }
+
+    /**
+     * Output console lines
+     */
+    static function output()
+    {
+        self::_logAll();
+        echo self::_renderAll();
+        self::$_lines = [];
+    }
+    
+    /**
      * Newline (return) 
      * don't work if $log_empty_line=false;
      * 
@@ -79,35 +100,6 @@ class Console
         //Console::$log = false;
     }
 
-    /**
-     * Output console lines
-     * @param  boolean $die use die() instead of echo
-     */
-    static function output($die = false)
-    {
-        self::_logAll();
-        echo self::_renderAll();
-        self::$_lines = [];
-        //if($die) die();
-    }
-
-    /**
-     * add() + outputDie()
-     * @param string|array $data
-     */
-    static function addAndDie($data, $options = [])
-    {
-        self::add($data, $options);
-        self::outputDie();
-    }
-
-    /**
-     * die the output!
-     */
-    static function outputDie()
-    {
-        self::output(true);
-    }
 
     /**
      * All others are faker, im the real one here! who work hard to process the stuff baby.

@@ -1,11 +1,10 @@
 # RBot
-####Experimental CLI and webCLI php application framework with cron jobs system
+Experimental CLI and webCLI php application framework with cron jobs system
 
 ### Requirements
     PHP 5.4+
-    MySQL or MariaDB (for queuing system)
+    MySQL or MariaDB (for cron jobs system)
     http server(for web cli)
-
 
 ### Installation
 

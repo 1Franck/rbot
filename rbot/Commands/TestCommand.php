@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the RBot app.
+ * This file is part of the RBot.
  *
  * (c) Francois Lajoie <o_o@francoislajoie.com>
  *
@@ -67,7 +67,8 @@ class TestCommand extends Command
         if(!$this->hasResult()) $this->help();
         //$this->debug();
 
-        Console::add(RBot::conf('db'));
+        //Console::add(RBot::conf('db').'43434');
+        //Console::output();
     }
 
     /**
@@ -89,7 +90,7 @@ class TestCommand extends Command
      */
     public function opt_date($value)
     {
-        Console::add(date('Y-m-d H:i:s'));
+        Console::add(date('Y-m-d H:i:s'), ['color'=>'#fff']);
         Console::output();
     }
 }

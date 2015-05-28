@@ -1,5 +1,5 @@
-# rbot
-
+# RBot
+####Experimental CLI and webCLI php application framework with cron jobs system
 
 ### Requirements
     PHP 5.4+

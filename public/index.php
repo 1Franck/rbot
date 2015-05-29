@@ -19,7 +19,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $req = json_decode(file_get_contents('php://input'), true);
 
     try {
-
         RBot::init(RBot::SANDBOX);
 
         $cmd = '';
@@ -35,16 +34,12 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit();
         }
 
-        
-
         $app = new app();
         $app->run(RBot::argv('rbot '.$cmd));
-
-
     }
     catch(Exception\GenericException $e) {
-        $prefix = (RBot::env() === 'dev') ? get_class($e).' ' : '';
-        Console::addAndOutput($prefix.$e->getMessage(), ['color' => '#ff9999']);
+        $suffix = (RBot::env() === 'dev') ? get_class($e).' ' : '';
+        Console::addAndOutput($e->getMessage().'   "'.$suffix.'"', ['color' => '#ff9999']);
     }
     /*catch(Exception $e) {
         echo '<span class="red">'.$e->getMessage().'</span>';
@@ -61,14 +56,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>RBot</title>
 </head>
 <body>
-
     <div ng-controller="consoleController" ng-dblclick="focusCmd()">
         <pre id="console"></pre>
-        <!--<pre id="console" ng-bind-html="console | to_trusted"></pre>-->
         <div id="intel" ng-model="intel"></div>
         <input type="text" id="cmd" ng-model="cmd_input" ng-keydown="cmdTyping($event)" autofocus spellcheck="false">
     </div>
-
     <script src="assets/js/libs.js"></script>
     <script src="assets/js/rbot.min.js"></script>
 </body>

@@ -52,7 +52,7 @@ class QueueCommand extends Command
 
         if(count($parts) == 2) {
 
-            $this->_entity['task'] = $parts[1];
+            $this->_entity['task'] = trim($parts[1]);
             $this->_entity['dt_created'] = date('Y-m-d H:i:s');
 
             RBot::argv($parts[0]);
@@ -68,8 +68,13 @@ class QueueCommand extends Command
         if(!$this->hasResult()) $this->help();
 
         if(!empty($this->_entity['task'])) {
-            RBot::db()->table('queue')->insert($this->_entity);
-            Console::AddAndDie("Task added !");
+            if(RBot::dbCheck('queue')) {
+                RBot::db()->table('queue')->insert($this->_entity);
+                Console::AddAndOutput("Task added !");
+            }
+            else {
+                Console::AddAndOutput("No queue table found :(");
+            }
         }
     }
 
@@ -89,5 +94,28 @@ class QueueCommand extends Command
     public function opt_repeat()
     {
         $this->_entity['repeat'] = 1;
+    }
+
+    public function opt_list()
+    {
+        if(RBot::dbCheck('queue')) {
+
+            Console::add('Current queue list:', ['color' => '#CCC']);
+
+            $queue = RBot::db()->table('queue')->get();
+
+            $tpl = ' dtc:{{dt_created}} r:{{repeat}} rt:{{repeat_time}}s e:{{execution}} dte:{{dt_executed}}';
+
+            foreach($queue as $q) {
+                if(empty($q->dt_executed) || $q->dt_executed === '0000-00-00 00:00:00') {
+                    $q->dt_executed = 'never';
+                }
+                //s
+                //$str =  'dtc:'.$q->dt_created.' r:'.$q->repeat.' rt:'.$q->repeat_time.'s e:'.$q->execution.'s dte:'.$q->dt_executed;
+                Console::add($q->task, ['font-style' => 'italic']);
+                Console::add($tpl, [], $q);
+            }
+        }
+        Console::output();
     }
 }

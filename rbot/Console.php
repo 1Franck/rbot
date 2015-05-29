@@ -37,7 +37,7 @@ class Console
      * 
      * @param string|array $data
      */
-    static function add($data, $options = [])
+    static function add($data, $options = [], $rep = null)
     {
         if(!is_array($data)) $data = [$data];
 
@@ -48,7 +48,7 @@ class Console
         if(!empty($data)) {
             foreach($data as $d) {
                 $line = [
-                    'line'       => $d,
+                    'line'       => self::_replacements($d, $rep),
                     'dt_created' => date('Y-m-d H:i:s'),
                     'command'    => $cmd,
                     'options'    => $options
@@ -112,6 +112,26 @@ class Console
         //Console::$log = false;
     }
 
+    /**
+     * Replace string token(s)
+     *
+     * Token syntax: {{tokename}}
+     * 
+     * 
+     * @param  $str 
+     * @param  array|object $rep tokens name and values
+     * @return string      
+     */
+    static protected function _replacements($str, $rep)
+    {
+        if(is_array($rep) || is_object($rep)) {
+            foreach($rep as $k => $v) {
+                $str = str_ireplace('{{'.$k.'}}', $v, $str);
+            }
+        }
+        return $str;
+    }
+
 
     /**
      * All others are faker, im the real one here! who work hard to process the stuff baby.
@@ -143,7 +163,10 @@ class Console
             if(!empty($lines)) {
 
                 foreach($lines as $i => $l) {
-                    $lines[$i]['options'] = serialize($lines[$i]['options']);
+                    if(!empty($lines[$i]['options'])) {
+                        $lines[$i]['options'] = serialize($lines[$i]['options']);
+                    }
+                    else $lines[$i]['options'] = '';
                 }
 
                 if(self::$log_empty_line === false) {

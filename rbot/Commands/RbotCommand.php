@@ -22,14 +22,11 @@ use PDOException;
 class RbotCommand extends Command 
 {
 
-    static $DATETIME_FORMAT = '';
-
     /**
      * Command Options
      */
     public function setOptions() 
     {
-        // works for -vvv  => verbose = 3
         $this->_options->add('v|version', 'rbot version');
         $this->_options->add('list', 'list all application commands');
         $this->_options->add('install', 'install rbot database');
@@ -38,21 +35,13 @@ class RbotCommand extends Command
     }
 
     /**
-     * [run description]
-     * @return [type] [description]
+     * process opt, nothing special here
      */
     public function process()
     {
-        
         if(!$this->hasResult()) {
             $this->help();
         }
-        else {
-
-        }
-
-        //echo $this->help();
-        //$this->debug();
     }
 
     /**

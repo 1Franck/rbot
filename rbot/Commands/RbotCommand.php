@@ -138,9 +138,9 @@ class RbotCommand extends Command
         $header = count($col1).' app commands, '.count($col2).' rbot commands found:';
         Console::nl();
         Console::addAndOutput($header);
-        Console::line(strlen($header));
+        Console::separator(strlen($header));
         Console::addAndOutput($output);
-        Console::line(strlen($header));
+        Console::separator(strlen($header));
         Console::output();
     }
 

@@ -78,7 +78,13 @@ class Console
         echo self::_renderAll();
         self::$_lines = [];
     }
-    
+
+    static function line($w, $char = '-') 
+    {
+        self::nl();
+        self::add(str_pad($char, $w, $char));
+    }
+
     /**
      * Newline (return) 
      * don't work if $log_empty_line=false;

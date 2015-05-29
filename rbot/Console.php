@@ -79,7 +79,13 @@ class Console
         self::$_lines = [];
     }
 
-    static function line($w, $char = '-') 
+    /**
+     * Add a separator
+     * 
+     * @param  integer $w     width
+     * @param  string  $char  character used, by default - 
+     */
+    static function separator($w, $char = '-') 
     {
         self::nl();
         self::add(str_pad($char, $w, $char));

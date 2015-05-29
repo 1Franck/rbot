@@ -46,7 +46,9 @@ class Cron
         if(!empty($results)) {
             foreach($results as $r) {
 
-                $app->run(RBot::argv($r->task));
+                RBot::argv(' '.trim($r->task));
+
+                $app->run(RBot::argv());
 
                 if($r->repeat == 0) {
                     //delete task

@@ -60,7 +60,6 @@ class RbotCommand extends Command
      */
     public function opt_version($value)
     {
-        Console::noLog();
         Console::nl();
         if(!RBot::cliMode()) {
             Console::Add([
@@ -85,9 +84,8 @@ class RbotCommand extends Command
      */
     public function opt_logout()
     {
-        @session_destroy();
-        Console::noLog();
         Console::addAndOutput('Good bye...');
+        @session_destroy();
     }
 
     /**
@@ -95,68 +93,54 @@ class RbotCommand extends Command
      */
     public function opt_list()
     {
-        Console::nl();
-
-        /*$paths   = [__DIR__, RBot::getCmdPath()];
-        $folders = [];
-        $rows    = 0;
+        $paths    = [__DIR__, RBot::getCmdPath()];
+        $rows     = 0;
+        $col1     = [];
+        $col2     = [];
+        $list_pad = 20;
 
         foreach($paths as $i => $p) {
             $result = scandir($p);
             if(is_array($result)) {
                 $rf = array_diff($result, array('..', '.'));
                 foreach($rf as $f) {
-                    if($i = 0) {
-                        $col2 = '$'.str_replace('command.php', '', strtolower($f));
+                    $prefix = '';
+                    if($i == 0) {
+                        $prefix = '$';
+                        $col2[] = $prefix.str_replace('command.php', '', strtolower($f));
                     }
                     else {
-                        $col1 = strtolower($f);
+                        $col1[] = strtolower($f);
                     }
-                    $prefix  = ($i == 0) ? '$' : '';
-                    $files[] = $prefix.str_replace('command.php', '', strtolower($f));
+                    
+                    //$files[] = $prefix.str_replace('command.php', '', strtolower($f));
                 }
-
             }
         }
 
+        if(count($col1) >= count($col2)) {
+            $rows = count($col1);
+        }
+        else $rows = count($col2);
 
-
-       print_r($files);*/
-
-/*
-       $app_commands = array_diff(scandir(), array('..', '.'));
-        $rbot_commands = array_diff(scandir(__DIR__), array('..', '.'));
-
-        if(!empty($app_commands) || !empty($rbot_commands)) {
-            
-            Console::add(count($app_commands).' command'.((count($app_commands) > 1) ? 's' : '').' found:');
-
-            if(count($app_commands) >= count($rbot_commands)) {
-                $ar1 = $app_commands;
-                $ar2 = $rbot_commands;
+        $output = [];
+        for($i=0;$i<$rows;++$i) {
+            if(isset($col1[$i])) {
+                $output[$i] = str_pad($col1[$i], 20);
             }
-            else {
-                $ar1 = $rbot_commands;
-                $ar2 = $app_commands;
-            }
-
-            foreach($ar1 as $i => $cmd) {
-                $str = strtolower($cmd);
-                if(isset($ar2[$i])) {
-                    $str .= str_repeat(" ",10).strtolower($ar2[$i]);
-                }
-                Console::add($str);
-            }
-            
-
-
-            foreach($app_commands as $c) {
-                Console::add(' '.strtolower($c));
+            else $output[$i] = str_pad('', 20);
+        
+            if(isset($col2[$i])) {
+                $output[$i] .= $col2[$i];
             }
         }
-        */
 
+        $header = count($col1).' app commands, '.count($col2).' rbot commands found:';
         Console::nl();
+        Console::addAndOutput($header);
+        Console::line(strlen($header));
+        Console::addAndOutput($output);
+        Console::line(strlen($header));
         Console::output();
     }
 

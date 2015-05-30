@@ -21,7 +21,6 @@ define('NS_APP', __NAMESPACE__.'\\');
 require __DIR__.'/rbot/loader.php';
 
 use RBot\RBot;
-use RBot\Exception\CommandNotFound;
 use App\App;
 use Exception;
 
@@ -31,5 +30,6 @@ try {
     $app->run();
 }
 catch(Exception $e) {
-    echo $e->getMessage();
+    $suffix = (RBot::env() === 'dev') ? get_class($e) : '';
+    die($e->getMessage().' "'.$suffix.'"');
 }

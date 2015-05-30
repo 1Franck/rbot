@@ -116,7 +116,7 @@ abstract class Application
 
                         Console::noLog();
                         Console::nl();
-                        Console::addAndDie('Greeting master...');
+                        Console::addAndOutput('Greeting master...');
                     }
                     else {
                         sleep(1);

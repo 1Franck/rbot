@@ -42,7 +42,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         $app->run(RBot::argv('rbot '.$cmd));
     }
     catch(Exception\GenericException $e) {
-        $suffix = (RBot::env() === 'dev') ? get_class($e).' ' : '';
+        $suffix = (RBot::env() === 'dev') ? get_class($e) : '';
         Console::addAndOutput($e->getMessage().'   "'.$suffix.'"', ['color' => '#ff9999']);
     }
     /*catch(Exception $e) {

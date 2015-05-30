@@ -21,17 +21,21 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         RBot::init(RBot::SANDBOX);
 
-        $cmd = '';
-        if(isset($req['cmd'])) {
-            $cmd = filter_var($req['cmd'], FILTER_SANITIZE_STRING);
-        }
-
         if(isset($req['h'])) {
             if(!isset($_SESSION['logged'])) exit();
             if(isset($_SESSION['last_console_id'])) $hid = $_SESSION['last_console_id'];
             else $hid = filter_var($req['h'], FILTER_SANITIZE_NUMBER_INT);
             ConsoleHistory::getLatestLinesFrom($hid);
             exit();
+        }
+
+        if(isset($req['ch'])) {
+            die(ConsoleHistory::getCommands());
+        }
+
+        $cmd = '';
+        if(isset($req['cmd'])) {
+            $cmd = filter_var($req['cmd'], FILTER_SANITIZE_STRING);
         }
 
         $app = new app();

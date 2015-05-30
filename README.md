@@ -29,8 +29,10 @@ $ npm install grunt --save-dev
 
 ### RBot Installation
 
+To use the webcli and/or queue system, you must install RBot database.
+
 Once you have installed dependencies with composer,
-create a database and put infos in your `app/configs/rbot.php`
+create an empty database and put infos in your `app/configs/rbot.php`
 
 Open a command line and type this:
 
@@ -44,7 +46,7 @@ You should see message like this:
 
 If you see something else, this may be due to a problem with database configuration.
 
-Now you can install RBot database with:
+Now you are ready to install RBot database with:
 
 ```
 rbot $ --install

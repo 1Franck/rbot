@@ -122,7 +122,7 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
                 $s.cmd_history_index--;
                 //$s.cmd_history_index = $s.cmd_history.length-1;
             }
-            else {
+            else if($s.cmd_history[$s.cmd_history_index].command !== undefined) {
                 $s.cmd_input = $s.cmd_history[$s.cmd_history_index].command.trim();
             }
             

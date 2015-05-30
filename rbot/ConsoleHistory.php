@@ -41,4 +41,24 @@ class ConsoleHistory
             Console::output();
         }
     }
+
+    /**
+     * Get command history
+     */
+    static function getCommands()
+    {
+        if(!RBot::dbCheck('console')) return;
+
+        $cmds = RBot::db()
+                    ->table('console')
+                    ->select('command')
+                    ->addSelect('dt_created')
+                    ->where('cli', '=', '0')
+                    ->groupBy('command')
+                    ->orderBy('dt_created', 'desc')
+                    ->get();
+
+        return json_encode($cmds);
+
+    }
 }

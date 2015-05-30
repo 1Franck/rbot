@@ -20,10 +20,9 @@ app.filter('to_trusted', ['$sce', function($sce){
 app.controller('consoleController', ['$scope', '$http', function($s, $http) {
 
     $s.cmd_history       = [];
+    $s.cmd_history_index = 0;
     $s.cmd_input         = "$";
     $s.cmd_input_default = "$";
-    //$s.console           = "";
-    $s.console_last_id = 0;
 
     var el = {
         cmd: document.getElementById("cmd"),
@@ -40,7 +39,7 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
      * Get console history
      */
     $s.getConsoleHistory = function() {
-        $http.post('index.php', {h: $s.console_last_id})
+        $http.post('index.php', {h: 1})
             .success(function (data) {
                 if(data.length>0) {
                     el.console.innerHTML += "\n" + data;
@@ -57,6 +56,21 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
     }, 1000);
 
 
+
+    $s.getCommandHistory = function() {
+        $http.post('index.php', {ch: 1})
+            .success(function (data) {
+                if(data.length>0) {
+                    $s.cmd_history = data;
+                    console.log(data);
+                }
+            })
+        .error(function () {
+            console.log("Cannot retreive command history");
+        });
+    }
+
+    $s.getCommandHistory();
 
     //set full screen console
     //console.innerHeight = window.outerHeight;
@@ -88,11 +102,22 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
             }
         }
         else if(keycode == 38) {
+            console.log($s.cmd_history_index);
             //up
-            $s.cmd_input = $s.cmd_history[$s.cmd_history.length-1];
+            $s.cmd_history_index--;
+            if($s.cmd_history_index < 0) $s.cmd_history_index = $s.cmd_history.length-1;
+            $s.cmd_input = $s.cmd_history[$s.cmd_history_index].command.trim();
+            $s.cmd_input.focus();
+            $event.preventDefault();
         }
         else if(keycode == 40) {
+            console.log($s.cmd_history_index);
             //down
+            $s.cmd_history_index++;
+            if($s.cmd_history_index >= ($s.cmd_history.length-1)) $s.cmd_history_index = 0;
+            $s.cmd_input = $s.cmd_history[$s.cmd_history_index].command.trim();
+            $s.cmd_input.focus();
+            $event.preventDefault();
         }
         else if($s.cmd_input.trim() == "" && keycode == 32) {
             $s.cmd_input = "$";

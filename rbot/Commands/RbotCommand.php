@@ -177,6 +177,7 @@ class RbotCommand extends Command
             $table->timestamp('dt_created');
             $table->text('command');
             $table->text('options');
+            $table->tinyInteger('cli')->unsigned()->default(0);
         });
         
         Console::AddAndOutput('Installation completed successfully');
@@ -198,7 +199,8 @@ class RbotCommand extends Command
             //echo "$row[0]";
         }
 
-        die('done!');
+        $this->opt_logout();
+
         //$tables = Capsule::raw("show tables")->get();
 
        /* print_r($tables);

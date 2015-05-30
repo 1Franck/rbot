@@ -55,7 +55,7 @@ class ConsoleHistory
                     ->addSelect('dt_created')
                     ->where('cli', '=', '0')
                     ->groupBy('command')
-                    ->orderBy('dt_created', 'desc')
+                    ->orderBy('dt_created', 'asc')
                     ->get();
 
         return json_encode($cmds);

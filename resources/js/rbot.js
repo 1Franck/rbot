@@ -62,7 +62,7 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
             .success(function (data) {
                 if(data.length>0) {
                     $s.cmd_history = data;
-                    console.log(data);
+                    $s.cmd_history_index = data.length;
                 }
             })
         .error(function () {
@@ -105,18 +105,27 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
             console.log($s.cmd_history_index);
             //up
             $s.cmd_history_index--;
-            if($s.cmd_history_index < 0) $s.cmd_history_index = $s.cmd_history.length-1;
-            $s.cmd_input = $s.cmd_history[$s.cmd_history_index].command.trim();
-            $s.cmd_input.focus();
+            if($s.cmd_history_index < 0) {
+                $s.cmd_history_index = 0;
+            }
+            else {
+                $s.cmd_input = $s.cmd_history[$s.cmd_history_index].command.trim();
+            }
             $event.preventDefault();
+            //return false;
         }
         else if(keycode == 40) {
             console.log($s.cmd_history_index);
             //down
             $s.cmd_history_index++;
-            if($s.cmd_history_index >= ($s.cmd_history.length-1)) $s.cmd_history_index = 0;
-            $s.cmd_input = $s.cmd_history[$s.cmd_history_index].command.trim();
-            $s.cmd_input.focus();
+            if($s.cmd_history_index > ($s.cmd_history.length-1)) {
+                $s.cmd_history_index--;
+                //$s.cmd_history_index = $s.cmd_history.length-1;
+            }
+            else {
+                $s.cmd_input = $s.cmd_history[$s.cmd_history_index].command.trim();
+            }
+            
             $event.preventDefault();
         }
         else if($s.cmd_input.trim() == "" && keycode == 32) {
@@ -161,10 +170,33 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
     }
 
     function init() {
+
         document.body.addEventListener("dblclick",function() {
             console.log('dlclock');
             document.getElementById("cmd").focus();
-        })
+        });
+
+        var ignoreKey = false;
+        var handler = function(e)
+        {
+            if (ignoreKey)
+            {
+                e.preventDefault();
+                return;
+            }
+            if (e.keyCode == 38 || e.keyCode == 40) 
+            {
+                /*var pos = this.selectionStart;
+                this.value = (e.keyCode == 38?1:-1)+parseInt(this.value,10);        
+                this.selectionStart = pos; this.selectionEnd = pos;
+
+                ignoreKey = true; setTimeout(function(){ignoreKey=false},1);*/
+                e.preventDefault();
+            }
+        };
+
+        el.cmd.addEventListener('keydown',handler,false);
+        el.cmd.addEventListener('keypress',handler,false);
     }
     init();
 }]);

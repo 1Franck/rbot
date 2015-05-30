@@ -159,10 +159,12 @@ class Console
 
             //create a copy to keep empty space for _renderAll 
             $lines = self::$_lines; 
+            $cli_mode = RBot::cliMode();
 
             if(!empty($lines)) {
 
                 foreach($lines as $i => $l) {
+                    $lines[$i]['cli'] = $cli_mode;
                     if(!empty($lines[$i]['options'])) {
                         $lines[$i]['options'] = serialize($lines[$i]['options']);
                     }

@@ -49,3 +49,21 @@ Now you can install RBot database with:
 ```
 rbot $ --install
 ```
+
+### Configure the queue system with crontab
+
+Create a cron job to run every minutes.
+```
+* * * * * php path/to/cron.php
+```
+
+### Queue system
+
+To add a command to rbot queue:
+
+```
+rbot $queue -r -t=3600 / [command] [options]
+```
+
+In this example, rbot will execute the command every hour. If you don't 
+specify `-r`, rbot will execute the command only one time.

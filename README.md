@@ -2,7 +2,7 @@
 Experimental CLI and webCLI php application framework with cron jobs system
 
 ### Requirements
-    PHP 5.4+
+    PHP 5.5+
     MySQL or MariaDB (for cron jobs system)
     http server(for web cli)
 

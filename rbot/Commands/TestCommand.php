@@ -67,8 +67,8 @@ class TestCommand extends Command
         if(!$this->hasResult()) $this->help();
         //$this->debug();
 
-        //Console::add(RBot::conf('db').'43434');
-        //Console::output();
+        /*Console::add(RBot::conf('db').'43434');
+        Console::output();*/
     }
 
     /**

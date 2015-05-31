@@ -45,7 +45,7 @@ class ConsoleHistory
     /**
      * Get command history
      */
-    static function getCommands()
+    static function getCommands($limit = 0)
     {
         if(!RBot::dbCheck('console')) return;
 
@@ -57,6 +57,15 @@ class ConsoleHistory
                     ->groupBy('command')
                     ->orderBy('dt_created', 'asc')
                     ->get();
+
+
+        if(!empty($cmds)) {
+            foreach ($cmds as $i => $c) {
+                if(substr(trim($c->command),0,5) === 'rbot ') {
+                    $cmds[$i]->command = substr($c->command, 5);
+                }
+            }
+        }
 
         return json_encode($cmds);
 

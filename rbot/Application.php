@@ -112,9 +112,9 @@ abstract class Application
                         $p_hash === RBot::conf('auth.password_hash')) {
 
                         $_SESSION['logged'] = true;
-                        RBot::argv([]);
+                        RBot::argv('');
 
-                        Console::noLog();
+                        //Console::noLog();
                         Console::nl();
                         Console::addAndOutput('Greeting master...');
                     }

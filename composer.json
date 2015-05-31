@@ -5,7 +5,7 @@
     "license": "MIT",
     "type": "project",
 	"require": {
-        "php": ">=5.4.0",
+        "php": ">=5.5.0",
 		"corneltek/getoptionkit": "~2",
         "illuminate/database": "5.1.*@dev",
         "illuminate/container": "5.1.*@dev",

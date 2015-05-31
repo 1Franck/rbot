@@ -113,8 +113,6 @@ abstract class Application
 
                         $_SESSION['logged'] = true;
                         RBot::argv('');
-
-                        //Console::noLog();
                         Console::nl();
                         Console::addAndOutput('Greeting master...');
                     }

@@ -13,6 +13,9 @@ use RBot\RBot;
 use RBot\Exception;
 use RBot\Console;
 
+/**
+ * For webcli
+ */
 class ConsoleLine
 {
     /**

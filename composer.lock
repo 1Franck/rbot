@@ -4,20 +4,20 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4ec08cd70cd338b064bea1d9069a26ee",
+    "hash": "1bac57fbcb5392757f20ed8df68429fb",
     "packages": [
         {
             "name": "corneltek/getoptionkit",
-            "version": "2.1.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/c9s/GetOptionKit.git",
-                "reference": "8be6d5d4666d371d006d59b56519453d26040e08"
+                "reference": "9cb151729074b050f0c7b6a641fc1543a2dd999b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/c9s/GetOptionKit/zipball/8be6d5d4666d371d006d59b56519453d26040e08",
-                "reference": "8be6d5d4666d371d006d59b56519453d26040e08",
+                "url": "https://api.github.com/repos/c9s/GetOptionKit/zipball/9cb151729074b050f0c7b6a641fc1543a2dd999b",
+                "reference": "9cb151729074b050f0c7b6a641fc1543a2dd999b",
                 "shasum": ""
             },
             "require": {
@@ -46,7 +46,7 @@
             ],
             "description": "Powerful command-line option toolkit",
             "homepage": "http://github.com/c9s/GetOptionKit",
-            "time": "2015-05-06 06:06:47"
+            "time": "2015-05-31 13:06:49"
         },
         {
             "name": "danielstjules/stringy",
@@ -1533,6 +1533,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "corneltek/getoptionkit": 20,
         "illuminate/database": 20,
         "illuminate/container": 20,
         "illuminate/contracts": 20,

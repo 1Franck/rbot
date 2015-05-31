@@ -12,6 +12,7 @@ namespace RBot;
 use GetOptionKit\Option;
 use GetOptionKit\OptionCollection;
 use GetOptionKit\OptionParser;
+use GetOptionKit\OptionResult;
 
 use GetOptionKit\Exception\InvalidOptionException;
 use GetOptionKit\Exception\RequireValueException;
@@ -84,11 +85,12 @@ abstract class Command
 
         $this->_has_result = false;
         foreach($this->_options as $k => $s) {
-            if($this->_result->has($k)) {
+            if(is_object($this->_result) && $this->_result->has($k)) {
                 $this->_has_result = true;
                 if(method_exists($this, 'opt_'.$k)) {
                     $m = 'opt_'.$k;
-                    $this->$m($s->getValue());
+                    $value = (is_object($s)) ? $s->getValue() : null;
+                    $this->$m($value);
                 }
             }
         }

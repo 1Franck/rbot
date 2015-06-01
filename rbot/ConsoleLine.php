@@ -29,6 +29,7 @@ class ConsoleLine
         if(RBot::cliMode()) return $line['line'];
 
         $style = '';
+        $data  = hash('joaat', $line['command']);
 
         if(!empty($line['options'])) {
             foreach($line['options'] as $k=>$v) {
@@ -36,6 +37,6 @@ class ConsoleLine
             }
         }
 
-        return '<span style="'.$style.'">'.$line['line'].'</span>';
+        return '<span data-cmd="'.$data.'" style="'.$style.'">'.$line['line'].'</span>';
     }
 }

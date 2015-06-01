@@ -39,8 +39,8 @@ class Cron
 
         $results = Capsule::select(
             'SELECT * FROM queue WHERE 
-            (dt_executed IS NULL AND (FROM_UNIXTIME(UNIX_TIMESTAMP(dt_created)+repeat_time, "%Y-%m-%d %H:%i:%s")) <= NOW()) OR 
-            (dt_executed IS NOT NULL AND (FROM_UNIXTIME(UNIX_TIMESTAMP(dt_executed)+repeat_time, "%Y-%m-%d %H:%i:%s")) <= NOW())'
+            (dt_executed IS NULL AND UNIX_TIMESTAMP(dt_created + INTERVAL repeat_time SECOND) <= UNIX_TIMESTAMP(NOW())) OR 
+            (dt_executed IS NOT NULL AND UNIX_TIMESTAMP(dt_executed + INTERVAL repeat_time SECOND) <= UNIX_TIMESTAMP(NOW()))'
         );
 
         if(!empty($results)) {

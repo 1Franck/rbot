@@ -162,8 +162,8 @@ class RbotCommand extends Command
             $table->bigIncrements('id')->unsigned();
             //$table->string('command', 255);
             $table->text('task');
-            $table->timestamp('dt_created');
-            $table->timestamp('dt_executed');
+            $table->timestamp('dt_created')->nullable();
+            $table->timestamp('dt_executed')->nullable();
             $table->tinyInteger('repeat')->unsigned()->default(0);
             $table->integer('repeat_time')->unsigned()->default(0);
             $table->integer('execution')->unsigned()->default(0);

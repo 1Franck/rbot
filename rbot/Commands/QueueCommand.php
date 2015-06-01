@@ -111,7 +111,7 @@ class QueueCommand extends Command
             }
             elseif(is_numeric($value) && $value > 0) {
                 RBot::db()->table('queue')->where('id', '=', $value)->delete();
-                Console::add('Queue item cleared');
+                Console::add('Queue {{id}} item cleared', [], ['id' => $value]);
             }
         }
         else Console::add('Install rbot first');

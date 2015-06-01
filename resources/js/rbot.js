@@ -91,7 +91,8 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
             }
             else {
                 request($s.getConsoleHistory);
-                $s.cmd_history.push($s.cmd_input);
+                $s.cmd_history.push({ command: $s.cmd_input});
+                $s.cmd_history_index = $s.cmd_history.length;
                 $s.cmd_input = $s.cmd_input_default;
             }
         }
@@ -101,9 +102,9 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
                 $s.cmd_input = "";
             }
         }
-        else if(keycode == 38) {
+        else if(keycode == 38) { //up
             console.log($s.cmd_history_index);
-            //up
+            
             $s.cmd_history_index--;
             if($s.cmd_history_index < 0) {
                 $s.cmd_history_index = 0;
@@ -114,9 +115,9 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
             $event.preventDefault();
             //return false;
         }
-        else if(keycode == 40) {
+        else if(keycode == 40) { //down
             console.log($s.cmd_history_index);
-            //down
+            
             $s.cmd_history_index++;
             if($s.cmd_history_index > ($s.cmd_history.length-1)) {
                 $s.cmd_history_index--;

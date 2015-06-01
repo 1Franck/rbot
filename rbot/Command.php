@@ -84,19 +84,22 @@ abstract class Command
         $this->_parseArgv();
 
         $this->_has_result = false;
+
         foreach($this->_options as $k => $s) {
             if(is_object($this->_result) && $this->_result->has($k)) {
-                $this->_has_result = true;
+                
+                if(($s->defaultValue === $s->getValue()) && !RBot::hasArgv($s)) {
+                    continue;
+                }
                 if(method_exists($this, 'opt_'.$k)) {
                     $m = 'opt_'.$k;
-                    $value = (is_object($s)) ? $s->getValue() : null;
-                    $this->$m($value);
+                    $this->$m($s->getValue(), $s);
+                    $this->_has_result = true;
                 }
             }
         }
 
-        //print_r($this->_result);
-        
+
         $this->process();
     }
 
@@ -129,7 +132,6 @@ abstract class Command
             Console::add($opt_line.' '.$o->desc);
         }
 
-        Console::noLog();
         Console::nl();
         Console::output();
     }
@@ -222,15 +224,5 @@ abstract class Command
     {
         $part = explode('\\', get_class($this));
         return str_ireplace('Command', '', strtolower($part[count($part)-1]));
-    }
-
-    public function debug()
-    {
-
-        foreach ($this->_result as $key => $spec) {
-            echo $spec . "\n";
-        }
-        
-
     }
 }

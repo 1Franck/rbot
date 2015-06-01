@@ -39,6 +39,9 @@ class QueueCommand extends Command
         $this->_options->add('r|repeat', 'repeat');
 
         $this->_options->add('l|list', 'list current tasks queue');
+
+        $this->_options->add('c|clear?', 'clear a specific queue item id or all queue items.')
+                       ->defaultValue('all');
     }
 
     /**
@@ -96,26 +99,54 @@ class QueueCommand extends Command
         $this->_entity['repeat'] = 1;
     }
 
+    /**
+     * Clear queue item(s)
+     */
+    public function opt_clear($value)
+    {
+        if(RBot::dbCheck('queue')) {
+            if($value === 'all') {
+                RBot::db()->table('queue')->delete();
+                Console::add('Queue items cleared');
+            }
+            elseif(is_numeric($value) && $value > 0) {
+                RBot::db()->table('queue')->where('id', '=', $value)->delete();
+                Console::add('Queue item cleared');
+            }
+        }
+        else Console::add('Install rbot first');
+
+        Console::output();
+    }
+
+    /**
+     * List current queue
+     */
     public function opt_list()
     {
         if(RBot::dbCheck('queue')) {
 
-            Console::add('Current queue list:', ['color' => '#CCC']);
-
             $queue = RBot::db()->table('queue')->get();
 
-            $tpl = ' dtc:{{dt_created}} r:{{repeat}} rt:{{repeat_time}}s e:{{execution}} dte:{{dt_executed}}';
+            if(empty($queue)) {
+                Console::addAndOutput('Queue is empty...', ['color' => '#CCC']);
+                return;
+            }
+
+            Console::add('Current queue list:', ['color' => '#CCC']);
+
+            $tpl = '-> id:{{id}} dtc:{{dt_created}} r:{{repeat}} rt:{{repeat_time}}s e:{{execution}} dte:{{dt_executed}}';
 
             foreach($queue as $q) {
                 if(empty($q->dt_executed) || $q->dt_executed === '0000-00-00 00:00:00') {
                     $q->dt_executed = 'never';
                 }
-                //s
-                //$str =  'dtc:'.$q->dt_created.' r:'.$q->repeat.' rt:'.$q->repeat_time.'s e:'.$q->execution.'s dte:'.$q->dt_executed;
                 Console::add($q->task, ['font-style' => 'italic']);
                 Console::add($tpl, [], $q);
             }
         }
+        else Console::add('Install rbot first');
+
         Console::output();
     }
 }

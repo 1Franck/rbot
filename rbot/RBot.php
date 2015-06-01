@@ -17,6 +17,7 @@ use Illuminate\Events\Dispatcher as Dispatcher;
 
 use Sinergi\Config\Config as Config;
 
+use GetOptionKit\Option;
 use GetOptionKit\OptionCollection;
 use GetOptionKit\ContinuousOptionParser;
 
@@ -170,6 +171,21 @@ class RBot
             return $argv;
         }
         return;
+    }
+
+    /**
+     * Check if string exists in argv
+     * 
+     * @param  object  $option GetOptionKit\Option instance
+     * @return boolean         
+     */
+    static function hasArgv(Option $option)
+    {
+        $argv = self::argv();
+        if(in_array('-'.$option->short,$argv) || in_array('--'.$option->long,$argv)) {
+            return true;
+        }
+        return false;
     }
 
     /**

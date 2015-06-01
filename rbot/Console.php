@@ -126,6 +126,7 @@ class Console
     {
         if(is_array($rep) || is_object($rep)) {
             foreach($rep as $k => $v) {
+                $v = filter_var($v ,FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH);
                 $str = str_ireplace('{{'.$k.'}}', $v, $str);
             }
         }

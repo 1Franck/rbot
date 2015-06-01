@@ -33,6 +33,7 @@ class ConsoleHistory
             Console::$log = false;
 
             foreach($lines as $l) {
+                RBot::argv($l->command);
                 $l->options = unserialize($l->options);
                 Console::add($l->line, $l->options);
                 $last_id = $l->id;

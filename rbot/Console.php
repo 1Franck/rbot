@@ -9,6 +9,7 @@
  */
 namespace RBot;
 
+use RBot\RBot;
 use RBot\ConsoleLine;
 
 class Console 
@@ -41,9 +42,7 @@ class Console
     {
         if(!is_array($data)) $data = [$data];
 
-        $argv = RBot::argv();
-        if(is_array($argv)) $cmd = join(' ',$argv);
-        else $cmd = '';
+        $cmd = RBot::argvString();
 
         if(!empty($data)) {
             foreach($data as $d) {

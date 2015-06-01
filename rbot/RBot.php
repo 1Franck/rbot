@@ -170,7 +170,6 @@ class RBot
         elseif(is_string($argv)) {
             return $argv;
         }
-        return;
     }
 
     /**

@@ -57,6 +57,10 @@ class TestCommand extends Command
         $this->_options->add('s', 'short option name only.' );
         $this->_options->add('m', 'short option m');
         $this->_options->add('4', 'short option with digit');
+        $this->_options->add('url?', 'url option')->isa('url');
+        $this->_options->add('ip?', 'ip option')->isa('ip');
+        $this->_options->add('ipv4?', 'ipv4 option')->isa('ipv4');
+        $this->_options->add('ipv6?', 'ipv6 option')->isa('ipv6');
     }
 
     /**
@@ -64,7 +68,7 @@ class TestCommand extends Command
      */
     public function process()
     {
-        if(!$this->hasResult()) $this->help();
+        if(!$this->hasResult() && !$this->hasErrors()) $this->help();
         //$this->debug();
 
         /*Console::add(RBot::conf('db').'43434');
@@ -82,6 +86,39 @@ class TestCommand extends Command
         Console::add("Foo >>> ".$value);
         Console::output();
     }
+
+    /**
+     * Command option "ip"
+     * 
+     * @param  mixed $value
+     */
+    public function opt_ip($ip)
+    {
+        Console::nl();
+        Console::add("ip >>> ".$ip);
+        Console::output();
+    }
+
+    /**
+     * Command option "ipv4"
+     * 
+     * @param  mixed $value
+     */
+    public function opt_ipv4($ip)
+    {
+        $this->opt_ip($ip);
+    }
+    
+    /**
+     * Command option "ipv6"
+     * 
+     * @param  mixed $value
+     */
+    public function opt_ipv6($ip)
+    {
+        $this->opt_ip($ip);
+    }
+
 
     /**
      * Command option "date"

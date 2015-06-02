@@ -234,11 +234,9 @@ class RBot
      * 
      * @param  Command $cmd
      */
-    static function run(Command $cmd)
+    static function run(Command $cmd, $new_argv = null)
     {
+        if(isset($new_argv)) self::argv($new_argv);
         $cmd->run();
     }
-
-    //static function cmd($cmd, $opts = '', $cmd_opts_string = false)
-
 }

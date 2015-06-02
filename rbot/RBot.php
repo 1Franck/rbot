@@ -28,7 +28,7 @@ class RBot
 {
     const PRODUCTION = 'prod';
     const SANDBOX    = 'dev';
-    const VERSION    = '0.1b';
+    const VERSION    = '0.2b';
 
     private static $_config;
     private static $_db;

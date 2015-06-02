@@ -45,6 +45,11 @@ abstract class Command
     private $_has_result = false;
 
     /**
+     * Has error(s)
+     */
+    private $_has_errors = false;
+
+    /**
      * Construct
      */
     public function __construct()
@@ -68,6 +73,16 @@ abstract class Command
     public function hasResult()
     {
         return $this->_has_result;
+    }
+
+    /**
+     * Check if command has error(s)
+     * 
+     * @return boolean
+     */
+    public function hasErrors()
+    {
+        return $this->_has_errors;
     }
 
     /**
@@ -196,6 +211,7 @@ abstract class Command
         }
 
         if(isset($exception)) {
+            $this->_has_errors = true;
             Console::noLog();
             Console::nl();
             Console::addAndOutput($exception);

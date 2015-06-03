@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Commands;
-define('NS_APP', __NAMESPACE__.'\\');
+if(!defined('NS_APP')) define('NS_APP', __NAMESPACE__.'\\');
 
 require __DIR__.'/rbot/loader.php';
 

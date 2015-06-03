@@ -41,8 +41,12 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         $app = new app();
         $app->run(RBot::argv('rbot '.$cmd));
     }
+    catch(Exception\AuthException $e) {
+        die(json_encode(['error' => $e->getMessage()]));
+    }
     catch(Exception\GenericException $e) {
-        $suffix = (RBot::env() === 'dev') ? get_class($e) : '';
+        $exclass = get_class($e);
+        $suffix = (RBot::env() === 'dev') ? $exclass : '';
         Console::addAndOutput($e->getMessage().'   "'.$suffix.'"', ['color' => '#ff9999']);
     }
     /*catch(Exception $e) {

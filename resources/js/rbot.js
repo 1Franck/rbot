@@ -5,6 +5,8 @@
  */
 var app = angular.module('rbot', []);
 
+var cmd_prefix = cmd_prefix || '#';
+
 /**
  * HTML filter
  */
@@ -21,8 +23,8 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
 
     $s.cmd_history       = [];
     $s.cmd_history_index = 0;
-    $s.cmd_input         = "$";
-    $s.cmd_input_default = "$";
+    $s.cmd_input         = cmd_prefix;
+    $s.cmd_input_default = cmd_prefix;
 
     var el = {
         cmd: document.getElementById("cmd"),
@@ -85,7 +87,7 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
 
         if(keycode == 13) {
             //enter
-            if($s.cmd_input === '$' || $s.cmd_input === '') {
+            if($s.cmd_input === cmd_prefix || $s.cmd_input === '') {
                 el.console.innerHTML += "\n";
                 el.console.scrollTop = el.console.scrollHeight;
             }
@@ -98,7 +100,7 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
         }
         else if(keycode == 8) {
             //backspace
-            if($s.cmd_input == "$") {
+            if($s.cmd_input == cmd_prefix) {
                 $s.cmd_input = "";
             }
         }
@@ -153,6 +155,9 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
             .success(function (data) {
                 if(success_fn) {
                     success_fn();
+                }
+                if(data.error) {
+                    el.console.innerHTML = data.error;
                 }
             })
         .error(function () {

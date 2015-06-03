@@ -167,6 +167,8 @@ class RbotCommand extends Command
             $table->tinyInteger('repeat')->unsigned()->default(0);
             $table->integer('repeat_time')->unsigned()->default(0);
             $table->integer('execution')->unsigned()->default(0);
+            $table->tinyInteger('faulty')->unsigned()->default(0);
+            $table->string('fault_msg', 255);
         });
 
         RBot::db()->schema()->create('console', function($table) {

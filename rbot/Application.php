@@ -20,7 +20,7 @@ use RBot\Console;
 abstract class Application
 {
 
-    public $rbot_command_prefix = '$';
+    static $RBOT_CMD_PREFIX = '$';
 
     /**
      * Call app init()
@@ -59,10 +59,10 @@ abstract class Application
 
             $first_char = substr($argv[0],0,1);
 
-            if($first_char === $this->rbot_command_prefix && strlen($argv[0]) == 1) {
+            if($first_char === self::$RBOT_CMD_PREFIX && strlen($argv[0]) == 1) {
                 $classname = 'RBot\Commands\RBotCommand';
             }
-            elseif($first_char === $this->rbot_command_prefix && strlen($argv[0]) > 1) {
+            elseif($first_char === self::$RBOT_CMD_PREFIX && strlen($argv[0]) > 1) {
                 $cmd = substr($argv[0], 1, strlen($argv[0]));
                 $classname = 'RBot\Commands\\'.ucfirst($cmd).'Command';
             }
@@ -103,7 +103,7 @@ abstract class Application
                 $argv = RBot::argv();
                 array_shift($argv); //remove rbot
 
-                if(!empty($argv) && count($argv) == 3 && substr($argv[0],0,1) === $this->rbot_command_prefix) {
+                if(!empty($argv) && count($argv) == 3 && substr($argv[0],0,1) === self::$RBOT_CMD_PREFIX) {
                     // try to log
                     $u_hash = hash(RBot::conf('auth.hash'), $argv[1]);
                     $p_hash = hash(RBot::conf('auth.hash'), $argv[2]);

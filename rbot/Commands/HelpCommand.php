@@ -12,6 +12,7 @@ namespace RBot\Commands;
 use RBot\RBot;
 use RBot\Command;
 use RBot\Console;
+use Rbot\Application;
 
 /*
  * Help command
@@ -29,6 +30,6 @@ class HelpCommand extends Command
     public function process()
     {
         //Redirect to another command with new argument
-        RBot::run(new RBotCommand(), '$ --list');
+        RBot::run(new RBotCommand(), Application::$RBOT_CMD_PREFIX.' --list');
     }
 }

@@ -42,6 +42,8 @@ class QueueCommand extends Command
 
         $this->_options->add('c|clear?', 'clear a specific queue item id or all queue items.')
                        ->defaultValue('all');
+
+        $this->_options->add('run', 'run queue');              
     }
 
     /**
@@ -68,7 +70,7 @@ class QueueCommand extends Command
      */
     public function process()
     {
-        if(!$this->hasResult()) $this->help();
+        
 
         if(!empty($this->_entity['task'])) {
             if(RBot::dbCheck('queue')) {
@@ -79,6 +81,7 @@ class QueueCommand extends Command
                 Console::AddAndOutput("No queue table found :(");
             }
         }
+        elseif(!$this->hasResult()) $this->help();
     }
 
     /**
@@ -120,6 +123,19 @@ class QueueCommand extends Command
     }
 
     /**
+     * Clear queue item(s)
+     */
+    public function opt_run()
+    {
+        if(RBot::dbCheck('queue')) {
+           include_once __DIR__.'/../../cron.php';
+        }
+        else Console::add('Install rbot first');
+
+        Console::output();
+    }
+
+    /**
      * List current queue
      */
     public function opt_list()
@@ -135,9 +151,11 @@ class QueueCommand extends Command
 
             Console::add('Current queue list:', ['color' => '#CCC']);
 
-            $tpl = '-> id:{{id}} dtc:{{dt_created}} r:{{repeat}} rt:{{repeat_time}}s e:{{execution}} dte:{{dt_executed}}';
+            $tpl = '-> id:{{id}} dtc:{{dt_created}} r:{{repeat}} rt:{{repeat_time}}s e:{{execution}} f:{{faulty}} dte:{{dt_executed}}';
 
             foreach($queue as $q) {
+                /*$option = ['color' => '#CCC'];
+                if($q->faulty == 1) $option['color'] = "#ff0000";*/
                 if(empty($q->dt_executed) || $q->dt_executed === '0000-00-00 00:00:00') {
                     $q->dt_executed = 'never';
                 }
@@ -149,4 +167,7 @@ class QueueCommand extends Command
 
         Console::output();
     }
+
+
+
 }

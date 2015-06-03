@@ -48,9 +48,17 @@ class Cron
 
                 RBot::argv(' '.trim($r->task));
 
-                $app->run(RBot::argv());
+                try {
+                    $app->run(RBot::argv());
+                    $faulty    = false;
+                    $fault_msg = null;
+                }
+                catch(Exception\GenericException $e) {
+                    $faulty    = true;
+                    $fault_msg = $e->getMessage();
+                }
 
-                if($r->repeat == 0) {
+                if($r->repeat == 0 && $faulty === false) {
                     //delete task
                     Capsule::table('queue')->where('id', '=', $r->id)->delete();
                 }
@@ -60,8 +68,10 @@ class Cron
                         ->where('id', '=', $r->id)
                         ->update([
                             'dt_executed' => date('Y-m-d H:i:s'), 
-                            'execution' => $r->execution+1]
-                        );
+                            'execution'   => $r->execution+1,
+                            'faulty'      => $faulty,
+                            'fault_msg'   => $fault_msg
+                        ]);
                 }
             }
         }

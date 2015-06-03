@@ -11,6 +11,6 @@ class App extends Application
 {
     public function init()
     {
-        $this->rbot_command_prefix = '$';
+        self::$RBOT_CMD_PREFIX = '#';
     }
 }

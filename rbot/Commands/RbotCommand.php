@@ -139,18 +139,13 @@ class RbotCommand extends Command
     public function opt_install()
     {
         // database exists ?
-        try {
-            RBot::db()->schema();
-        }
-        catch(PDOException $e) {
-            throw new Exception\Database('Can\'t find database '.RBot::conf('db.database'));
+        if(!RBot::dbCheck()) {
+            Console::addAndOutput('Can\'t find database '.RBot::conf('db.database'));
             return;
         }
 
         // table exists ?
         if(RBot::db()->schema()->hasTable('queue') || RBot::db()->schema()->hasTable('users')) {
-            Console::noLog();
-            Console::nl();
             Console::addAndOutput('System already installed or database is not empty');
             return;
         }

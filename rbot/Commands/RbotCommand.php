@@ -12,6 +12,7 @@ namespace RBot\Commands;
 use RBot\RBot;
 use RBot\Command;
 use RBot\Console;
+use RBot\Application;
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 use PDOException;
@@ -95,7 +96,7 @@ class RbotCommand extends Command
                 foreach($rf as $f) {
                     $prefix = '';
                     if($i == 0) {
-                        $prefix = '$';
+                        $prefix = Application::$RBOT_CMD_PREFIX;
                         $col2[] = $prefix.str_replace('command.php', '', strtolower($f));
                     }
                     else {
@@ -177,7 +178,7 @@ class RbotCommand extends Command
             $table->tinyInteger('cli')->unsigned()->default(0);
         });
         
-        Console::AddAndOutput('Installation completed successfully');
+        Console::AddAndOutput('Installation completed successfully!');
     }
 
 
@@ -187,28 +188,25 @@ class RbotCommand extends Command
     public function opt_killdb()
     {
 
-        if(!RBot::dbCheck()) return;
-
-        $pdo = RBot::db()->connection()->getPdo();
-        foreach($pdo->query('SHOW TABLES') as $row)  {
-            RBot::db()->schema()->dropIfExists($row[0]);
-            //die;
-            //echo "$row[0]";
+        if(!RBot::dbCheck()) {
+            Console::AddAndOutput('There is nothing to kill...');
+            return;
         }
 
+        $pdo = RBot::db()->connection()->getPdo();
+        $count = 0;
+        foreach($pdo->query('SHOW TABLES') as $row)  {
+            RBot::db()->schema()->dropIfExists($row[0]);
+            ++$count;
+        }
+
+        if($count > 0){
+            Console::AddAndOutput('Killed '.$count.' table'.(($count > 0) ? 's' : '').'! ');
+        } else {
+            Console::AddAndOutput('There is nothing to kill... ');
+        } 
+
         $this->opt_logout();
-
-        //$tables = Capsule::raw("show tables")->get();
-
-       /* print_r($tables);
-
-        if(!empty($tables)) {
-            foreach($tables as $t) {
-                
-            }
-        }*/
-
-        //
     }
 
 }

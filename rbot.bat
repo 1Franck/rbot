@@ -10,6 +10,6 @@ set RBOT_PATH=%~dp0
 
 if "%PHP_COMMAND%" == "" set PHP_COMMAND=php.exe
 
-"%PHP_COMMAND%" "%RBOT_PATH%rbcli" %*
+"%PHP_COMMAND%" "%RBOT_PATH%rbotc" %*
 
 @endlocal

@@ -10,6 +10,7 @@
 namespace RBot;
 
 use RBot\Exception;
+use PDOException;
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Container\Container as Container;
@@ -43,8 +44,11 @@ class RBot
     static function init($env)
     {
         self::$_env      = $env;
-        self::$_config   = new Config(__DIR__.'/../app/configs');
         self::$_cmd_path = realpath(__DIR__).'/../app/Commands';
+        self::$_config   = new Config(__DIR__.'/../app/configs');
+        self::$_config->setEnvironment($env);
+
+        //print_r(self::$_config);
 
         self::_connect();
     }
@@ -70,7 +74,7 @@ class RBot
      */
     static public function _conf($opt)
     {
-        return self::$_config->get('rbot.'.self::$_env.'.'.$opt);
+        return self::$_config->get('app.'.$opt);
     }
 
     /**
@@ -91,9 +95,10 @@ class RBot
     static function dbCheck($table = null)
     {
         try {
-            RBot::db()->schema();
+            if(!is_object(self::db())) return false;
+            self::db()->schema();
             if(isset($table)) {
-                return RBot::db()->schema()->hasTable($table);
+                return self::db()->schema()->hasTable($table);
             }
             return true;
         }
@@ -193,11 +198,20 @@ class RBot
     private static function _connect()
     {
         if(is_array(self::_conf('db')) && !empty(self::_conf('db'))) {
-            self::$_db = new Capsule;
-            self::$_db->addConnection(self::_conf('db'));
-            self::$_db->setEventDispatcher(new Dispatcher(new Container));
-            self::$_db->bootEloquent();
-            self::$_db->setAsGlobal();
+
+            try {
+                self::$_db = new Capsule;
+                self::$_db->addConnection(self::_conf('db'));
+                self::$_db->setEventDispatcher(new Dispatcher(new Container));
+                self::$_db->bootEloquent();
+                self::$_db->setAsGlobal();
+            }
+            catch(PDOException $e) {
+                throw new Exception\Database('Can\'t connect to database');
+            }
+
+
+            
 
             self::$_config->set('rbot.'.self::$_env.'.db', []);
         }

@@ -151,9 +151,13 @@ class QueueCommand extends Command
 
             Console::add('Current queue list:', ['color' => '#CCC']);
 
-            $tpl = '-> id:{{id}} dtc:{{dt_created}} r:{{repeat}} rt:{{repeat_time}}s e:{{execution}} f:{{faulty}} dte:{{dt_executed}}';
+            $tpl = '-> id:{{id}} dtc:{{dt_created}} r:{{repeat}} rt:{{repeat_time}}s e:{{execution}} dte:{{dt_executed}}';
 
             foreach($queue as $q) {
+                $extra = '';
+                if($q->faulty == 1) {
+                    $extra = '-> f:{{faulty}} fm:{{fault_msg}}';
+                }
                 /*$option = ['color' => '#CCC'];
                 if($q->faulty == 1) $option['color'] = "#ff0000";*/
                 if(empty($q->dt_executed) || $q->dt_executed === '0000-00-00 00:00:00') {
@@ -161,6 +165,7 @@ class QueueCommand extends Command
                 }
                 Console::add($q->task, ['font-style' => 'italic']);
                 Console::add($tpl, [], $q);
+                if(!empty($extra)) Console::add($extra, ['color' => ''], $q);
             }
         }
         else Console::add('Install rbot first');

@@ -13,7 +13,6 @@
  * RBot CLI 
  * 
  * ex: rbot.php [app-command] [command-argv]
- * 
  */
 namespace App;
 define('NS_APP', __NAMESPACE__.'\\');

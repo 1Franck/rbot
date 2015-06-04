@@ -61,6 +61,7 @@ class TestCommand extends Command
         $this->_options->add('ip?', 'ip option')->isa('ip');
         $this->_options->add('ipv4?', 'ipv4 option')->isa('ipv4');
         $this->_options->add('ipv6?', 'ipv6 option')->isa('ipv6');
+        $this->_options->add('email?', 'email option')->isa('email');
     }
 
     /**

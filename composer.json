@@ -6,12 +6,12 @@
     "type": "project",
 	"require": {
         "php": ">=5.5.0",
-		"corneltek/getoptionkit": "dev-master",
-        "illuminate/database": "5.1.*@dev",
-        "illuminate/container": "5.1.*@dev",
-        "illuminate/contracts": "5.1.*@dev",
-        "illuminate/support": "5.1.*@dev",
-        "illuminate/events": "5.1.*@dev",
+		"corneltek/getoptionkit": "~2",
+        "illuminate/database": "5.2.*@dev",
+        "illuminate/container": "5.2.*@dev",
+        "illuminate/contracts": "5.2.*@dev",
+        "illuminate/support": "5.2.*@dev",
+        "illuminate/events": "5.2.*@dev",
         "sinergi/config": "dev-master"
     },
     "require-dev": {

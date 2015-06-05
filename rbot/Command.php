@@ -212,7 +212,6 @@ abstract class Command
 
         if(isset($exception)) {
             $this->_has_errors = true;
-            Console::noLog();
             Console::nl();
             Console::addAndOutput($exception);
         }

@@ -20,11 +20,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         RBot::init(RBot::SANDBOX);
-        $app = new app();
-        $app->auth();
+        $app = new App;
 
         if(isset($req['h'])) {
-            if(!isset($_SESSION['logged'])) exit();
+            $app->auth();
             if(isset($_SESSION['last_console_id'])) $hid = $_SESSION['last_console_id'];
             else $hid = filter_var($req['h'], FILTER_SANITIZE_NUMBER_INT);
             ConsoleHistory::getLatestLinesFrom($hid);
@@ -32,6 +31,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if(isset($req['ch'])) {
+            $app->auth();
             die(ConsoleHistory::getCommands());
         }
 

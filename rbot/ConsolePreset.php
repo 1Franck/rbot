@@ -31,6 +31,17 @@ class ConsolePreset
             'color' => '#3498DB'
         ]
     ];
+
+    /**
+     * Check app config console.presets and merge
+     */
+    public function __construct()
+    {
+        $conf = RBot::conf('console.presets');
+        if(is_array($conf) && !empty($conf)) {
+            $this->_presets = array_merge($this->_presets, $conf);
+        }
+    }
     
     /**
      * Set a new variable

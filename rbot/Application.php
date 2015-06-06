@@ -44,7 +44,7 @@ abstract class Application
             RBot::argv($new_argv);
         }
 
-        $this->_auth();
+        $this->auth();
 
         $argv = RBot::argv();
         if(empty($argv)) return;
@@ -89,16 +89,20 @@ abstract class Application
      */
     public function auth()
     {
-        $this->_auth();
+        if(RBot::cliMode() || !$this->hasAuth()) return;
+        $auth = new Authentication;
     }
 
     /**
-     * Auth for the web cli
+     * Return
+     * @return boolean
      */
-    private function _auth()
+    public function hasAuth()
     {
-        if(RBot::cliMode()) return;
-
-        $auth = new Authentication;
+        $auth_conf = RBot::conf('auth');
+        if(isset($auth_conf) && is_array($auth_conf)) {
+            return true;
+        }
+        else return false;
     }
 }

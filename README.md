@@ -44,7 +44,38 @@ rbotc                   cli app point entry for linux
 rbot.bat                for windows command (shorcut for rbotc)
 ```
 
-### RBot Installation
+### Cli vs WebCli syntax
+
+Cli syntax : `$ rbotc [command] [args]`
+```
+$ rbotc mycommand -a hello -b -c=1
+```
+
+WebCli syntax : `[command] [args]`
+```
+mycommand -a hello -b -c=1
+```
+
+To differentiate your application commands from RBot commands, use prefix symbol `$` before command name. The following example will execute `say` command in `rbot/Commands/SayCommand.php` :
+
+```
+$ rbotc $say Hi!
+```
+
+And the following example will execute `say` command, if exists,  in `app/Commands/Say/SayCommand.php`
+```
+$ rbotc say Hi!
+```
+There is one exception, if you specify RBot prefix `$` without the name, it will automatically use rbot command (`rbot/Commands/RBotCommand.php`).
+```
+$ rbotc $ -v
+```
+Is the same as:
+```
+$ rbotc $rbot -v
+```
+
+### RBot configuration and database installation
 
 To use the webcli and/or queue system, you must install RBot database.
 

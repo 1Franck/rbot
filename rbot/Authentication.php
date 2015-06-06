@@ -37,14 +37,19 @@ class Authentication
 
             //... session is started
             if(session_status() == PHP_SESSION_NONE) {
-                //throw new Exception\AuthException('No session started, can\'t use auth');
+                throw new Exception\AuthException('No session started, can\'t use auth');
             }
 
             //... ip verification
             if(!empty(RBot::conf('auth.ip'))) {
 
                 $ip = RBot::conf('auth.ip');
-                if( (is_array($ip) && !in_array($this->_getIp(), $ip)) || ($ip !== $this->_getIp())) {
+                $ip_auth = false;
+
+                if(is_array($ip) && in_array($this->_getIp(), $ip)) $ip_auth = true;
+                elseif($ip === $this->_getIp()) $ip_auth = true;
+
+                if($ip_auth === false) {
                     throw new Exception\AuthException('Can\'t validate your address');
                 }
             }
@@ -87,6 +92,8 @@ class Authentication
      */
     private function _getIp()
     {
+        $ip = '';
+
         //check ip from share internet
         if (!empty($_SERVER['HTTP_CLIENT_IP'])) { 
             $ip = $_SERVER['HTTP_CLIENT_IP'];
@@ -98,7 +105,7 @@ class Authentication
         else {
             $ip = $_SERVER['REMOTE_ADDR'];
         }
-        return $ip;
+        return trim($ip);
     }
 
 }

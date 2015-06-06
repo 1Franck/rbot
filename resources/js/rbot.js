@@ -44,8 +44,14 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
         $http.post('index.php', {h: 1})
             .success(function (data) {
                 if(data.length>0) {
-                    el.console.innerHTML += "\n" + data;
-                    el.console.scrollTop = el.console.scrollHeight;
+                    if(data.error) {
+                        el.console.innerHTML = data.error;
+                    }
+                    else {
+                        el.console.innerHTML += "\n" + data;
+                        el.console.scrollTop = el.console.scrollHeight;
+                    }
+                    
                 }
             })
         .error(function () {

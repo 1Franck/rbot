@@ -62,7 +62,7 @@ class ConsoleHistory
 
         if(!empty($cmds)) {
             foreach ($cmds as $i => $c) {
-                if(substr(trim($c->command),0,5) === 'rbot ') {
+                if(substr(trim($c->command),0,6) === 'rbotc ') {
                     $cmds[$i]->command = substr($c->command, 5);
                 }
             }

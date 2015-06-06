@@ -11,11 +11,15 @@ namespace RBot;
 
 use RBot\RBot;
 use RBot\ConsoleLine;
+use RBot\ConsolePreset;
 
 class Console 
 {
     // console lines array
     static protected $_lines = [];
+
+    // console preset object
+    static protected $_preset;
 
     // end of line used
     static $EOL = PHP_EOL;
@@ -43,6 +47,11 @@ class Console
         if(!is_array($data)) $data = [$data];
 
         $cmd = RBot::argvString();
+
+        if(is_string($options)) {
+            $options = self::preset($options);
+            if(!is_array($options)) $options = [];
+        }
 
         if(!empty($data)) {
             foreach($data as $d) {
@@ -100,6 +109,33 @@ class Console
     {
         $nl = [''];
         self::add(array_pad($nl, $many, ''));
+    }
+
+    /**
+     * Data Options Preset
+     * 
+     * @param  string $name
+     * @param  array  $value
+     * @return mixed
+     */
+    static function preset($name = null, $value = null)
+    {
+        if(!is_object(self::$_preset)) {
+            self::$_preset = new ConsolePreset;
+        }
+
+        if(isset($name)) {
+
+            if(isset($value)) {
+                self::$_preset->$name = $value;
+                return;
+            }
+            else {
+                return self::$_preset->$name;;
+            }
+        }
+
+        return self::$_preset;
     }
 
     /**

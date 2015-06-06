@@ -10,6 +10,7 @@
 namespace RBot;
 
 use RBot\RBot;
+//use RBot\Authentication;
 use RBot\Exception;
 use RBot\Console;
 
@@ -86,46 +87,18 @@ abstract class Application
     /**
      * Auth for the web cli
      */
+    public function auth()
+    {
+        $this->_auth();
+    }
+
+    /**
+     * Auth for the web cli
+     */
     private function _auth()
     {
         if(RBot::cliMode()) return;
 
-        if(is_array(RBot::conf('auth'))) {
-
-            //... session is started
-            if(session_status() == PHP_SESSION_NONE) {
-                throw new Exception\AuthException('No session started, can\'t use auth');
-            }
-
-            //... not logged
-            if(!isset($_SESSION['logged'])) {
-
-                $argv = RBot::argv();
-                array_shift($argv); //remove rbot
-
-                if(!empty($argv) && count($argv) == 3 && substr($argv[0],0,1) === self::$RBOT_CMD_PREFIX) {
-                    // try to log
-                    $u_hash = hash(RBot::conf('auth.hash'), $argv[1]);
-                    $p_hash = hash(RBot::conf('auth.hash'), $argv[2]);
-
-                    if($u_hash === RBot::conf('auth.user_hash') &&
-                        $p_hash === RBot::conf('auth.password_hash')) {
-
-                        $_SESSION['logged'] = true;
-                        RBot::argv('');
-                        Console::nl();
-                        Console::addAndOutput('Greeting master...');
-                    }
-                    else {
-                        sleep(1);
-                        throw new Exception\AuthException('Login failed');
-                    }
-                }
-                else {
-                    throw new Exception\AuthException('You need to login first');
-                }
-            }
-        }
+        $auth = new Authentication;
     }
-
 }

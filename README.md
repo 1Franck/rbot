@@ -3,8 +3,10 @@ Experimental CLI and webCLI php application framework with cron jobs system
 
 ### Requirements
     PHP 5.5+
+    PHP Composer
     MySQL or MariaDB (for cron jobs system)
-    http server(for web cli)
+    HTTP server(for web cli)
+    Node and Gruntjs (for editing web assets only)
 
 ### Project Installation
 
@@ -16,16 +18,11 @@ Experimental CLI and webCLI php application framework with cron jobs system
 $ composer install
 ```
 This will install those libraries:
- - illuminate/database (Laravel 5.1 Database Component)
- - c9s/GetOptionKit (A powerful GetOpt toolkit for PHP)
- - sinergi/config (PHP configurations loading library)
+ - [illuminate/database](https://github.com/illuminate/database) (Laravel 5.1 Database Component)
+ - [c9s/GetOptionKit](https://github.com/c9s/GetOptionKit) (A powerful GetOpt toolkit for PHP)
+ - [sinergi/config](https://github.com/sinergi/config) (PHP configurations loading library)
   
 `3` (optionnal) Install grunt for editing/theming rbot webcli assets 
-
-```
-$ npm install grunt --save-dev
-```
-
 
 ### RBot Installation
 
@@ -67,9 +64,12 @@ Create a cron job to run every minutes.
 ../Commands             App commands scripts
 ....FoobarCommand.php   'foobar' Command Class
 ..app.php               App bootstrap
-/public                 Webcli public folder (webcli app point entry)
+/public                 Webcli public folder
+../assets               web assets folder for rbot
+..index.php             webcli app point entry
 /rbot                   RBot lib
 ../Commands             RBot commands
+/resources              web assets src for gruntjs
 cron.php                RBot cron runner (crontab)
 rbotc                   cli app point entry for linux
 rbot.bat                for windows command (shorcut for rbotc)

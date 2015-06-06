@@ -41,7 +41,7 @@ This will install those libraries:
 /resources              web assets src for gruntjs
 cron.php                RBot cron runner (crontab)
 rbotc                   cli app point entry for linux
-rbot.bat                for windows command (shorcut for rbotc)
+rbotc.bat                for windows command (shorcut for rbotc)
 ```
 
 ### Cli vs WebCli syntax
@@ -103,7 +103,7 @@ return [
 Open a command line and type this:
 
 ```
-rbot $ -v
+rbotc $ -v
 ```
 
 You should see message like this:
@@ -115,7 +115,7 @@ If you see something else, this may be due to a problem with database configurat
 Now you are ready to install RBot database with:
 
 ```
-rbot $ --install
+rbotc $ --install
 ```
 
 ### Configure the queue system with crontab

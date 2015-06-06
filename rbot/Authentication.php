@@ -58,6 +58,11 @@ class Authentication
             if(!isset($_SESSION['logged'])) {
 
                 $argv = RBot::argv();
+
+                if(!is_array($argv)) {
+                    throw new Exception\AuthException('You need to login first');
+                }
+
                 array_shift($argv); //remove rbot
 
                 if(!empty($argv) && count($argv) == 3 && substr($argv[0],0,1) === Application::$RBOT_CMD_PREFIX) {

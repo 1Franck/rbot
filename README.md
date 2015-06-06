@@ -34,13 +34,13 @@ This will install those libraries:
 ....FoobarCommand.php   'foobar' Command Class
 ..app.php               App bootstrap
 /public                 Webcli public folder
-../assets               web assets folder for rbot
-..index.php             webcli app point entry
+../assets               Web assets folder for rbot
+..index.php             Webcli app point entry
 /rbot                   RBot lib
 ../Commands             RBot commands
-/resources              web assets src for gruntjs
+/resources              Web assets src for gruntjs
 cron.php                RBot cron runner (crontab)
-rbotc                   cli app point entry for linux
+rbotc                   Cli app point entry for linux
 rbotc.bat                for windows command (shorcut for rbotc)
 ```
 

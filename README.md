@@ -24,6 +24,26 @@ This will install those libraries:
   
 `3` (optionnal) Install grunt for editing/theming rbot webcli assets 
 
+
+### Application Structure
+
+```
+/app                    Application folder
+../configs              Configurations folder
+../Commands             App commands scripts
+....FoobarCommand.php   'foobar' Command Class
+..app.php               App bootstrap
+/public                 Webcli public folder
+../assets               web assets folder for rbot
+..index.php             webcli app point entry
+/rbot                   RBot lib
+../Commands             RBot commands
+/resources              web assets src for gruntjs
+cron.php                RBot cron runner (crontab)
+rbotc                   cli app point entry for linux
+rbot.bat                for windows command (shorcut for rbotc)
+```
+
 ### RBot Installation
 
 To use the webcli and/or queue system, you must install RBot database.
@@ -56,24 +76,7 @@ Create a cron job to run every minutes.
 * * * * * php path/to/cron.php
 ```
 
-### Application Structure
 
-```
-/app                    Application folder
-../configs              Configurations folder
-../Commands             App commands scripts
-....FoobarCommand.php   'foobar' Command Class
-..app.php               App bootstrap
-/public                 Webcli public folder
-../assets               web assets folder for rbot
-..index.php             webcli app point entry
-/rbot                   RBot lib
-../Commands             RBot commands
-/resources              web assets src for gruntjs
-cron.php                RBot cron runner (crontab)
-rbotc                   cli app point entry for linux
-rbot.bat                for windows command (shorcut for rbotc)
-```
 
 ### Command class example
 ```php
@@ -145,7 +148,9 @@ class FoobarCommand extends Command
     {
         Console::add("ip >>> ".$ip, 'success');
         Console::output();
-    }    
+    }
+
+    //....
 }
 
 ```

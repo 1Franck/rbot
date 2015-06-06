@@ -59,14 +59,13 @@ class RbotCommand extends Command
                 '██╔══██╗██╔══██╗██║   ██║   ██║   ',
                 '██║  ██║██████╔╝╚██████╔╝   ██║   ',
                 '╚═╝  ╚═╝╚═════╝  ╚═════╝    ╚═╝   ',
-                ' ',
-            ], ['color' => '#ccc']);
+            ], 'important');
         }
 
         Console::addAndOutput([
             'rbot version '.RBot::VERSION.' / php '.phpversion().' / '.date('D j F Y H:i:s O'),
             '',
-        ], ['color' => '#3498DB']);
+        ], 'notice');
     }
 
     /**
@@ -75,6 +74,7 @@ class RbotCommand extends Command
     public function opt_logout()
     {
         Console::addAndOutput('Good bye...');
+        //sleep(2);
         @session_destroy();
     }
 

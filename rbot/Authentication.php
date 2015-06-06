@@ -15,7 +15,7 @@ use RBot\Application;
 use RBot\Exception;
 
 /*
- * RBot Authentication
+ * RBot Authentication for webcli
  */
 class Authentication
 {

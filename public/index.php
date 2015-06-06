@@ -39,7 +39,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         $app = new app();
-        $app->run(RBot::argv('rbot '.$cmd));
+        $app->run(RBot::argv('rbotc '.$cmd));
     }
     catch(Exception\AuthException $e) {
         die(json_encode(['error' => $e->getMessage()]));

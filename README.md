@@ -59,6 +59,97 @@ Create a cron job to run every minutes.
 * * * * * php path/to/cron.php
 ```
 
+### Application Structure
+
+```
+/app                    Application folder
+../configs              Configurations folder
+../Commands             App commands scripts
+....FoobarCommand.php   'foobar' Command Class
+..app.php               App bootstrap
+/public                 Webcli public folder (webcli app point entry)
+/rbot                   RBot lib
+../Commands             RBot commands
+cron.php                RBot cron runner (crontab)
+rbotc                   cli app point entry for linux
+rbot.bat                for windows command (shorcut for rbotc)
+```
+
+### Command class example
+```php
+<?php
+namespace RBot\Commands;
+
+use RBot\RBot;
+use RBot\Command;
+use RBot\Console;
+
+/*
+ * Generic test function for rbot 
+ */
+class FoobarCommand extends Command 
+{
+    /**
+     * Command Options
+     */
+    public function setOptions() 
+    {
+        $this->_options->add('f|foo:', 'option requires a value.' )->isa('String');
+        $this->_options->add('d|date', 'show date time' );
+        $this->_options->add('url:', 'url option')->isa('url');
+        $this->_options->add('ip:', 'ip option')->isa('ip');
+        $this->_options->add('ipv4:', 'ipv4 option')->isa('ipv4');
+        $this->_options->add('ipv6:', 'ipv6 option')->isa('ipv6');
+        $this->_options->add('email:', 'email option')->isa('email');
+    }
+
+    /**
+     * Process the command
+     */
+    public function process()
+    {
+        if(!$this->hasResult() && !$this->hasErrors()) $this->help();
+    }
+
+    /**
+     * Command option "foo"
+     * 
+     * @param  mixed $value
+     */
+    public function opt_foo($value)
+    {
+        Console::nl();
+        Console::add("Foo >>> ".$value);
+        Console::output();
+    }
+
+    /**
+     * Command option "date"
+     * 
+     * @param  mixed $value
+     */
+    public function opt_date($value)
+    {
+        Console::add('Hi, here\'s the date: {{now}}', 
+                     'important', 
+                     ['now' => date('Y-m-d H:i:s')]);
+        Console::output();
+    }
+
+    /**
+     * Command option "ip"
+     * 
+     * @param  mixed $value
+     */
+    public function opt_ip($ip)
+    {
+        Console::add("ip >>> ".$ip, 'success');
+        Console::output();
+    }    
+}
+
+```
+
 ### Queue system
 
 To add a command to rbot queue:
@@ -69,3 +160,4 @@ rbot $queue -r -t=3600 / [command] [options]
 
 In this example, rbot will execute the command every hour. If you don't 
 specify `-r`, rbot will execute the command only one time.
+

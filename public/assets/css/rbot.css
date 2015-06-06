@@ -224,12 +224,16 @@ select {
   left: 0;
   right: 0;
   width: 100%;
+  max-width: 100%;
   margin-bottom: 30px;
   padding: 5px;
   font-size: 14px;
-  line-height: 16px;
+  line-height: 15px;
   word-wrap: break-word;
-  overflow-x: auto;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
+  overflow-x: hidden;
 }
 #console::selection {
   background: #bbbbbb;

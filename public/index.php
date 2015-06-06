@@ -20,6 +20,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         RBot::init(RBot::SANDBOX);
+        $app = new app();
+        $app->auth();
 
         if(isset($req['h'])) {
             if(!isset($_SESSION['logged'])) exit();
@@ -38,7 +40,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
             $cmd = filter_var($req['cmd'], FILTER_SANITIZE_STRING);
         }
 
-        $app = new app();
         $app->run(RBot::argv('rbotc '.$cmd));
     }
     catch(Exception\AuthException $e) {

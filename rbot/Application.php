@@ -57,6 +57,7 @@ abstract class Application
             // "$ [with_or_without_arg]"
             // "$command"
             // "? "
+            // "command"
 
             $first_char = substr($argv[0],0,1);
 

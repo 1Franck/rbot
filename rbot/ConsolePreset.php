@@ -22,7 +22,8 @@ class ConsolePreset
             'color' => '#FFFF99'
         ],
         'important' => [
-            'color' => '#FFF'
+            'color'       => '#F9F9F9',
+            'text-shadow' => '1px 2px 3px #000'
         ],
         'success' => [
             'color' => '#9EFF99'

@@ -77,10 +77,28 @@ $ rbotc $rbot -v
 
 ### RBot configuration and database installation
 
-To use the webcli and/or queue system, you must install RBot database.
+To use the WebCli and/or queue system, you must configure and install RBot database.
 
-Once you have installed dependencies with composer,
-create an empty database and put infos in your `app/configs/rbot.php`
+Once you have installed dependencies with composer and configurate rbot database,
+create an empty database and put connection infos in your `app/configs/dev/app.php`
+
+```php
+<?php
+return [
+    'db' => [
+        'driver'    => 'mysql',
+        'host'      => '127.0.0.1',
+        'database'  => 'rbot_dev',
+        'username'  => 'root',
+        'password'  => '',
+        'charset'   => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'prefix'    => '',
+    ],
+];
+```
+
+
 
 Open a command line and type this:
 
@@ -188,12 +206,11 @@ class FoobarCommand extends Command
 
 ### Queue system
 
-To add a command to rbot queue:
+To add a command to rbot queue `$queue [-r] [-t=<int>] / [command] [options]`. Example:
 
 ```
-rbot $queue -r -t=3600 / [command] [options]
+$queue -r -t=3600 / $say Hello you!
 ```
 
-In this example, rbot will execute the command every hour. If you don't 
-specify `-r`, rbot will execute the command only one time.
+In this example, rbot will execute the command every hour. If you don't specify `-r`, rbot will execute the command only one time.
 

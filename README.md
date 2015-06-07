@@ -136,7 +136,7 @@ In this example, rbot will execute the command every hour. If you don't specify 
 
 If you plan to use the rbot webcli on a web server, don't forget to add authentication to your app configuration.
 For obvious security reasons, i don't recommend webcli if your app do low level things. 
-Becarefull when using the webcli since all console data can be intercepted.
+Be careful when using the webcli since all console data can be intercepted.
 
 ```php
 'auth' => [

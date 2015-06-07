@@ -56,7 +56,8 @@ WebCli syntax : `[command] [args]`
 mycommand -a hello -b -c=1
 ```
 
-To differentiate your application commands from RBot commands, use prefix symbol `$` before command name. The following example will execute `say` command in `rbot/Commands/SayCommand.php` :
+To differentiate your application commands from RBot commands, use prefix symbol `$` before command name. 
+The following example will execute `say` command in `rbot/Commands/SayCommand.php` :
 
 ```
 $ rbotc $say Hi!
@@ -66,7 +67,8 @@ And the following example will execute `say` command, if exists,  in `app/Comman
 ```
 $ rbotc say Hi!
 ```
-There is one exception, if you specify RBot prefix `$` without the name, it will automatically use rbot command (`rbot/Commands/RBotCommand.php`).
+There is one exception, if you specify RBot prefix `$` without the name, it will 
+automatically use rbot command (`rbot/Commands/RBotCommand.php`).
 ```
 $ rbotc $ -v
 ```
@@ -74,6 +76,7 @@ Is the same as:
 ```
 $ rbotc $rbot -v
 ```
+The RBot prefix `$` can be changed in your app class.
 
 ### RBot configuration and database installation
 
@@ -116,6 +119,22 @@ Now you are ready to install RBot database with:
 
 ```
 rbotc $ --install
+```
+
+### Webcli configuration
+
+If you plan to use the rbot webcli, don't forget to add authentication to your app configuration.
+For obvious security reasons, i don't recommend webcli if your app do low level things. 
+Becarefull when using the webcli since all console data can be intercepted.
+
+```php
+'auth' => [
+    'hash'          => 'sha512',
+    'user_hash'     => 'user hash result',
+    'password_hash' => 'password hash result',
+    'ip'            => '127.0.0.1', // optionnal, can be an array (ex: ['127.0.0.1', 'X.X.X.X', ...])
+],
+
 ```
 
 ### Configure the queue system with crontab
@@ -168,7 +187,7 @@ class FoobarCommand extends Command
      * 
      * @param  mixed $value
      */
-    public function opt_foo($value)
+    public function optionFoo($value)
     {
         Console::nl();
         Console::add("Foo >>> ".$value);
@@ -180,7 +199,7 @@ class FoobarCommand extends Command
      * 
      * @param  mixed $value
      */
-    public function opt_date($value)
+    public function optionDate($value)
     {
         Console::add('Hi, here\'s the date: {{now}}', 
                      'important', 
@@ -193,7 +212,7 @@ class FoobarCommand extends Command
      * 
      * @param  mixed $value
      */
-    public function opt_ip($ip)
+    public function optionIp($ip)
     {
         Console::add("ip >>> ".$ip, 'success');
         Console::output();

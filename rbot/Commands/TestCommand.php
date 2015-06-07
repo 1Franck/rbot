@@ -45,14 +45,15 @@ class TestCommand extends Command
             ->isa('Number')
             ->incremental();
 
-        $this->_options->add('file:', 'option value should be a file.' )
+        /*$this->_options->add('file:', 'option value should be a file.' )
             ->trigger(function($value) {
                 echo "Set value to :";
                 var_dump($value);
             })
-            ->isa('File');
+            ->isa('File');*/
 
         $this->_options->add('d|date', 'show date time' );
+        $this->_options->add('d|dong', 'long option name only.' );
         $this->_options->add('long', 'long option name only.' );
         $this->_options->add('s', 'short option name only.' );
         $this->_options->add('m', 'short option m');
@@ -81,7 +82,7 @@ class TestCommand extends Command
      * 
      * @param  mixed $value
      */
-    public function opt_foo($value)
+    public function optionFoo($value)
     {
         Console::nl();
         Console::add("Foo >>> ".$value);
@@ -93,10 +94,16 @@ class TestCommand extends Command
      * 
      * @param  mixed $value
      */
-    public function opt_ip($ip)
+    public function optionIp($ip)
     {
+        Console::preset('warning', ['color' => '#444']);
         Console::nl();
-        Console::add("ip >>> ".$ip);
+        Console::add("ip >>> ".$ip, 'success');
+        Console::add("ip >>> ".$ip, 'error');
+        Console::add("ip >>> ".$ip, 'important');
+        Console::add("ip >>> ".$ip, 'warning');
+        Console::add("ip >>> ".$ip, 'notice');
+        Console::add("ip >>> ", 'custom1');
         Console::output();
     }
 
@@ -105,7 +112,7 @@ class TestCommand extends Command
      * 
      * @param  mixed $value
      */
-    public function opt_ipv4($ip)
+    public function optionIpv4($ip)
     {
         $this->opt_ip($ip);
     }
@@ -115,7 +122,7 @@ class TestCommand extends Command
      * 
      * @param  mixed $value
      */
-    public function opt_ipv6($ip)
+    public function optionIpv6($ip)
     {
         $this->opt_ip($ip);
     }
@@ -126,9 +133,20 @@ class TestCommand extends Command
      * 
      * @param  mixed $value
      */
-    public function opt_date($value)
+    public function optionDate($value)
     {
         Console::add(date('Y-m-d H:i:s'), ['color'=>'#fff']);
+        Console::output();
+    }
+
+    /**
+     * Command option "date"
+     * 
+     * @param  mixed $value
+     */
+    public function optionDong($value)
+    {
+        Console::add("2   ".date('Y-m-d H:i:s'), ['color'=>'#fff']);
         Console::output();
     }
 }

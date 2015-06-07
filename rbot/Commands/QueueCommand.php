@@ -70,8 +70,6 @@ class QueueCommand extends Command
      */
     public function process()
     {
-        
-
         if(!empty($this->_entity['task'])) {
             if(RBot::dbCheck('queue')) {
                 RBot::db()->table('queue')->insert($this->_entity);
@@ -81,7 +79,7 @@ class QueueCommand extends Command
                 Console::AddAndOutput("No queue table found :(");
             }
         }
-        elseif(!$this->hasResult()) $this->help();
+        elseif(!$this->hasResult() && !$this->hasErrors()) $this->help();
     }
 
     /**
@@ -89,7 +87,7 @@ class QueueCommand extends Command
      * 
      * @param  mixed $value
      */
-    public function opt_time($value)
+    public function optionTime($value)
     {
         $this->_entity['repeat_time'] = $value;
     }
@@ -97,7 +95,7 @@ class QueueCommand extends Command
     /**
      * Command option "repeat"
      */
-    public function opt_repeat()
+    public function optionRepeat()
     {
         $this->_entity['repeat'] = 1;
     }
@@ -105,7 +103,7 @@ class QueueCommand extends Command
     /**
      * Clear queue item(s)
      */
-    public function opt_clear($value)
+    public function optionClear($value)
     {
         if(RBot::dbCheck('queue')) {
             if($value === 'all') {
@@ -125,7 +123,7 @@ class QueueCommand extends Command
     /**
      * Clear queue item(s)
      */
-    public function opt_run()
+    public function optionRun()
     {
         if(RBot::dbCheck('queue')) {
            include_once __DIR__.'/../../cron.php';
@@ -138,7 +136,7 @@ class QueueCommand extends Command
     /**
      * List current queue
      */
-    public function opt_list()
+    public function optionList()
     {
         if(RBot::dbCheck('queue')) {
 

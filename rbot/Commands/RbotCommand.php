@@ -40,7 +40,7 @@ class RbotCommand extends Command
      */
     public function process()
     {
-        if(!$this->hasResult()) {
+        if(!$this->hasResult() && !$this->hasErrors()) {
             $this->help();
         }
     }
@@ -48,7 +48,7 @@ class RbotCommand extends Command
     /**
      * Rbot version
      */
-    public function opt_version($value)
+    public function optionVersion()
     {
         Console::nl();
         if(!RBot::cliMode()) {
@@ -71,7 +71,7 @@ class RbotCommand extends Command
     /**
      * Logout
      */
-    public function opt_logout()
+    public function optionLogout()
     {
         Console::addAndOutput('Good bye...');
         //sleep(2);
@@ -81,7 +81,7 @@ class RbotCommand extends Command
     /**
      * List App Commands
      */
-    public function opt_list()
+    public function optionList()
     {
         $paths    = [__DIR__, RBot::getCmdPath()];
         $rows     = 0;
@@ -137,7 +137,7 @@ class RbotCommand extends Command
     /**
      * Install rbot tables
      */
-    public function opt_install()
+    public function optionInstall()
     {
         // database exists ?
         if(!RBot::dbCheck()) {
@@ -185,7 +185,7 @@ class RbotCommand extends Command
     /**
      * Drop rbot tables
      */
-    public function opt_killdb()
+    public function optionKilldb()
     {
 
         if(!RBot::dbCheck()) {
@@ -206,7 +206,7 @@ class RbotCommand extends Command
             Console::AddAndOutput('There is nothing to kill... ');
         } 
 
-        $this->opt_logout();
+        $this->optionLogout();
     }
 
 }

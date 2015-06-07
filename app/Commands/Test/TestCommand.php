@@ -68,7 +68,7 @@ class TestCommand extends Command
         $this->debug();
     }
 
-    public function opt_foo($value)
+    public function optionFoo($value)
     {
         echo "Foo >>> ".$value;
     }

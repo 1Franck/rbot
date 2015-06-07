@@ -106,9 +106,9 @@ abstract class Command
                 if(($s->defaultValue === $s->getValue()) && !RBot::hasArgv($s)) {
                     continue;
                 }
-                if(method_exists($this, 'opt_'.$k)) {
-                    $m = 'opt_'.$k;
-                    $this->$m($s->getValue(), $s);
+                $method = 'option'.ucfirst($k);
+                if(method_exists($this, $method)) {
+                    $this->$method($s->getValue(), $s);
                     $this->_has_result = true;
                 }
             }

@@ -57,13 +57,13 @@ mycommand -a hello -b -c=1
 ```
 
 To differentiate your application commands from RBot commands, use prefix symbol `$` before command name. 
-The following example will execute `say` command in `rbot/Commands/SayCommand.php` :
+The following example will execute `say` command (`rbot/Commands/SayCommand.php`) :
 
 ```
 $ rbotc $say Hi!
 ```
 
-And the following example will execute `say` command, if exists,  in `app/Commands/Say/SayCommand.php`
+And the following example will execute, if exists, `say` command (`app/Commands/Say/SayCommand.php`).
 ```
 $ rbotc say Hi!
 ```
@@ -82,8 +82,8 @@ The RBot prefix `$` can be changed in your app class.
 
 To use the WebCli and/or queue system, you must configure and install RBot database.
 
-Once you have installed dependencies with composer and configurate rbot database,
-create an empty database and put connection infos in your `app/configs/dev/app.php`
+Once you have installed dependencies with composer, create an empty database and put connection 
+infos in your `app/configs/dev/app.php`
 
 ```php
 <?php
@@ -101,29 +101,40 @@ return [
 ];
 ```
 
-
-
 Open a command line and type this:
-
-```
-rbotc $ -v
-```
-
-You should see message like this:
-
-`rbot version 0.1b / php 5.6.3 / Sat 30 May 2015 08:35:55 -0400`
-
-If you see something else, this may be due to a problem with database configuration.
-
-Now you are ready to install RBot database with:
 
 ```
 rbotc $ --install
 ```
 
+You should see message like this:
+
+`Installation completed successfully!`
+
+If you see something else, this may be due to a problem with database configuration.
+
+
+### Configure the queue system with crontab
+
+Create a cron job to run every minutes.
+```
+* * * * * php path/to/cron.php
+
+```
+### Use Queue system
+
+To add a command to rbot queue `$queue [-r] [-t=<int>] / [command] [options]`. Example:
+
+```
+$queue -r -t=3600 / $say Hello you!
+```
+
+In this example, rbot will execute the command every hour. If you don't specify `-r`, rbot will execute the command only one time.
+
+
 ### Webcli configuration
 
-If you plan to use the rbot webcli, don't forget to add authentication to your app configuration.
+If you plan to use the rbot webcli on a web server, don't forget to add authentication to your app configuration.
 For obvious security reasons, i don't recommend webcli if your app do low level things. 
 Becarefull when using the webcli since all console data can be intercepted.
 
@@ -137,12 +148,6 @@ Becarefull when using the webcli since all console data can be intercepted.
 
 ```
 
-### Configure the queue system with crontab
-
-Create a cron job to run every minutes.
-```
-* * * * * php path/to/cron.php
-```
 
 
 
@@ -222,14 +227,4 @@ class FoobarCommand extends Command
 }
 
 ```
-
-### Queue system
-
-To add a command to rbot queue `$queue [-r] [-t=<int>] / [command] [options]`. Example:
-
-```
-$queue -r -t=3600 / $say Hello you!
-```
-
-In this example, rbot will execute the command every hour. If you don't specify `-r`, rbot will execute the command only one time.
 

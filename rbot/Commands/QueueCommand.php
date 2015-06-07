@@ -33,17 +33,17 @@ class QueueCommand extends Command
      */
     public function setOptions() 
     {
-        $this->_options->add('t|time:', 'option requires a value.' )
-                       ->isa('Number');
+        $this->_options->add('r|repeat', 'repeat the given task');
 
-        $this->_options->add('r|repeat', 'repeat');
+        $this->_options->add('t|time:', 'specify the repetion time in sec' )
+                       ->isa('Number');
 
         $this->_options->add('l|list', 'list current tasks queue');
 
         $this->_options->add('c|clear?', 'clear a specific queue item id or all queue items.')
                        ->defaultValue('all');
 
-        $this->_options->add('run', 'run queue');              
+        $this->_options->add('run', 'run queue tasks');              
     }
 
     /**
@@ -76,7 +76,7 @@ class QueueCommand extends Command
                 Console::AddAndOutput("Task added !");
             }
             else {
-                Console::AddAndOutput("No queue table found :(");
+                Console::AddAndOutput("No queue table found :(", 'warning');
             }
         }
         elseif(!$this->hasResult() && !$this->hasErrors()) $this->help();
@@ -108,7 +108,7 @@ class QueueCommand extends Command
         if(RBot::dbCheck('queue')) {
             if($value === 'all') {
                 RBot::db()->table('queue')->delete();
-                Console::add('Queue items cleared');
+                Console::add('All queue items cleared');
             }
             elseif(is_numeric($value) && $value > 0) {
                 RBot::db()->table('queue')->where('id', '=', $value)->delete();

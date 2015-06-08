@@ -148,8 +148,14 @@ Be careful when using the webcli since all console data can be intercepted.
 
 ```
 
-
-
+The webcli use angularjs. Unlike in cli, excecuted commands
+in the webcli are not outputed directly. The webcli console grab (http pull)
+latest lines data from table `console` where every lines is stored.
+The advantage of this technique is that it bind the cli ouput with the webcli, so
+all output in cli will also appear on logged webcli.
+The disavantage is that http pull may induce a stress if the TTR(time to refresh) is too high.
+Also, because of that, you can't use the webcli if you don't install rbot database,
+but you still can use rbot in cli.
 
 ### Command class example
 ```php
@@ -228,3 +234,4 @@ class FoobarCommand extends Command
 
 ```
 
+### TODO

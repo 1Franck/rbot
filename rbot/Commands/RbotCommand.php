@@ -59,7 +59,7 @@ class RbotCommand extends Command
                 '██╔══██╗██╔══██╗██║   ██║   ██║   ',
                 '██║  ██║██████╔╝╚██████╔╝   ██║   ',
                 '╚═╝  ╚═╝╚═════╝  ╚═════╝    ╚═╝   ',
-            ], 'important');
+            ], ['text-shadow' => '1px 2px 3px #000']);
         }
 
         Console::addAndOutput([

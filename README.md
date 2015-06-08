@@ -1,11 +1,11 @@
 # RBot
-Experimental CLI and webCLI php application framework with cron jobs system
+Experimental CLI and WebCLI php application framework with cron jobs system
 
 ### Requirements
     PHP 5.5+
     PHP Composer
     MySQL or MariaDB (for cron jobs system)
-    HTTP server(for web cli)
+    HTTP server(for WebCLI)
     Node and Gruntjs (for editing web assets only)
 
 ### Project Installation
@@ -22,7 +22,7 @@ This will install those libraries:
  - [c9s/GetOptionKit](https://github.com/c9s/GetOptionKit) (A powerful GetOpt toolkit for PHP)
  - [sinergi/config](https://github.com/sinergi/config) (PHP configurations loading library)
   
-`3` (optionnal) Install grunt for editing/theming rbot webcli assets 
+`3` (optionnal) Install grunt for editing/theming rbot WebCLI assets 
 
 
 ### Application Structure
@@ -33,25 +33,25 @@ This will install those libraries:
 ../Commands             App commands scripts
 ....FoobarCommand.php   'foobar' Command Class
 ..app.php               App bootstrap
-/public                 Webcli public folder
+/public                 WebCLI public folder
 ../assets               Web assets folder for rbot
-..index.php             Webcli app point entry
+..index.php             WebCLI app point entry
 /rbot                   RBot lib
 ../Commands             RBot commands
 /resources              Web assets src for gruntjs
 cron.php                RBot cron runner (crontab)
-rbotc                   Cli app point entry for linux
+rbotc                   CLI app point entry for linux
 rbotc.bat                for windows command (shorcut for rbotc)
 ```
 
-### Cli vs WebCli syntax
+### CLI vs WebCLI syntax
 
-Cli syntax : `$ rbotc [command] [args]`
+CLI syntax : `$ rbotc [command] [args]`
 ```
 $ rbotc mycommand -a hello -b -c=1
 ```
 
-WebCli syntax : `[command] [args]`
+WebCLI syntax : `[command] [args]`
 ```
 mycommand -a hello -b -c=1
 ```
@@ -80,7 +80,7 @@ The RBot prefix `$` can be changed in your app class.
 
 ### RBot configuration and database installation
 
-To use the WebCli and/or queue system, you must configure and install RBot database.
+To use the WebCLI and/or queue system, you must configure and install RBot database.
 
 Once you have installed dependencies with composer, create an empty database and put connection 
 infos in your `app/configs/dev/app.php`
@@ -132,11 +132,11 @@ $queue -r -t=3600 / $say Hello you!
 In this example, rbot will execute the command every hour. If you don't specify `-r`, rbot will execute the command only one time.
 
 
-### Webcli configuration
+### WebCLI configuration
 
-If you plan to use the rbot webcli on a web server, don't forget to add authentication to your app configuration.
-For obvious security reasons, i don't recommend webcli if your app do low level things. 
-Be careful when using the webcli since all console data can be intercepted.
+If you plan to use the rbot WebCLI on a web server, don't forget to add authentication to your app configuration.
+For obvious security reasons, i don't recommend WebCLI if your app do low level things. 
+Be careful when using the WebCLI since all console data can be intercepted.
 
 ```php
 'auth' => [
@@ -148,14 +148,14 @@ Be careful when using the webcli since all console data can be intercepted.
 
 ```
 
-The webcli use angularjs. Unlike in cli, excecuted commands
-in the webcli are not outputed directly. The webcli console grab (http pull)
+The WebCLI use angularjs. Unlike in CLI, excecuted commands
+in the WebCLI are not outputed directly. The WebCLI console grab (http pull)
 latest lines data from table `console` where every lines is stored.
-The advantage of this technique is that it bind the cli ouput with the webcli, so
-all output in cli will also appear on logged webcli.
+The advantage of this technique is that it bind the CLI ouput with the WebCLI, so
+all output in CLI will also appear on logged WebCLI.
 The disavantage is that http pull may induce a stress if the TTR(time to refresh) is too high.
-Also, because of that, you can't use the webcli if you don't install rbot database,
-but you still can use rbot in cli.
+Also, because of that, you can't use the WebCLI if you don't install rbot database,
+but you still can use rbot in CLI.
 
 ### Command class example
 ```php

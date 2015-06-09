@@ -151,11 +151,13 @@ Be careful when using the WebCLI since all console data can be intercepted.
 The WebCLI use angularjs. Unlike in CLI, excecuted commands
 in the WebCLI are not outputed directly. The WebCLI console grab (http pull)
 latest lines data from table `console` where every lines is stored.
+
 The advantage of this technique is that it bind the CLI ouput with the WebCLI, so
 all output in CLI will also appear on logged WebCLI.
+
 The disavantage is that http pull may induce a stress if the TTR(time to refresh) is too high.
-Also, because of that, you can't use the WebCLI if you don't install rbot database,
-but you still can use rbot in CLI.
+
+Finally, you can't use the WebCLI if you don't install rbot database, but you still can use rbot in CLI.
 
 ### Command class example
 ```php

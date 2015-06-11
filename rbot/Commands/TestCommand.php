@@ -41,7 +41,7 @@ class TestCommand extends Command
             //->defaultValue('output.txt');
 
         // works for -vvv  => verbose = 3
-        $this->_options->add('v|verbose', 'verbose')
+        $this->_options->add('v|verbose:', 'verbose')
             ->isa('Number')
             ->incremental();
 
@@ -55,14 +55,20 @@ class TestCommand extends Command
         $this->_options->add('d|date', 'show date time' );
         $this->_options->add('d|dong', 'long option name only.' );
         $this->_options->add('long', 'long option name only.' );
-        $this->_options->add('s', 'short option name only.' );
+        $this->_options->add('s:', 'short option name only.' )
+                        ->isa('Number')
+                        ->trigger(function($value) {
+                            return $value;
+                        });
         $this->_options->add('m', 'short option m');
         $this->_options->add('4', 'short option with digit');
-        $this->_options->add('url?', 'url option')->isa('url');
+        $this->_options->add('u|url?', 'url option')->isa('Number');
         $this->_options->add('ip?', 'ip option')->isa('ip');
         $this->_options->add('ipv4?', 'ipv4 option')->isa('ipv4');
         $this->_options->add('ipv6?', 'ipv6 option')->isa('ipv6');
-        $this->_options->add('email?', 'email option')->isa('email');
+        $this->_options->add('e|email?', 'email option')->isa('email');
+
+        $this->_options->add('r|regex:', 'regex option')->isa('regex');
     }
 
     /**
@@ -116,6 +122,17 @@ class TestCommand extends Command
     {
         $this->opt_ip($ip);
     }
+
+    /**
+     * Command option "ipv4"
+     * 
+     * @param  mixed $value
+     */
+    public function optionRegex($value)
+    {
+        Console::add($value, ['color'=>'#fff']);
+        Console::output();
+    }
     
     /**
      * Command option "ipv6"
@@ -127,6 +144,16 @@ class TestCommand extends Command
         $this->opt_ip($ip);
     }
 
+    /**
+     * Command option "s"
+     * 
+     * @param  mixed $value
+     */
+    public function optionS($value)
+    {
+        Console::add($value, ['color'=>'#fff']);
+        Console::output();
+    }
 
     /**
      * Command option "date"

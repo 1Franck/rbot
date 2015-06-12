@@ -99,7 +99,9 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
             }
             else {
                 request($s.getConsoleHistory);
-                if($s.cmd_input !== $s.cmd_history[$s.cmd_history.length-1].command) {
+                if($s.cmd_history[$s.cmd_history.length-1] !== undefined &&
+                    $s.cmd_input !== $s.cmd_history[$s.cmd_history.length-1].command) {
+
                     $s.cmd_history.push({ command: $s.cmd_input});
                     $s.cmd_history_index = $s.cmd_history.length;
                 }
@@ -119,7 +121,7 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
             if($s.cmd_history_index < 0) {
                 $s.cmd_history_index = 0;
             }
-            else {
+            else if($s.cmd_history[$s.cmd_history_index] !== undefined) {
                 $s.cmd_input = $s.cmd_history[$s.cmd_history_index].command.trim();
             }
             $event.preventDefault();

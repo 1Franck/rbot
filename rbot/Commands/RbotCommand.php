@@ -74,7 +74,6 @@ class RbotCommand extends Command
     public function optionLogout()
     {
         Console::addAndOutput('Good bye...');
-        //sleep(2);
         @session_destroy();
     }
 

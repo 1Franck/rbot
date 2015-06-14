@@ -32,9 +32,6 @@ class DdgCommand extends Command
      */
     public function process()
     {
-        //if(!$this->hasResult()) $this->help();
-        //$this->debug();
-        //
         $query = $this->rawData();
 
         //http://api.duckduckgo.com/?q=valley+forge+national+park&format=json&pretty=1

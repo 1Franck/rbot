@@ -67,6 +67,19 @@ class RBot
     }
 
     /**
+     * Check if conf exists
+     * 
+     * @param  string  $opt
+     * @return boolean     
+     */
+    static function hasConf($opt)
+    {
+        $conf_opt = self::_conf($opt);
+        if(isset($conf_opt)) return true;
+        return false;
+    }
+
+    /**
      * Get conf 
      * 
      * @param   string $opt  

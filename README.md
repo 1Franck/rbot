@@ -237,3 +237,5 @@ class FoobarCommand extends Command
 ```
 
 ### TODO
+
+- finish doc

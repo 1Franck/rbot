@@ -132,6 +132,21 @@ $queue -r -t=3600 / $say Hello you!
 In this example, rbot will execute the command every hour. If you don't specify `-r`, rbot will execute the command only one time.
 
 
+List current task in queue:
+```
+$queue -l
+```
+
+Clear all item(s) in queue:
+```
+$queue -c
+```
+
+Clear a specific item in queue:
+```
+$queue -c 21
+```
+
 ### WebCLI configuration
 
 If you plan to use the rbot WebCLI on a web server, don't forget to add authentication to your app configuration.

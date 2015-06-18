@@ -28,11 +28,11 @@ This will install those libraries:
 ### Application Structure
 
 ```
-/app                    Application folder
-../configs              Configurations folder
+/app                    Your application folder
+../configs              App configurations folder
 ../Commands             App commands scripts
 ....FoobarCommand.php   'foobar' Command Class
-..app.php               App bootstrap
+..app.php               App bootstrap class
 /public                 WebCLI public folder
 ../assets               Web assets folder for rbot
 ..index.php             WebCLI app point entry
@@ -41,7 +41,7 @@ This will install those libraries:
 /resources              Web assets src for gruntjs
 cron.php                RBot cron runner (crontab)
 rbotc                   CLI app point entry for linux
-rbotc.bat                for windows command (shorcut for rbotc)
+rbotc.bat               for windows command (shorcut for rbotc)
 ```
 
 ### CLI vs WebCLI syntax
@@ -121,16 +121,15 @@ Create a cron job to run every minutes.
 * * * * * php path/to/cron.php
 
 ```
-### Use Queue system
+### Use the queue system
 
-To add a command to rbot queue `$queue [-r] [-t=<int>] / [command] [options]`. Example:
+To add a command to rbot queue `$queue [-r] [-t=<int>] / [command] [options]`. 
+In the next example, rbot will execute the command every hour. 
+If you don't specify `-r`, rbot will execute the command only one time.:
 
 ```
 $queue -r -t=3600 / $say Hello you!
 ```
-
-In this example, rbot will execute the command every hour. If you don't specify `-r`, rbot will execute the command only one time.
-
 
 List current task in queue:
 ```
@@ -145,6 +144,11 @@ $queue -c
 Clear a specific item in queue:
 ```
 $queue -c 21
+```
+
+Execute manually all due tasks in queue:
+```
+$queue --run
 ```
 
 ### WebCLI configuration
@@ -170,11 +174,11 @@ latest lines data from table `console` where every lines is stored.
 The advantage of this technique is that it bind the CLI ouput with the WebCLI, so
 all output in CLI will also appear on logged WebCLI.
 
-The disavantage is that http pull may induce a stress if the TTR(time to refresh) is too high.
+The disavantage is that http pull may induce a stress if the TTR(time to refresh) is too high or task(s) take to much times/memory to execute.
 
 Finally, you can't use the WebCLI if you don't install rbot database, but you still can use rbot in CLI.
 
-### Command class example
+### Create your own commands
 ```php
 <?php
 namespace RBot\Commands;

@@ -60,7 +60,7 @@ To differentiate your application commands from RBot commands, use prefix symbol
 The following example will execute `say` command (`rbot/Commands/SayCommand.php`) :
 
 ```
-$ rbotc $say Hi!
+$ rbotc #say Hi!
 ```
 
 And the following example will execute, if exists, `say` command (`app/Commands/Say/SayCommand.php`).
@@ -123,7 +123,7 @@ Create a cron job to run every minutes.
 ```
 ### Use the queue system
 
-To add a command to rbot queue `#queue [-r] [-t=<int>] / [command] [options]`. 
+To add a command to rbot queue `#queue [-r] [-t=<int>] / [#][command] [options]`. 
 In the next example, rbot will execute the command every hour. 
 If you don't specify `-r`, rbot will execute the command only one time.:
 

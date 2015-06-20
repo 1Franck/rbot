@@ -46,7 +46,7 @@ rbotc.bat               for windows command (shorcut for rbotc)
 
 ### CLI vs WebCLI syntax
 
-CLI syntax : `$ rbotc [command] [args]`
+CLI syntax : `# rbotc [command] [args]`
 ```
 $ rbotc mycommand -a hello -b -c=1
 ```
@@ -56,7 +56,7 @@ WebCLI syntax : `[command] [args]`
 mycommand -a hello -b -c=1
 ```
 
-To differentiate your application commands from RBot commands, use prefix symbol `$` before command name. 
+To differentiate your application commands from RBot commands, use prefix symbol `#` before command name. 
 The following example will execute `say` command (`rbot/Commands/SayCommand.php`) :
 
 ```
@@ -67,16 +67,16 @@ And the following example will execute, if exists, `say` command (`app/Commands/
 ```
 $ rbotc say Hi!
 ```
-There is one exception, if you specify RBot prefix `$` without the name, it will 
+There is one exception, if you specify RBot prefix `#` without the name, it will 
 automatically use rbot command (`rbot/Commands/RBotCommand.php`).
 ```
-$ rbotc $ -v
+$ rbotc # -v
 ```
 Is the same as:
 ```
-$ rbotc $rbot -v
+$ rbotc #rbot -v
 ```
-The RBot prefix `$` can be changed in your app class.
+The RBot prefix `#` can be changed in your app class.
 
 ### RBot configuration and database installation
 
@@ -104,7 +104,7 @@ return [
 Open a command line and type this:
 
 ```
-rbotc $ --install
+rbotc # --install
 ```
 
 You should see message like this:
@@ -123,32 +123,32 @@ Create a cron job to run every minutes.
 ```
 ### Use the queue system
 
-To add a command to rbot queue `$queue [-r] [-t=<int>] / [command] [options]`. 
+To add a command to rbot queue `#queue [-r] [-t=<int>] / [command] [options]`. 
 In the next example, rbot will execute the command every hour. 
 If you don't specify `-r`, rbot will execute the command only one time.:
 
 ```
-$queue -r -t=3600 / $say Hello you!
+#queue -r -t=3600 / #say Hello you!
 ```
 
 List current task in queue:
 ```
-$queue -l
+#queue -l
 ```
 
 Clear all item(s) in queue:
 ```
-$queue -c
+#queue -c
 ```
 
 Clear a specific item in queue:
 ```
-$queue -c 21
+#queue -c 21
 ```
 
 Execute manually all due tasks in queue:
 ```
-$queue --run
+#queue --run
 ```
 
 ### WebCLI configuration

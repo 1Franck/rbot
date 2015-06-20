@@ -10,7 +10,6 @@
 namespace RBot;
 
 use RBot\RBot;
-//use RBot\Authentication;
 use RBot\Exception;
 use RBot\Console;
 
@@ -21,7 +20,7 @@ use RBot\Console;
 abstract class Application
 {
 
-    static $RBOT_CMD_PREFIX = '$';
+    static $RBOT_CMD_PREFIX = '#';
 
     /**
      * Call app init()
@@ -29,6 +28,7 @@ abstract class Application
     public function __construct()
     {
         $this->init();
+        $this->_parseRequest();
     }
 
     public function init(){}
@@ -54,8 +54,8 @@ abstract class Application
         if(!empty($argv)) {
 
             // order is:  
-            // "$ [with_or_without_arg]"
-            // "$command"
+            // "# [with_or_without_arg]"
+            // "#command"
             // "? "
             // "command"
 
@@ -105,5 +105,37 @@ abstract class Application
             return true;
         }
         else return false;
+    }
+
+    /**
+     * Parse angular request
+     */
+    public function _parseRequest()
+    {
+        if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+            $req = json_decode(file_get_contents('php://input'), true);
+
+            foreach($req as $k => $v) {
+                $method = 'request'.ucfirst($k);
+                if(method_exists($this, $method)) {
+                    $this->$method($v);
+                }
+            }
+        }
+    }
+
+    public function requestH($value)
+    {
+        # code...
+    }
+
+    public function requestCh($value)
+    {
+
+    }
+
+    public function requestCmd($value)
+    {
+        
     }
 }

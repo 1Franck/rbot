@@ -17,9 +17,50 @@ app.filter('to_trusted', ['$sce', function($sce){
 }]);
 
 /**
+ * Rbot api requests service
+ */
+app.service('rbotApiService', ['$http', function($http) {
+
+    var request = function(postdata, s_fn, e_fn) {
+        $http
+            .post('index.php', postdata)
+            .success(function (data) {
+               if(typeof s_fn === 'function') s_fn(data);
+            })
+            .error(function () {
+                if(typeof e_fn === 'function') e_fn();
+            });
+    }
+
+    var error = function(fn) {};
+    
+    this.getConsoleHistory = function(s_fn, e_fn) {
+        request({h: 1}, s_fn, e_fn);
+    };
+
+    this.getCommandHistory =  function(s_fn, e_fn) {
+        request({ch: 1}, s_fn, e_fn);
+    };
+
+    this.commandRequest =  function(postdata, s_fn, e_fn) {
+        request(postdata, s_fn, e_fn);
+    };
+
+    this.request = function(s_fn, e_fn) {
+        request({ch: 1}, s_fn, e_fn);
+    };
+
+    this.post = function(postdata, s_fn, e_fn) {
+        request(postdata, s_fn, e_fn);
+    };
+
+   
+}]);
+
+/**
  * Main controller
  */
-app.controller('consoleController', ['$scope', '$http', function($s, $http) {
+app.controller('consoleController', ['$scope', 'rbotApiService', function($s, rapi) {
 
     $s.cmd_history       = [];
     $s.cmd_history_index = 0;
@@ -41,20 +82,19 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
      * Get console history
      */
     $s.getConsoleHistory = function() {
-        $http.post('index.php', {h: 1})
-            .success(function (data) {
-                if(data.length>0) {
-                    if(data.error) {
-                        el.console.innerHTML = data.error;
-                    }
-                    else {
-                        el.console.innerHTML += "\n" + data;
-                        el.console.scrollTop = el.console.scrollHeight;
-                    }
-                    
+
+        rapi.getConsoleHistory(function(data) {
+            if(data.length>0) {
+                if(data.error) {
+                    el.console.innerHTML = data.error;
                 }
-            })
-        .error(function () {
+                else {
+                    el.console.innerHTML += "\n" + data;
+                    el.console.scrollTop = el.console.scrollHeight;
+                }
+            }
+        }, 
+        function() {
             console.log("Cannot retreive history");
         });
     }
@@ -66,14 +106,13 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
 
 
     $s.getCommandHistory = function() {
-        $http.post('index.php', {ch: 1})
-            .success(function (data) {
-                if(data.length>0) {
-                    $s.cmd_history = data;
-                    $s.cmd_history_index = data.length;
-                }
-            })
-        .error(function () {
+
+        rapi.getCommandHistory(function(data) {
+            if(data.length>0) {
+                $s.cmd_history = data;
+                $s.cmd_history_index = data.length;
+            }
+        }, function () {
             console.log("Cannot retreive command history");
         });
     }
@@ -143,7 +182,7 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
             $event.preventDefault();
         }
         else if($s.cmd_input.trim() == "" && keycode == 32) {
-            $s.cmd_input = "$";
+            $s.cmd_input = "#";
         }
     };
 
@@ -161,17 +200,12 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
             return;
         }
 
-        //console.log($s.cmd_input);
-        $http.post('index.php', {cmd: $s.cmd_input})
-            .success(function (data) {
-                if(success_fn) {
-                    success_fn();
-                }
-                if(data.error) {
-                    el.console.innerHTML = data.error;
-                }
-            })
-        .error(function () {
+        rapi.commandRequest({cmd: $s.cmd_input}, function(data) {
+            if(success_fn) success_fn();
+            if(data.error) {
+                el.console.innerHTML = data.error;
+            }
+        }, function () {
             console.log("Cannot resolve: " + $s.cmd_input);
         });
     }
@@ -193,21 +227,12 @@ app.controller('consoleController', ['$scope', '$http', function($s, $http) {
             document.getElementById("cmd").focus();
         });
 
-        var ignoreKey = false;
-        var handler = function(e)
-        {
-            if (ignoreKey)
-            {
+        var handler = function(e) {
+            if(ignoreKey) {
                 e.preventDefault();
                 return;
             }
-            if (e.keyCode == 38 || e.keyCode == 40) 
-            {
-                /*var pos = this.selectionStart;
-                this.value = (e.keyCode == 38?1:-1)+parseInt(this.value,10);        
-                this.selectionStart = pos; this.selectionEnd = pos;
-
-                ignoreKey = true; setTimeout(function(){ignoreKey=false},1);*/
+            if (e.keyCode == 38 || e.keyCode == 40) {
                 e.preventDefault();
             }
         };

@@ -15,7 +15,7 @@ use RBot\ConsolePreset;
 
 class Console 
 {
-    // console lines array
+    // array of lines objects 
     static protected $_lines = [];
 
     // console preset object
@@ -59,6 +59,7 @@ class Console
                     self::$_lines[] = $l;
                 }
                 else {
+                    //create a line object
                     self::$_lines[] = new ConsoleLine([
                         'line'       => $l,
                         'command'    => $cmd,

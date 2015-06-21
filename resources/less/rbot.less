@@ -93,9 +93,23 @@ input, textarea, select {
 }
 
 
-span.line-ts {
-    font-size: 0.8em;
+span.line-ts, span.line-ts-block {
+    position: absolute;
+    font-size: 1em;
     color:@time_color;
+    display:inline-block;
+    //width: 155px;
+    width:100%;
+    float:left;
+    //border-bottom:1px dashed lighten(@body_bg, 2%);
+    z-index:-1;
+    text-shadow:1px 2px 3px #000;
+    transition:all 0.3s ease-in-out;
+
+    & + span {
+        margin-left: 130px;
+    }
+
 }
 
 

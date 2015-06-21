@@ -34,8 +34,10 @@ class ConsoleHistory
             Console::$log = false;
 
             foreach($lines as $l) {
-
-                Console::add(new ConsoleLine($l));
+                $line = new ConsoleLine($l);
+                //set cli to false
+                $line->cli = false;
+                Console::add($line );
                 $last_id = $l->id;
             }
 

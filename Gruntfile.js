@@ -48,7 +48,10 @@ module.exports = function(grunt) {
         separator: ';',
       },
       dist: {
-        src: ['resources/js/angular.min.js'],
+        src: [
+          'resources/js/pretty.js',
+          'resources/js/angular.min.js'
+        ],
         dest: 'public/assets/js/libs.js',
       },
     },

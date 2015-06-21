@@ -15,7 +15,17 @@ abstract class BaseDataObject
      * Data array
      * @var array
      */
-    protected $_data;
+    protected $_data = [];
+
+    /**
+     * Creat object and optionnaly merge $data with current class $_data
+     */
+    public function __construct($data = null)
+    {
+        if(isset($data) && is_array($data)) {
+            $this->_data = array_merge($this->_data, $data);
+        }
+    }
 
     /**
      * Set a new variable
@@ -59,5 +69,14 @@ abstract class BaseDataObject
     public function __unset($name)
     {
         if(array_key_exists($name, $this->_data)) unset($this->_data[$name]);
+    }
+
+    /**
+     * Get data as array
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->_data;
     }
 }

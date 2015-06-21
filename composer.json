@@ -6,7 +6,7 @@
     "type": "project",
 	"require": {
         "php": ">=5.5.0",
-		"corneltek/getoptionkit": "~2",
+        "corneltek/getoptionkit": "~2",
         "illuminate/database": "5.2.*@dev",
         "illuminate/container": "5.2.*@dev",
         "illuminate/contracts": "5.2.*@dev",

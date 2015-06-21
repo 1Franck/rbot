@@ -182,6 +182,7 @@ body {
   color: #999999;
   font-family: "Source Code Pro";
   overflow-x: hidden;
+  font-size: 14px;
 }
 input,
 textarea,
@@ -254,6 +255,10 @@ select {
   background: #cc0000;
   /* Gecko Browsers */
   color: #ccc;
+}
+span.line-ts {
+  font-size: 0.8em;
+  color: #666666;
 }
 span.red {
   color: #ff9999;

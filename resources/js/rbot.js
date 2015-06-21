@@ -72,10 +72,20 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
         console: document.getElementById("console")
     }
 
+    /**
+     * Ui commands
+     *
+     * if ui function return false, it will prevent the command to be sent to rbot api
+     */
     var ui_cmds = {
-        clear: function() {
+        "clear": function() {
+            el.console.innerHTML = '';
+            return false;
+        },
+        "#exit": function() {
             el.console.innerHTML = '';
         }
+
     }
 
     /**
@@ -84,7 +94,7 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
     $s.getConsoleHistory = function() {
 
         rapi.getConsoleHistory(function(data) {
-            console.log(data);
+            //console.log(data);
             if(data.length>0) {
                 if(data.error) {
                     el.console.innerHTML = data.error;
@@ -197,8 +207,8 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
     function request(success_fn) {
 
         if(isUiCmd($s.cmd_input)) {
-            ui_cmds[$s.cmd_input]();
-            return;
+            //var process_api = ui_cmds[$s.cmd_input]();
+            if(ui_cmds[$s.cmd_input]() === false) return;
         }
 
         rapi.commandRequest({cmd: $s.cmd_input}, function(data) {
@@ -214,15 +224,27 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
 
     function updateLinesTime(){
         var lines = document.getElementsByClassName("line-ts");
-        for ( var i = 0; i < lines.length; i++ )
-            if (lines[i].innerHTML) {
-                var date = prettyDate(lines[i].innerHTML);
-                if ( date )
-                    lines[i].innerHTML = date;
+        var latest_date = "";
+        for ( var i = 0; i < lines.length; i++ ) {
+
+            var ts = lines[i].getAttribute("data-ts");
+            //console.log(ts);
+
+            if (ts !== undefined && ts != "") {
+                if(latest_date == ts) {
+                    lines[i].innerHTML = "";
+                    lines[i].setAttribute("data-ts", "");
+                }
+                else {
+                    lines[i].innerHTML = prettyDate(ts);
+                    latest_date = ts;
+                }
             }
+
+        }
     }
     updateLinesTime();
-    setInterval(updateLinesTime, 60000);
+    setInterval(updateLinesTime, 5000);
 
 
     /**

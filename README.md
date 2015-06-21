@@ -113,6 +113,38 @@ You should see message like this:
 
 If you see something else, this may be due to a problem with database configuration.
 
+### WebCLI configuration
+
+:exclamation: If you plan to use the rbot WebCLI on a web server, don't forget to add authentication to your app configuration.
+For obvious security reasons, i don't recommend WebCLI if your app do low level things. 
+Be careful when using the WebCLI since all console data can be intercepted.
+
+```php
+'auth' => [
+    'hash'          => 'sha512',
+    'user_hash'     => 'user hash result',
+    'password_hash' => 'password hash result',
+    'ip'            => '127.0.0.1', // optionnal, can be an array (ex: ['127.0.0.1', 'X.X.X.X', ...])
+],
+
+```
+
+Log syntax: 
+```
+# [username] [password]
+```
+
+The WebCLI use angularjs. Unlike in CLI, excecuted commands
+in the WebCLI are not outputed directly. The WebCLI console grab (http pull)
+latest lines data from table `console` where every lines is stored.
+
+The advantage of this technique is that it bind the CLI ouput with the WebCLI, so
+all output in CLI will also appear on logged WebCLI.
+
+The disavantage is that http pull may induce a stress if the TTR(time to refresh) is too high or task(s) take to much times/memory to execute.
+
+Finally, you can't use the WebCLI if you don't install rbot database, but you still can use rbot in CLI.
+
 
 ### Configure the queue system with crontab
 
@@ -150,38 +182,6 @@ Execute manually all due tasks in queue:
 ```
 #queue --run
 ```
-
-### WebCLI configuration
-
-If you plan to use the rbot WebCLI on a web server, don't forget to add authentication to your app configuration.
-For obvious security reasons, i don't recommend WebCLI if your app do low level things. 
-Be careful when using the WebCLI since all console data can be intercepted.
-
-```php
-'auth' => [
-    'hash'          => 'sha512',
-    'user_hash'     => 'user hash result',
-    'password_hash' => 'password hash result',
-    'ip'            => '127.0.0.1', // optionnal, can be an array (ex: ['127.0.0.1', 'X.X.X.X', ...])
-],
-
-```
-
-Log syntax: 
-```
-# [username] [password]
-```
-
-The WebCLI use angularjs. Unlike in CLI, excecuted commands
-in the WebCLI are not outputed directly. The WebCLI console grab (http pull)
-latest lines data from table `console` where every lines is stored.
-
-The advantage of this technique is that it bind the CLI ouput with the WebCLI, so
-all output in CLI will also appear on logged WebCLI.
-
-The disavantage is that http pull may induce a stress if the TTR(time to refresh) is too high or task(s) take to much times/memory to execute.
-
-Finally, you can't use the WebCLI if you don't install rbot database, but you still can use rbot in CLI.
 
 ### Create your own commands
 ```php

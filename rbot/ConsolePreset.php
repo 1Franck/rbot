@@ -45,7 +45,7 @@ class ConsolePreset extends BaseDataObject
     {
         $conf = RBot::conf('console.presets');
         if(is_array($conf) && !empty($conf)) {
-            $this->_data = array_merge($this->_data, $conf);
+            parent::__construct($conf);
         }
     }
 }

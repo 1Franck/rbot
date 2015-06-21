@@ -12,7 +12,6 @@ namespace RBot;
 use RBot\RBot;
 use RBot\BaseDataObject;
 use RBot\Exception;
-use RBot\Console;
 
 /**
  * For webcli
@@ -67,6 +66,16 @@ class ConsoleLine extends BaseDataObject
             'dt_created' => $this->dt_created,
             'cli'        => $this->cli
         ];
+    }
+
+    /**
+     * Is line empty ?
+     * 
+     * @return boolean
+     */
+    public function isEmpty()
+    {
+        return empty($this->line);
     }
 
     /**

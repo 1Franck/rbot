@@ -90,6 +90,9 @@ class QueueCommand extends Command
     public function optionTime($value)
     {
         $this->_entity['repeat_time'] = $value;
+        if(empty($this->_entity['task'])) {
+            Console::AddAndOutput("No task specified | #queue [opt(s)] / [task]", 'warning');
+        }
     }
 
     /**
@@ -98,6 +101,9 @@ class QueueCommand extends Command
     public function optionRepeat()
     {
         $this->_entity['repeat'] = 1;
+        if(empty($this->_entity['task'])) {
+            Console::AddAndOutput("No task specified | #queue [opt(s)] / [task]", 'warning');
+        }
     }
 
     /**

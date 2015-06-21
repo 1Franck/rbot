@@ -12,6 +12,7 @@ namespace RBot;
 use RBot\RBot;
 use RBot\Exception;
 use RBot\Console;
+use RBot\ConsoleLine;
 
 class ConsoleHistory
 {
@@ -33,9 +34,8 @@ class ConsoleHistory
             Console::$log = false;
 
             foreach($lines as $l) {
-                RBot::argv($l->command);
-                $l->options = unserialize($l->options);
-                Console::add(htmlentities($l->line), $l->options);
+
+                Console::add(new ConsoleLine($l));
                 $last_id = $l->id;
             }
 

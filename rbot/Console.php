@@ -65,6 +65,7 @@ class Console
                         'command'    => $cmd,
                         'options'    => $options,
                         'rep'        => $rep,
+                        'dt_created' => date('Y-m-d H:i:s'),
                     ]);
                 }
             }

@@ -38,15 +38,14 @@ class ConsoleLine extends BaseDataObject
      */
     public function __construct($data = null) 
     {
-        //default stuff
-        $this->dt_created = date('Y-m-d H:i:s');
-        
         //$data is object(ex: db record)
         if(is_object($data)) {
+            $array = [];
             foreach($data as $k => $v) {
                 if($k === 'options') $v = unserialize($v);
-                $this->__set($k, $v);
+                $array[$k] = $v;
             }
+            $data = $array;
         }
 
         //merge
@@ -84,7 +83,7 @@ class ConsoleLine extends BaseDataObject
      * @param  array  $line
      * @return string    
      */
-    public function render()
+    public function render($ts = true)
     {
         $this->_replacements();
 
@@ -109,7 +108,11 @@ class ConsoleLine extends BaseDataObject
             $attrs_string .= ' data-'.$k.'="'.$v.'"';
         }
 
-        return '<span '.$attrs_string.' style="'.$style.'">'.$this->line.'</span>';
+        $line = '<span '.$attrs_string.' style="'.$style.'">'.$this->line.'</span>';
+
+        if($ts) $line = '<span class="line-ts">'.$this->dt_created.'</span> '.$line;
+
+        return $line;
     }
 
     /**

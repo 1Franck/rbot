@@ -55,15 +55,14 @@ class ConsoleLine extends BaseDataObject
     }
 
     /**
-     * Prepare line as array for db
+     * Return line as array for db insert
      * @return array
      */
     public function toDbArray()
     {
-        //print_r($this->options);
         return [
             'line'       => $this->line,
-            'options'    => (is_array($this->options) ? serialize($this->options) : ''),
+            'options'    => (is_array($this->options) && !empty($this->options) ? serialize($this->options) : ''),
             'command'    => $this->command,
             'dt_created' => $this->dt_created,
             'cli'        => $this->cli
@@ -84,8 +83,9 @@ class ConsoleLine extends BaseDataObject
         if($this->cli) return $this->line;
 
         $data_attributes = [
-            'cmd'  => hash('joaat', $this->command),
-            'time' => strtotime($this->dt_created),
+            'cmd' => hash('joaat', $this->command),
+            'ts'  => strtotime($this->dt_created),
+            'dt'  => $this->dt_created
         ];
 
         $style = '';

@@ -10,11 +10,16 @@
 namespace RBot;
 
 use RBot\RBot;
+use RBot\BaseDataObject;
 use RBot\Exception;
 
-class ConsolePreset
+class ConsolePreset extends BaseDataObject
 {
-    protected $_presets = [
+    /**
+     * Default preset
+     * @var array
+     */
+    protected $_data = [
         'error' => [
             'color' => '#FF9999'
         ],
@@ -40,53 +45,7 @@ class ConsolePreset
     {
         $conf = RBot::conf('console.presets');
         if(is_array($conf) && !empty($conf)) {
-            $this->_presets = array_merge($this->_presets, $conf);
+            $this->_data = array_merge($this->_data, $conf);
         }
     }
-    
-    /**
-     * Set a new variable
-     *
-     * @param string $name
-     * @param misc   $val
-     */
-    public function __set($name, $val)
-    {
-        $this->_presets[$name] = $val;
-    }
-
-    /**
-     * Get a variable
-     *
-     * @param  string $name
-     * @return misc   Will return null if variable keyname is not found
-     */
-    public function &__get($name)
-    {
-        if(array_key_exists($name, $this->_presets)) return $this->_presets[$name];
-        else return ${null};
-    }
-
-    /**
-     * Isset variable
-     *
-     * @param  string $name
-     * @return bool
-     */
-    public function __isset($name)
-    {
-        return (array_key_exists($name, $this->_presets)) ? true : false;
-    }
-
-    /**
-     * Unset variable
-     *
-     * @param string $name
-     */
-    public function __unset($name)
-    {
-        if(array_key_exists($name, $this->_presets)) unset($this->_presets[$name]);
-    }
-
 }
-

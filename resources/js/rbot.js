@@ -211,6 +211,20 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
         });
     }
 
+
+    function updateLinesTime(){
+        var lines = document.getElementsByClassName("line-ts");
+        for ( var i = 0; i < lines.length; i++ )
+            if (lines[i].innerHTML) {
+                var date = prettyDate(lines[i].innerHTML);
+                if ( date )
+                    lines[i].innerHTML = date;
+            }
+    }
+    updateLinesTime();
+    setInterval(updateLinesTime, 60000);
+
+
     /**
      * Check if command is a ui command
      * 

@@ -15,7 +15,7 @@ use RBot\ConsolePreset;
 
 class Console 
 {
-    // array of lines objects 
+    // array of ConsoleLine objects 
     static protected $_lines = [];
 
     // console preset object
@@ -40,7 +40,7 @@ class Console
     /**
      * Add line(s) to console
      * 
-     * @param string|array $data
+     * @param mixed $data accept string, array of string, ConsoleLine object and array of ConsoleLine objects
      */
     static function add($data, $options = [], $rep = null)
     {

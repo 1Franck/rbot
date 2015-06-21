@@ -54,14 +54,18 @@ class Console
         }
 
         if(!empty($data)) {
-            foreach($data as $d) {
-                $line = [
-                    'line'       => self::_replacements($d, $rep),
-                    'dt_created' => date('Y-m-d H:i:s'),
-                    'command'    => $cmd,
-                    'options'    => $options
-                ];
-                self::$_lines[] = $line;
+            foreach($data as $l) {
+                if($l instanceof ConsoleLine) {
+                    self::$_lines[] = $l;
+                }
+                else {
+                    self::$_lines[] = new ConsoleLine([
+                        'line'       => $l,
+                        'command'    => $cmd,
+                        'options'    => $options,
+                        'rep'        => $rep,
+                    ]);
+                }
             }
         }
     }
@@ -131,7 +135,7 @@ class Console
                 return;
             }
             else {
-                return self::$_preset->$name;;
+                return self::$_preset->$name;
             }
         }
 
@@ -147,27 +151,6 @@ class Console
         //Console::$log = false;
     }
 
-    /**
-     * Replace string token(s)
-     *
-     * Token syntax: {{tokename}}
-     * 
-     * 
-     * @param  $str 
-     * @param  array|object $rep tokens name and values
-     * @return string      
-     */
-    static protected function _replacements($str, $rep)
-    {
-        if(is_array($rep) || is_object($rep)) {
-            foreach($rep as $k => $v) {
-                $v = filter_var($v ,FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH);
-                $str = str_ireplace('{{'.$k.'}}', $v, $str);
-            }
-        }
-        return $str;
-    }
-
 
     /**
      * All others are faker, im the real one here! who work hard to process the stuff baby.
@@ -179,7 +162,7 @@ class Console
         $lines = [];
         if(!empty(self::$_lines)) {
             foreach(self::$_lines as $l) { 
-                $lines[] = ConsoleLine::render($l);
+                $lines[] = $l->render();
             }
         }
 
@@ -194,27 +177,17 @@ class Console
         if(self::$log === true) {
 
             //create a copy to keep empty space for _renderAll 
-            $lines = self::$_lines; 
+            $lines    = self::$_lines; 
             $cli_mode = RBot::cliMode();
 
             if(!empty($lines)) {
 
                 foreach($lines as $i => $l) {
-                    $lines[$i]['cli'] = $cli_mode;
-                    if(!empty($lines[$i]['options'])) {
-                        $lines[$i]['options'] = serialize($lines[$i]['options']);
-                    }
-                    else $lines[$i]['options'] = '';
-                }
 
-                if(self::$log_empty_line === false) {
-                    foreach($lines as $i => $l) {
-                        if(empty($l['line'])) unset($lines[$i]);
-                    }
-                }
+                    $lines[$i]->cli = $cli_mode;
+                    $lines[$i]->render();
+                    $lines[$i] = $lines[$i]->toDbArray();
 
-                if(self::$log_trim_linesblock === true) {
-                    $lines = self::_trim($lines);
                 }
             }
 
@@ -222,22 +195,5 @@ class Console
                 RBot::db()->table('console')->insert($lines);
             }
         }
-    }
-
-    static protected function _trim($lines)
-    {
-        if(!empty($lines)) {
-            foreach($lines as $i => $l) {
-                if(empty($l['line'])) unset($lines[$i]);
-                else break; 
-            }
-            $c = count($lines) - 1;
-            
-            for($i=$c;$i>0;--$i) {
-                if(empty($lines[$i]['line'])) unset($lines[$i]);
-                else break; 
-            }
-        }
-        return $lines;
     }
 }

@@ -84,6 +84,7 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
     $s.getConsoleHistory = function() {
 
         rapi.getConsoleHistory(function(data) {
+            console.log(data);
             if(data.length>0) {
                 if(data.error) {
                     el.console.innerHTML = data.error;
@@ -228,10 +229,10 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
         });
 
         var handler = function(e) {
-            if(ignoreKey) {
-                e.preventDefault();
-                return;
-            }
+            // if(ignoreKey) {
+            //     e.preventDefault();
+            //     return;
+            // }
             if (e.keyCode == 38 || e.keyCode == 40) {
                 e.preventDefault();
             }

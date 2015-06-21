@@ -167,6 +167,11 @@ Be careful when using the WebCLI since all console data can be intercepted.
 
 ```
 
+Log syntax: 
+```
+# [username] [password]
+```
+
 The WebCLI use angularjs. Unlike in CLI, excecuted commands
 in the WebCLI are not outputed directly. The WebCLI console grab (http pull)
 latest lines data from table `console` where every lines is stored.

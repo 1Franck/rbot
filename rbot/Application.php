@@ -78,7 +78,7 @@ abstract class Application
             }
 
             if(!class_exists($classname, true)) {
-                throw new Exception\CommandNotFound('Command not found... $ --list to view all commands');
+                throw new Exception\CommandNotFound('Command not found...  type #help to view all commands');
             }
 
             RBot::run(new $classname);

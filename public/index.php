@@ -66,7 +66,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <div ng-controller="consoleController" ng-dblclick="focusCmd()">
-        <pre id="console"></pre>
+        <pre id="console" class="with-time"></pre>
         <div id="intel" ng-model="intel"></div>
         <input type="text" id="cmd" ng-model="cmd_input" ng-keydown="cmdTyping($event)" autofocus spellcheck="false">
     </div>

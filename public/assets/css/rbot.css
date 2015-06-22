@@ -258,6 +258,10 @@ select {
   /* Gecko Browsers */
   color: #ccc;
 }
+#console.with-time .line {
+  display: inline-block;
+  margin-left: 95px;
+}
 .line {
   font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
   font-family: "Source Code Pro";
@@ -278,16 +282,14 @@ select {
   letter-spacing: -1px;
   border-radius: 0 8px 8px 0;
   border-top: 1px solid #222222;
-  padding-right: 5px;
   left: 0;
   transition: all 0.3s ease-in-out;
   font-family: "Source Code Pro";
   text-align: center;
-}
-.line-ts + .line,
-.line-ts-block + .line {
-  display: inline-block;
-  margin-left: 95px;
+  /*  & + .line {
+       display:inline-block;
+       margin-left: 95px;
+   } */
 }
 .line-ts-block:not(.line-ts) {
   display: none;

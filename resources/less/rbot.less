@@ -93,6 +93,14 @@ input, textarea, select {
         background: #cc0000; /* Gecko Browsers */
         color: #ccc;
     }
+
+
+    &.with-time {
+        .line {
+            display:inline-block;
+            margin-left: 95px;
+        }
+    }
 }
 
 .line {
@@ -116,7 +124,7 @@ input, textarea, select {
     letter-spacing: -1px;
     border-radius: 0 8px 8px 0;
     border-top:1px solid @body_bg;
-    padding-right:5px;
+    //padding-right:5px;
     left:0;
     transition:all 0.3s ease-in-out;
     font-family: @body_font;
@@ -124,10 +132,10 @@ input, textarea, select {
     text-align: center;
     //box-shadow:2px 8px 8px -8px #000;
 
-    & + .line {
-        display:inline-block;
-        margin-left: 95px;
-    }
+   /*  & + .line {
+       display:inline-block;
+       margin-left: 95px;
+   } */
 }
 
 .line-ts-block:not(.line-ts) {

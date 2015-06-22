@@ -68,7 +68,7 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
     $s.cmd_input_default = cmd_prefix;
 
     var ttl_history = 6000,
-        ttl_time    = 10000;
+        ttl_time    = 1000;
 
     var el = {
         cmd: document.getElementById("cmd"),
@@ -106,7 +106,7 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
 
                     el.console.innerHTML += "\n" + data + '&nbsp;';
                     el.console.scrollTop = el.console.scrollHeight;
-                    if(data != "") updateLinesTime();
+                    if(data != "") timeUpdater.update();
                 }
             }
         }, 
@@ -227,9 +227,69 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
     }
 
 
+    /**
+     * time updater module
+     * @uses  webworkers [description]
+     */
+    var timeUpdater = (function() {
+
+
+        var worker = new Worker("assets/js/ww/updatetime.js");
+        worker.onerror = function() {
+            console.log("there was a problem with the WebWorker within " + e);
+        };
+
+        return {
+            update: function() {
+                var lines = document.querySelectorAll(".line-ts"),
+                latest_date = "";
+
+                worker.onmessage = function(e) {
+                    if(e.data.action == 'update') {
+                        lines[e.data.index].innerHTML = e.data.time;
+                    }
+                };
+
+                for(var i = 0; i < lines.length; i++ ) {
+                    var ts = lines[i].getAttribute("data-ts");
+                    if (ts !== undefined && ts.trim() != "") {
+                        if(latest_date == ts) {
+                            el.console.removeChild(lines[i]);
+                        }
+                        else {
+                            worker.postMessage({ 
+                                'ts':  lines[i].getAttribute("data-ts"),
+                                'index': i,
+                            });
+                            latest_date = ts;
+                        }
+                    }
+                }
+            }
+        } 
+
+    })();
+
+    setInterval(timeUpdater.update, ttl_time);
+
     function updateLinesTime(){
+
+
         var lines = document.querySelectorAll(".line-ts"),
             latest_date = "";
+
+        /*for ( var i = 0; i < lines.length; i++ ) {
+            worker.postMessage({ 
+                'ts':  lines[i].getAttribute("data-ts")
+                'i': i,
+                'latest_date'
+            });
+        }
+            */
+
+            
+
+        /*    
 
         console.log(lines.length);
         for ( var i = 0; i < lines.length; i++ ) {
@@ -249,8 +309,10 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
                 }
             }
         } 
+        */
+       
     }
-    setInterval(updateLinesTime, ttl_time);
+    
 
 
     /**

@@ -180,6 +180,7 @@ body {
 body {
   background: #222222;
   color: #999999;
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
   font-family: "Source Code Pro";
   overflow-x: hidden;
   font-size: 14px;
@@ -219,6 +220,9 @@ select {
   font-size: 16px;
 }
 #console {
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-family: "Source Code Pro";
+  font-size: 14px;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -228,13 +232,11 @@ select {
   max-width: 100%;
   margin-bottom: 30px;
   padding: 5px;
-  font-size: 14px;
-  line-height: 15px;
-  word-wrap: break-word;
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  hyphens: auto;
   overflow-x: hidden;
+  /* word-wrap: break-word;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto; */
 }
 #console::selection {
   background: #bbbbbb;
@@ -256,21 +258,42 @@ select {
   /* Gecko Browsers */
   color: #ccc;
 }
-span.line-ts,
-span.line-ts-block {
-  position: absolute;
-  font-size: 1em;
-  color: #555555;
-  display: inline-block;
-  width: 100%;
-  float: left;
-  z-index: -1;
-  text-shadow: 1px 2px 3px #000;
-  transition: all 0.3s ease-in-out;
+.line {
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-family: "Source Code Pro";
+  font-size: 14px;
+  line-height: 15px;
+  overflow: hidden;
 }
-span.line-ts + span,
-span.line-ts-block + span {
-  margin-left: 130px;
+.line-ts,
+.line-ts-block {
+  position: absolute;
+  font-size: 12px;
+  line-height: 15px;
+  color: #000000;
+  background-color: #6b6b6b;
+  display: inline-block;
+  vertical-align: middle;
+  width: 95px;
+  float: left;
+  z-index: 1;
+  letter-spacing: -1px;
+  border-radius: 0 8px 8px 0;
+  padding-right: 5px;
+  left: 0;
+  transition: all 0.3s ease-in-out;
+  font-family: "Source Code Pro";
+  font-weight: bold;
+  text-align: center;
+}
+.line-ts + .line,
+.line-ts-block + .line {
+  display: inline-block;
+  margin-left: 95px;
+}
+.line {
+  border-left: 1px solid #333;
+  padding-left: 10px;
 }
 span.red {
   color: #ff9999;

@@ -67,6 +67,9 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
     $s.cmd_input         = cmd_prefix;
     $s.cmd_input_default = cmd_prefix;
 
+    var ttl_history = 5000,
+        ttl_time    = 10000;
+
     var el = {
         cmd: document.getElementById("cmd"),
         console: document.getElementById("console")
@@ -100,8 +103,10 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
                     el.console.innerHTML = data.error;
                 }
                 else {
-                    el.console.innerHTML += "\n" + data;
+
+                    el.console.innerHTML += "\n" + data + '&nbsp;';
                     el.console.scrollTop = el.console.scrollHeight;
+                    if(data != "") updateLinesTime();
                 }
             }
         }, 
@@ -112,7 +117,7 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
 
     setInterval(function() {
         $s.getConsoleHistory();
-    }, 1000);
+    }, ttl_history);
 
 
 
@@ -223,14 +228,25 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
 
 
     function updateLinesTime(){
-        var lines = document.getElementsByClassName("line-ts");
-        var latest_date = "";
+        var lines = document.querySelectorAll(".line-ts"),
+            latest_date = "";
+
+        ttl_time = ttl_time * (lines.length*0.5);
+
+        //remove empty ts line so next round there is less elements to loop on
+        for ( var i = 0; i < lines.length; i++ ) {
+            if(lines[i].getAttribute("data-ts").trim() == "") {
+                lines[i].classList.remove('line-ts');
+            }
+        }
+
+        console.log(lines.length);
         for ( var i = 0; i < lines.length; i++ ) {
 
             var ts = lines[i].getAttribute("data-ts");
             //console.log(ts);
 
-            if (ts !== undefined && ts != "") {
+            if (ts !== undefined && ts.trim() != "") {
                 if(latest_date == ts) {
                     lines[i].innerHTML = "";
                     lines[i].setAttribute("data-ts", "");
@@ -240,11 +256,11 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
                     latest_date = ts;
                 }
             }
-
         }
+
+        
     }
-    updateLinesTime();
-    setInterval(updateLinesTime, 5000);
+    setInterval(updateLinesTime, ttl_time);
 
 
     /**

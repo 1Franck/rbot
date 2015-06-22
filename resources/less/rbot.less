@@ -99,37 +99,42 @@ input, textarea, select {
     font-family: @mono_font_fallback;
     font-family: @body_font;
     font-size: @console_fontsize;
-    line-height: @console_lineheigth;
-    overflow: hidden;
+    line-height: @console_lineheight;
 }
 
 
 .line-ts, .line-ts-block {
     position: absolute;
     font-size: @time_fontsize;
-    line-height: @console_lineheigth;
+    line-height: @console_lineheight;
     color:@time_color;
     background-color: @time_bg;
     display:inline-block;
     vertical-align: middle;
-    width: 95px;
     float:left;
     z-index:1;
     letter-spacing: -1px;
     border-radius: 0 8px 8px 0;
+    border-top:1px solid @body_bg;
     padding-right:5px;
     left:0;
     transition:all 0.3s ease-in-out;
     font-family: @body_font;
-    font-weight: bold;
+    //font-weight: bold;
     text-align: center;
-
-
+    //box-shadow:2px 8px 8px -8px #000;
 
     & + .line {
         display:inline-block;
         margin-left: 95px;
     }
+}
+
+.line-ts-block:not(.line-ts) {
+    display:none;
+}
+.line-ts-block.line-ts {
+    width: 95px;
 }
 
 .line {
@@ -140,4 +145,9 @@ input, textarea, select {
 
 span.red {
     color:lighten(#ff0000, 30%);
+}
+
+.clear {
+    clear:both;
+    height:0;
 }

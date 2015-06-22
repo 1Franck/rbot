@@ -67,7 +67,7 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
     $s.cmd_input         = cmd_prefix;
     $s.cmd_input_default = cmd_prefix;
 
-    var ttl_history = 5000,
+    var ttl_history = 6000,
         ttl_time    = 10000;
 
     var el = {
@@ -231,15 +231,6 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
         var lines = document.querySelectorAll(".line-ts"),
             latest_date = "";
 
-        ttl_time = ttl_time * (lines.length*0.5);
-
-        //remove empty ts line so next round there is less elements to loop on
-        for ( var i = 0; i < lines.length; i++ ) {
-            if(lines[i].getAttribute("data-ts").trim() == "") {
-                lines[i].classList.remove('line-ts');
-            }
-        }
-
         console.log(lines.length);
         for ( var i = 0; i < lines.length; i++ ) {
 
@@ -248,17 +239,16 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
 
             if (ts !== undefined && ts.trim() != "") {
                 if(latest_date == ts) {
-                    lines[i].innerHTML = "";
-                    lines[i].setAttribute("data-ts", "");
+                    //lines[i].innerHTML = "";
+                    //lines[i].setAttribute("data-ts", "");
+                    el.console.removeChild(lines[i]);
                 }
                 else {
                     lines[i].innerHTML = prettyDate(ts);
                     latest_date = ts;
                 }
             }
-        }
-
-        
+        } 
     }
     setInterval(updateLinesTime, ttl_time);
 

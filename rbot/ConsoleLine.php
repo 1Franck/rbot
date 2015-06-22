@@ -108,7 +108,7 @@ class ConsoleLine extends BaseDataObject
             $attrs_string .= ' data-'.$k.'="'.$v.'"';
         }
 
-        $line = '<div class="line" '.$attrs_string.' style="'.$style.'">'.$this->line.'</div>';
+        $line = '<div class="line" '.$attrs_string.' style="'.$style.'">'.wordwrap($this->line, 100).'</div>';
 
         if($ts) $line = '<div class="line-ts-block line-ts" data-ts="'.$this->dt_created.'" title="'.$this->dt_created.'"></div> '.$line;
 

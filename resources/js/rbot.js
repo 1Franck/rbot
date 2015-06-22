@@ -229,7 +229,7 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
 
     /**
      * time updater module
-     * @uses  webworkers [description]
+     * @uses  webworkers
      */
     var timeUpdater = (function() {
 
@@ -246,7 +246,8 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
 
                 worker.onmessage = function(e) {
                     if(e.data.action == 'update') {
-                        lines[e.data.index].innerHTML = e.data.time;
+                        if(lines[e.data.index])
+                            lines[e.data.index].innerHTML = e.data.time;
                     }
                 };
 

@@ -75,7 +75,6 @@ class Authentication
 
                         $_SESSION['logged'] = true;
                         RBot::argv('');
-                        Console::nl();
                         Console::addAndOutput('Greeting master...');
                     }
                     else {

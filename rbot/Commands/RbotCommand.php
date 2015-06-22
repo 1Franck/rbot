@@ -50,7 +50,6 @@ class RbotCommand extends Command
      */
     public function optionVersion()
     {
-        Console::nl();
         if(!RBot::cliMode()) {
             Console::Add([
                 '██████╗ ██████╗  ██████╗ ████████╗',

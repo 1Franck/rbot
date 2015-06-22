@@ -123,7 +123,6 @@ abstract class Command
      */
     public function help()
     {
-        Console::nl();
         Console::add("Help for command " .$this->_getClassCmdName());
         Console::nl();
 

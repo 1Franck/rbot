@@ -157,7 +157,6 @@ abstract class Application
      */
     public function requestCmd($value)
     {
-        $this->auth();
         $cmd = filter_var($value, FILTER_SANITIZE_STRING);
         $this->run(RBot::argv('rbotc '.$cmd));
     }

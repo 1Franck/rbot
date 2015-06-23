@@ -12,7 +12,7 @@ namespace RBot;
 use RBot\RBot;
 use RBot\Exception;
 use RBot\Console;
-
+use RBot\ConsoleHistory;
 
 /*
  * RBot application
@@ -92,6 +92,7 @@ abstract class Application
     {
         if(RBot::cliMode() || !$this->hasAuth()) return;
         $auth = new Authentication;
+        return $auth;
     }
 
     /**
@@ -108,7 +109,7 @@ abstract class Application
     }
 
     /**
-     * Parse angular request
+     * Parse ajax/angular post request
      */
     public function _parseRequest()
     {
@@ -119,6 +120,7 @@ abstract class Application
                 foreach($req as $k => $v) {
                     $method = 'request'.ucfirst($k);
                     if(method_exists($this, $method)) {
+                        //echo $method;
                         $this->$method($v);
                     }
                 }
@@ -126,18 +128,37 @@ abstract class Application
         }
     }
 
+    /**
+     * Request console history
+     * 
+     * @param  integer $value
+     */
     public function requestH($value)
     {
-        # code...
+        $this->auth();
+        if(isset($_SESSION['last_console_id'])) $hid = $_SESSION['last_console_id'];
+        else $hid = filter_var($value, FILTER_SANITIZE_NUMBER_INT);
+        ConsoleHistory::getLatestLinesFrom($hid);
     }
 
+    /**
+     * Request Commands history
+     */
     public function requestCh($value)
     {
-
+        $this->auth();
+        die(ConsoleHistory::getCommands());
     }
 
+    /**
+     * Request a command execution
+     * 
+     * @param  string $value
+     */
     public function requestCmd($value)
     {
-        
+        $this->auth();
+        $cmd = filter_var($value, FILTER_SANITIZE_STRING);
+        $this->run(RBot::argv('rbotc '.$cmd));
     }
 }

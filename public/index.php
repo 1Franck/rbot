@@ -13,10 +13,13 @@ use RBot\Console;
 use RBot\ConsoleHistory;
 use App\App;
 
+
+
 // process ajax request
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $req = json_decode(file_get_contents('php://input'), true);
+    if(empty($req) && isset($_POST)) $req = $_POST;
 
     try {
         RBot::init(RBot::SANDBOX);
@@ -37,22 +40,24 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $cmd = '';
         if(isset($req['cmd'])) {
+
             $cmd = filter_var($req['cmd'], FILTER_SANITIZE_STRING);
         }
 
         $app->run(RBot::argv('rbotc '.$cmd));
     }
     catch(Exception\AuthException $e) {
-        die(json_encode(['error' => $e->getMessage()]));
+        //die(json_encode(['error' => $e->getMessage()]));
+        die($e->getMessage());
     }
     catch(Exception\GenericException $e) {
         $exclass = get_class($e);
         $suffix = (RBot::env() === 'dev') ? $exclass : '';
         Console::addAndOutput($e->getMessage().'   "'.$suffix.'"', ['color' => '#ff9999']);
     }
-    /*catch(Exception $e) {
+    catch(Exception $e) {
         echo '<span class="red">'.$e->getMessage().'</span>';
-    }*/
+    }
 
     exit();
 }

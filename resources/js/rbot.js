@@ -68,7 +68,7 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
     $s.cmd_input_default = cmd_prefix;
 
     var ttl_history = 6000,
-        ttl_time    = 1000;
+        ttl_time    = 60000;
 
     var el = {
         cmd: document.getElementById("cmd"),
@@ -115,9 +115,9 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
         });
     }
 
-    setInterval(function() {
+    /*setInterval(function() {
         $s.getConsoleHistory();
-    }, ttl_history);
+    }, ttl_history);*/
 
 
 
@@ -226,6 +226,20 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
         });
     }
 
+    var testw = new Worker("assets/js/ww/test.js");
+    testw.onmessage = function(e) {
+        var data = e.data.data;
+        //console.log(data);
+        if(data.length>0) {
+
+            el.console.innerHTML += "\n" + data + '&nbsp;';
+            el.console.scrollTop = el.console.scrollHeight;
+            timeUpdater.update();
+        
+        }
+        //console.log("runs");
+    };
+    testw.postMessage({'ts': 'sd'});
 
     /**
      * time updater module

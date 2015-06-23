@@ -171,7 +171,7 @@ class RbotCommand extends Command
             $table->bigIncrements('id')->unsigned();
             $table->text('line')->nullable();
             $table->timestamp('dt_created');
-            $table->text('command');
+            $table->text('command')->nullable();
             $table->text('options');
             $table->tinyInteger('cli')->unsigned()->default(0);
         });

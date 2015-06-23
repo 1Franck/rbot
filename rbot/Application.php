@@ -115,10 +115,12 @@ abstract class Application
         if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
             $req = json_decode(file_get_contents('php://input'), true);
 
-            foreach($req as $k => $v) {
-                $method = 'request'.ucfirst($k);
-                if(method_exists($this, $method)) {
-                    $this->$method($v);
+            if(!empty($req)) {
+                foreach($req as $k => $v) {
+                    $method = 'request'.ucfirst($k);
+                    if(method_exists($this, $method)) {
+                        $this->$method($v);
+                    }
                 }
             }
         }

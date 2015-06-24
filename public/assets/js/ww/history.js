@@ -3,12 +3,12 @@
  */
 self.addEventListener('message', function (e) {
 
-    var i = 0;
+    var interval = e.data.interval || 1500;
+    var once = e.data.once || false;
 
-    setInterval(function() {
+    function request() {
 
         var request = new XMLHttpRequest();
-
 
         request.onreadystatechange  = function() {
             if (request.readyState == 4 && request.status == 200){
@@ -24,7 +24,9 @@ self.addEventListener('message', function (e) {
         request.open('POST', './../../../index.php', true);
         request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
         request.send("h=1");
+    };
 
-    }, 1500);
+    if(once == false) setInterval(request, interval);
+    else request();
 
 }, false);

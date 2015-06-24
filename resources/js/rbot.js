@@ -67,7 +67,7 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
     $s.cmd_input         = cmd_prefix;
     $s.cmd_input_default = cmd_prefix;
 
-    var ttl_history = 6000,
+    var ttl_history = 1000,
         ttl_time    = 60000;
 
     var el = {
@@ -95,8 +95,9 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
      * Get console history
      */
     $s.getConsoleHistory = function() {
-
-        rapi.getConsoleHistory(function(data) {
+        
+        historyUpdater.worker.postMessage({'once': true});
+        /*rapi.getConsoleHistory(function(data) {
             //console.log(data);
             if(data.length>0) {
                 if(data.error) {
@@ -112,7 +113,7 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
         }, 
         function() {
             console.log("Cannot retreive history");
-        });
+        });*/
     }
 
     /*setInterval(function() {
@@ -226,21 +227,31 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
         });
     }
 
-    var testw = new Worker("assets/js/ww/history.js");
-    testw.onmessage = function(e) {
-        var data = e.data.data;
-        if(data.length>0) {
-            el.console.innerHTML += "\n" + data + '&nbsp;';
-            el.console.scrollTop = el.console.scrollHeight;
-            timeUpdater.update();
+    /**
+     * Console history updater module
+     * @uses  Worker
+     */
+    var historyUpdater = (function(){
+        var worker = new Worker("assets/js/ww/history.js");
+        worker.onmessage = function(e) {
+            var data = e.data.data;
+            if(data.length>0) {
+                el.console.innerHTML += "\n" + data + '&nbsp;';
+                el.console.scrollTop = el.console.scrollHeight;
+                timeUpdater.update();
+            }
+            //console.log("runs");
+        };
+        worker.postMessage({'interval': ttl_history});
+
+        return {
+            worker: worker
         }
-        //console.log("runs");
-    };
-    testw.postMessage({'ts': 'sd'});
+    })();
 
     /**
      * time updater module
-     * @uses  webworkers
+     * @uses  Worker
      */
     var timeUpdater = (function() {
 

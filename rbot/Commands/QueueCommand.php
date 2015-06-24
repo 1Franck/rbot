@@ -70,7 +70,7 @@ class QueueCommand extends Command
      */
     public function process()
     {
-        if(!empty($this->_entity['task'])) {
+        if(!empty($this->_entity['task']) && !$this->hasErrors()) {
             if(RBot::dbCheck('queue')) {
                 RBot::db()->table('queue')->insert($this->_entity);
                 Console::AddAndOutput("Task added !");

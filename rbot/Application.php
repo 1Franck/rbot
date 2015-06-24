@@ -109,18 +109,18 @@ abstract class Application
     }
 
     /**
-     * Parse ajax/angular post request
+     * Parse ajax post request
      */
     public function _parseRequest()
     {
         if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
-            $req = json_decode(file_get_contents('php://input'), true);
+            $req = json_decode(file_get_contents('php://input'), true); //angular post
+            if(empty($req) && !empty($_POST)) $req = $_POST;
 
             if(!empty($req)) {
                 foreach($req as $k => $v) {
                     $method = 'request'.ucfirst($k);
                     if(method_exists($this, $method)) {
-                        //echo $method;
                         $this->$method($v);
                     }
                 }

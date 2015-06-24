@@ -17,18 +17,18 @@ module.exports = function(grunt) {
     },
 
   
-    // copy: {
-    //   build: {
-    //     files: [
-    //       {
-    //         cwd: 'src/boilerplate',     // set working folder / root to copy
-    //         src: '**/*',                // copy all files and subfolders
-    //         dest: 'build/boilerplate',  // destination folder
-    //         expand: true                // required when using cwd
-    //       },
-    //     ],
-    //   },
-    // },
+    copy: {
+      build: {
+        files: [
+          {
+            cwd: 'resources/js/ww',       // set working folder / root to copy
+            src: '**/*',                  // copy all files and subfolders
+            dest: 'public/assets/js/ww',  // destination folder
+            expand: true                  // required when using cwd
+          },
+        ],
+      },
+    },
 
 
     less: {
@@ -62,7 +62,7 @@ module.exports = function(grunt) {
 
     watch: {
       scripts: {
-        files: ['resources/js/*.js', 'resources/less/*.less'],
+        files: ['resources/js/*.js', 'resources/js/ww/*.js', 'resources/less/*.less'],
         tasks: ['default'],
         options: {
           spawn: false,
@@ -75,10 +75,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-less');
-  //grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-copy');
   //grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
   // Default task (AKA BUILD)
-  grunt.registerTask('default', ['less', 'concat', 'uglify']);
+  grunt.registerTask('default', ['less', 'concat', 'copy', 'uglify']);
 };

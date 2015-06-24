@@ -139,7 +139,7 @@ abstract class Command
             $opt_line = $this->_renderOption($o);
             $length = strlen($opt_line);
 
-            for($i=1;$i <= (($max_length-$length)+8);++$i) {
+            for($i=1;$i <= (($max_length-$length)+4);++$i) {
                 $opt_line .= ' ';
             }
 

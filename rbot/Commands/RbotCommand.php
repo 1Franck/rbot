@@ -114,21 +114,19 @@ class RbotCommand extends Command
         $output = [];
         for($i=0;$i<$rows;++$i) {
             if(isset($col1[$i])) {
-                $output[$i] = str_pad($col1[$i], 20);
+                $output[$i] = str_pad($col1[$i], 15);
             }
-            else $output[$i] = str_pad('', 20);
+            else $output[$i] = str_pad('', 15);
         
             if(isset($col2[$i])) {
                 $output[$i] .= $col2[$i];
             }
         }
 
-        $header = count($col1).' app commands, '.count($col2).' rbot commands found:';
+        $header = count($col1).' app commands '."\n".count($col2).' rbot commands found:';
+        Console::add($header);
         Console::nl();
-        Console::addAndOutput($header);
-        Console::separator(strlen($header));
-        Console::addAndOutput($output);
-        Console::separator(strlen($header));
+        Console::add($output);
         Console::output();
     }
 

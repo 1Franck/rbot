@@ -67,6 +67,7 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
     $s.cmd_input         = cmd_prefix;
     $s.cmd_input_default = cmd_prefix;
 
+    //refresh rate in ms
     var ttl_history = 1000,
         ttl_time    = 60000;
 
@@ -88,37 +89,17 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
         "#exit": function() {
             el.console.innerHTML = '';
         }
-
     }
 
     /**
-     * Get console history
+     * Check if command is a ui command
+     * 
+     * @param  string  cmd
+     * @return boolean
      */
-    $s.getConsoleHistory = function() {
-        
-        historyUpdater.worker.postMessage({'once': true});
-        /*rapi.getConsoleHistory(function(data) {
-            //console.log(data);
-            if(data.length>0) {
-                if(data.error) {
-                    el.console.innerHTML = data.error;
-                }
-                else {
-
-                    el.console.innerHTML += "\n" + data + '&nbsp;';
-                    el.console.scrollTop = el.console.scrollHeight;
-                    if(data != "") timeUpdater.update();
-                }
-            }
-        }, 
-        function() {
-            console.log("Cannot retreive history");
-        });*/
+    function isUiCmd(cmd) {
+        return ui_cmds[cmd] ? true : false;
     }
-
-    /*setInterval(function() {
-        $s.getConsoleHistory();
-    }, ttl_history);*/
 
 
 
@@ -154,7 +135,7 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
                 el.console.scrollTop = el.console.scrollHeight;
             }
             else {
-                request($s.getConsoleHistory);
+                request(historyUpdater.update);
                 if($s.cmd_history[$s.cmd_history.length-1] !== undefined &&
                     $s.cmd_input !== $s.cmd_history[$s.cmd_history.length-1].command) {
 
@@ -245,7 +226,10 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
         worker.postMessage({'interval': ttl_history});
 
         return {
-            worker: worker
+            worker: worker,
+            update: function() {
+                worker.postMessage({'once': true});
+            }
         }
     })();
 
@@ -295,76 +279,20 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
 
     setInterval(timeUpdater.update, ttl_time);
 
-    function updateLinesTime(){
-
-
-        var lines = document.querySelectorAll(".line-ts"),
-            latest_date = "";
-
-        /*for ( var i = 0; i < lines.length; i++ ) {
-            worker.postMessage({ 
-                'ts':  lines[i].getAttribute("data-ts")
-                'i': i,
-                'latest_date'
-            });
-        }
-            */
-
-            
-
-        /*    
-
-        console.log(lines.length);
-        for ( var i = 0; i < lines.length; i++ ) {
-
-            var ts = lines[i].getAttribute("data-ts");
-            //console.log(ts);
-
-            if (ts !== undefined && ts.trim() != "") {
-                if(latest_date == ts) {
-                    //lines[i].innerHTML = "";
-                    //lines[i].setAttribute("data-ts", "");
-                    el.console.removeChild(lines[i]);
-                }
-                else {
-                    lines[i].innerHTML = prettyDate(ts);
-                    latest_date = ts;
-                }
-            }
-        } 
-        */
-       
-    }
     
-
-
-    /**
-     * Check if command is a ui command
-     * 
-     * @param  string  cmd
-     * @return boolean
-     */
-    function isUiCmd(cmd) {
-        return ui_cmds[cmd] ? true : false;
-    }
-
     function init() {
 
-        document.body.addEventListener("dblclick",function() {
+        /*document.body.addEventListener("dblclick",function() {
             console.log('dlclock');
             document.getElementById("cmd").focus();
-        });
+        });*/
 
+        //prevent up and down keydown in input default browser behavior 
         var handler = function(e) {
-            // if(ignoreKey) {
-            //     e.preventDefault();
-            //     return;
-            // }
             if (e.keyCode == 38 || e.keyCode == 40) {
                 e.preventDefault();
             }
         };
-
         el.cmd.addEventListener('keydown',handler,false);
         el.cmd.addEventListener('keypress',handler,false);
     }

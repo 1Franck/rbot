@@ -226,16 +226,13 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
         });
     }
 
-    var testw = new Worker("assets/js/ww/test.js");
+    var testw = new Worker("assets/js/ww/history.js");
     testw.onmessage = function(e) {
         var data = e.data.data;
-        //console.log(data);
         if(data.length>0) {
-
             el.console.innerHTML += "\n" + data + '&nbsp;';
             el.console.scrollTop = el.console.scrollHeight;
             timeUpdater.update();
-        
         }
         //console.log("runs");
     };

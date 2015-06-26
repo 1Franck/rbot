@@ -21,7 +21,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     catch(Exception\AuthException $e) {
         //die(json_encode(['error' => $e->getMessage()]));
-        Console::addAndOutput($e->getMessage(), 'error');
+        if(!isset($_SESSION['need_login'])) {
+            Console::addAndOutput($e->getMessage(), 'error');
+            $_SESSION['need_login'] = true;
+        }
     }
     catch(Exception\GenericException $e) {
         $exclass = get_class($e);

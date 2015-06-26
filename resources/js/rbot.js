@@ -86,9 +86,13 @@ app.controller('consoleController', ['$scope', 'rbotApiService', function($s, ra
             el.console.innerHTML = '';
             return false;
         },
+        "# --clear" : function() {
+            el.console.innerHTML = '';
+        },
         "#exit": function() {
             el.console.innerHTML = '';
-        }
+        }, 
+
     }
 
     /**

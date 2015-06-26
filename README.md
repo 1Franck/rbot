@@ -38,7 +38,7 @@ This will install those libraries:
 ..index.php             WebCLI app point entry
 /rbot                   RBot lib
 ../Commands             RBot commands
-/resources              Web assets src for gruntjs
+/resources              Web assets(css,js) source for gruntjs
 cron.php                RBot cron runner (crontab)
 rbotc                   CLI app point entry for linux
 rbotc.bat               for windows command (shorcut for rbotc)

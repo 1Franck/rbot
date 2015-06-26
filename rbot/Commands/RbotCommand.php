@@ -29,10 +29,11 @@ class RbotCommand extends Command
     public function setOptions() 
     {
         $this->_options->add('v|version', 'rbot version');
-        $this->_options->add('list', 'list all application commands');
-        $this->_options->add('install', 'install rbot database');
+        $this->_options->add('l|list', 'list all application commands');
+        $this->_options->add('i|install', 'install rbot database');
         $this->_options->add('killdb', 'drop all tables in rbot database');
         $this->_options->add('logout', 'logout user if apply');
+        $this->_options->add('clear', 'clear console history table');
     }
 
     /**
@@ -179,11 +180,11 @@ class RbotCommand extends Command
 
 
     /**
-     * Drop rbot tables
+     * Drop all tables (even those who do not belong to the system)
+     * inside the installed database.
      */
     public function optionKilldb()
     {
-
         if(!RBot::dbCheck()) {
             Console::AddAndOutput('There is nothing to kill...');
             return;
@@ -203,6 +204,20 @@ class RbotCommand extends Command
         } 
 
         $this->optionLogout();
+    }
+
+    /**
+     * Clear console history table 
+     */
+    public function optionClear()
+    {
+        if(!RBot::dbCheck('console')) {
+            Console::AddAndOutput('Install rbot first');
+            return;
+        }
+
+        RBot::db()->table('console')->delete();
+        Console::AddAndOutput('Console history cleared!');
     }
 
 }

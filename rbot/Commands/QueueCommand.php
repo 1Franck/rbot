@@ -38,7 +38,7 @@ class QueueCommand extends Command
         $this->_options->add('t|time:', 'specify the repetion time in sec' )
                        ->isa('Number');
 
-        $this->_options->add('l|list', 'list current tasks queue');
+        $this->_options->add('l|list?', 'list current tasks queue');
 
         $this->_options->add('c|clear?', 'clear a specific queue item id or all queue items.')
                        ->defaultValue('all');
@@ -142,18 +142,50 @@ class QueueCommand extends Command
     /**
      * List current queue
      */
-    public function optionList()
+    public function optionList($value)
     {
         if(RBot::dbCheck('queue')) {
 
-            $queue = RBot::db()->table('queue')->get();
+            
+            $direction = 'asc';
+
+            $orders = [
+                't'   => 'task',
+                'dtc' => 'dt_created',
+                'dte' => 'dt_executed',
+                'r'   => 'repeat',
+                'rt'  => 'repeat_time',
+                'e'   => 'execution',
+                'f'   => 'faulty',
+                'fm'  => 'fault_msg',
+            ];
+
+            if(!empty($value) && array_key_exists(trim($value), $orders)) {
+                $order = $orders[trim($value)];
+                $custom_order = $order.','.$direction;
+            }
+            else {
+                $order = 'dt_created';
+            }
+
+            $queue = RBot::db()->table('queue')->orderBy($order, $direction)->get();
 
             if(empty($queue)) {
                 Console::addAndOutput('Queue is empty...', ['color' => '#CCC']);
                 return;
             }
 
-            Console::add('Current queue list:', ['color' => '#CCC']);
+            Console::add('Current queue list'.($custom_order ? ' (order:'.$custom_order.')' : '').':',
+                         ['color' => '#CCC']);
+            Console::add("Legend: ".'[dtc:creation date][r:repeat flag][rt:repeat time]');
+            Console::add("\t".'[e:# of executions][dte:last execution date]');
+            Console::add("\t".'[f:faulty flag][fm:fault message]');
+            Console::nl();
+
+           /* if($custom_order) {
+                Console::add('@order: '.$custom_order);
+                 Console::nl();
+            }*/
 
             $tpl = '-> id:{{id}} dtc:{{dt_created}} r:{{repeat}} rt:{{repeat_time}}s e:{{execution}} dte:{{dt_executed}}';
 
@@ -167,7 +199,7 @@ class QueueCommand extends Command
                 if(empty($q->dt_executed) || $q->dt_executed === '0000-00-00 00:00:00') {
                     $q->dt_executed = 'never';
                 }
-                Console::add($q->task, ['font-style' => 'italic']);
+                Console::add($q->task, ['color' => '#ccc']);
                 Console::add($tpl, [], $q);
                 if(!empty($extra)) Console::add($extra, ['color' => ''], $q);
             }

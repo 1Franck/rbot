@@ -146,9 +146,7 @@ class QueueCommand extends Command
     {
         if(RBot::dbCheck('queue')) {
 
-            
             $direction = 'asc';
-
             $orders = [
                 't'   => 'task',
                 'dtc' => 'dt_created',
@@ -164,9 +162,7 @@ class QueueCommand extends Command
                 $order = $orders[trim($value)];
                 $custom_order = $order.','.$direction;
             }
-            else {
-                $order = 'dt_created';
-            }
+            else $order = 'dt_created';
 
             $queue = RBot::db()->table('queue')->orderBy($order, $direction)->get();
 

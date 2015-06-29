@@ -178,11 +178,6 @@ class QueueCommand extends Command
             Console::add("\t".'[f:faulty flag][fm:fault message]');
             Console::nl();
 
-           /* if($custom_order) {
-                Console::add('@order: '.$custom_order);
-                 Console::nl();
-            }*/
-
             $tpl = '-> id:{{id}} dtc:{{dt_created}} r:{{repeat}} rt:{{repeat_time}}s e:{{execution}} dte:{{dt_executed}}';
 
             foreach($queue as $q) {

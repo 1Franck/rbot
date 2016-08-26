@@ -27,6 +27,12 @@ abstract class Command
 {
 
     /**
+     * Command description for help
+     * @var [type]
+     */
+    protected $_command_desc;
+
+    /**
      * Commands spec
      * @var array
      */
@@ -123,7 +129,12 @@ abstract class Command
      */
     public function help()
     {
-        Console::add("Help for command " .$this->_getClassCmdName());
+        if(empty($this->_command_desc)) {
+            Console::add("Help for command " .$this->_getClassCmdName());
+        }
+        else {
+            Console::add($this->_command_desc);
+        }
         Console::nl();
 
         $max_length = 0;

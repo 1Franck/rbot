@@ -18,10 +18,8 @@ use RBot\Console;
  */
 class SayCommand extends Command 
 {
-    /**
-     * Command Options
-     */
-    public function setOptions() {}
+
+    protected $_command_desc = 'Type #say [your text] and you shall see!';
 
     /**
      * Process the command
@@ -33,5 +31,6 @@ class SayCommand extends Command
         if(!empty($say)) {
             Console::addAndOutput($say);
         }
+        else Console::addAndOutput($this->_command_desc);
     }
 }

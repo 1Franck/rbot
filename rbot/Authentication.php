@@ -20,6 +20,8 @@ use RBot\Exception;
 class Authentication
 {
 
+    protected $_is_logged = false;
+
     /**
      * Constructor
      */
@@ -33,6 +35,7 @@ class Authentication
      */
     private function _auth()
     {
+        $this->_is_logged = false;
         if(is_array(RBot::conf('auth'))) {
 
             //... session is started
@@ -74,6 +77,7 @@ class Authentication
                         $p_hash === RBot::conf('auth.password_hash')) {
 
                         $_SESSION['logged'] = true;
+                        $this->_is_logged = true;
                         RBot::argv('');
                         Console::addAndOutput('Greeting master...');
                     }
@@ -87,6 +91,11 @@ class Authentication
                 }
             }
         }
+    }
+
+    public function isLogged()
+    {
+        return $this->_is_logged;
     }
 
     /**

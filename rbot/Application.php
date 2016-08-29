@@ -74,7 +74,9 @@ abstract class Application
             }
             else {
                 $cmd = $argv[0];
-                $classname = NS_APP.ucfirst($cmd).'\\'.ucfirst($cmd).'Command';
+                $namespace = NS_APP;
+                if(RBot::cliMode()) $namespace .= 'Commands\\';
+                $classname = $namespace.ucfirst($cmd).'\\'.ucfirst($cmd).'Command';
             }
 
             if(!class_exists($classname, true)) {

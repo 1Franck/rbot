@@ -158,6 +158,7 @@ class QueueCommand extends Command
                 'fm'  => 'fault_msg',
             ];
 
+            $custom_order = '';
             if(!empty($value) && array_key_exists(trim($value), $orders)) {
                 $order = $orders[trim($value)];
                 $custom_order = $order.','.$direction;

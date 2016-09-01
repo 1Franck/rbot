@@ -28,7 +28,7 @@ abstract class Command
 
     /**
      * Command description for help
-     * @var [type]
+     * @var string
      */
     protected $_command_desc;
 

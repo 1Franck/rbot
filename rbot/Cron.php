@@ -38,7 +38,7 @@ class Cron
         Capsule::connection()->disableQueryLog();
 
         $results = Capsule::select(
-            'SELECT * FROM queue WHERE 
+            'SELECT * FROM cron WHERE 
             (dt_executed IS NULL AND UNIX_TIMESTAMP(dt_created + INTERVAL repeat_time SECOND) <= UNIX_TIMESTAMP(NOW())) OR 
             (dt_executed IS NOT NULL AND UNIX_TIMESTAMP(dt_executed + INTERVAL repeat_time SECOND) <= UNIX_TIMESTAMP(NOW()))'
         );
@@ -60,11 +60,11 @@ class Cron
 
                 if($r->repeat == 0 && $faulty === false) {
                     //delete task
-                    Capsule::table('queue')->where('id', '=', $r->id)->delete();
+                    Capsule::table('cron')->where('id', '=', $r->id)->delete();
                 }
                 else {
                     //update task
-                    Capsule::table('queue')
+                    Capsule::table('cron')
                         ->where('id', '=', $r->id)
                         ->update([
                             'dt_executed' => date('Y-m-d H:i:s'), 

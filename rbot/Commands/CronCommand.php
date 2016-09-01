@@ -14,12 +14,17 @@ use RBot\Command;
 use RBot\Console;
 
 /*
- * Queue command
+ * Cron command
  *
- * Add task command to RBot queue
+ * Add task command to RBot cron
  */
-class QueueCommand extends Command 
+class CronCommand extends Command 
 {
+
+    protected $_command_desc = 
+        'RBot Cron jobs system'."\n".
+        '-------------------------------------------------------'."\n".
+        'Syntax: #cron [options] (/ [command] ([command args]))';
 
     private $_entity = [
         'task'        => '',
@@ -38,12 +43,12 @@ class QueueCommand extends Command
         $this->_options->add('t|time:', 'specify the repetion time in sec' )
                        ->isa('Number');
 
-        $this->_options->add('l|list?', 'list current tasks queue');
+        $this->_options->add('l|list?', 'list current tasks cron');
 
-        $this->_options->add('c|clear?', 'clear a specific queue item id or all queue items.')
+        $this->_options->add('c|clear?', 'clear a specific cron item id or all cron items.')
                        ->defaultValue('all');
 
-        $this->_options->add('run', 'run queue tasks');              
+        $this->_options->add('run', 'run cron tasks');              
     }
 
     /**
@@ -64,19 +69,18 @@ class QueueCommand extends Command
         }
     }
 
-
     /**
      * Process the command
      */
     public function process()
     {
         if(!empty($this->_entity['task']) && !$this->hasErrors()) {
-            if(RBot::dbCheck('queue')) {
-                RBot::db()->table('queue')->insert($this->_entity);
+            if(RBot::dbCheck('cron')) {
+                RBot::db()->table('cron')->insert($this->_entity);
                 Console::AddAndOutput("Task added !");
             }
             else {
-                Console::AddAndOutput("No queue table found :(", 'warning');
+                Console::AddAndOutput("No cron table found :(", 'warning');
             }
         }
         elseif(!$this->hasResult() && !$this->hasErrors()) $this->help();
@@ -91,7 +95,7 @@ class QueueCommand extends Command
     {
         $this->_entity['repeat_time'] = $value;
         if(empty($this->_entity['task'])) {
-            Console::AddAndOutput("No task specified | #queue [opt(s)] / [task]", 'warning');
+            Console::AddAndOutput("No task specified | #cron [opt(s)] / [task]", 'warning');
         }
     }
 
@@ -102,23 +106,23 @@ class QueueCommand extends Command
     {
         $this->_entity['repeat'] = 1;
         if(empty($this->_entity['task'])) {
-            Console::AddAndOutput("No task specified | #queue [opt(s)] / [task]", 'warning');
+            Console::AddAndOutput("No task specified | #cron [opt(s)] / [task]", 'warning');
         }
     }
 
     /**
-     * Clear queue item(s)
+     * Clear cron item(s)
      */
     public function optionClear($value)
     {
-        if(RBot::dbCheck('queue')) {
+        if(RBot::dbCheck('cron')) {
             if($value === 'all') {
-                RBot::db()->table('queue')->delete();
-                Console::add('All queue items cleared');
+                RBot::db()->table('cron')->delete();
+                Console::add('All cron jobs cleared');
             }
             elseif(is_numeric($value) && $value > 0) {
-                RBot::db()->table('queue')->where('id', '=', $value)->delete();
-                Console::add('Queue item({{id}}) cleared', [], ['id' => $value]);
+                RBot::db()->table('cron')->where('id', '=', $value)->delete();
+                Console::add('Job item({{id}}) cleared', [], ['id' => $value]);
             }
         }
         else Console::add('Install rbot first');
@@ -127,11 +131,11 @@ class QueueCommand extends Command
     }
 
     /**
-     * Clear queue item(s)
+     * Clear cron item(s)
      */
     public function optionRun()
     {
-        if(RBot::dbCheck('queue')) {
+        if(RBot::dbCheck('cron')) {
            include_once __DIR__.'/../../cron.php';
         }
         else Console::add('Install rbot first');
@@ -140,11 +144,11 @@ class QueueCommand extends Command
     }
 
     /**
-     * List current queue
+     * List current cron
      */
     public function optionList($value)
     {
-        if(RBot::dbCheck('queue')) {
+        if(RBot::dbCheck('cron')) {
 
             $direction = 'asc';
             $orders = [
@@ -165,14 +169,14 @@ class QueueCommand extends Command
             }
             else $order = 'dt_created';
 
-            $queue = RBot::db()->table('queue')->orderBy($order, $direction)->get();
+            $cron = RBot::db()->table('cron')->orderBy($order, $direction)->get();
 
-            if(empty($queue)) {
-                Console::addAndOutput('Queue is empty...', ['color' => '#CCC']);
+            if(empty($cron)) {
+                Console::addAndOutput('Cron is empty...', ['color' => '#CCC']);
                 return;
             }
 
-            Console::add('Current queue list'.($custom_order ? ' (order:'.$custom_order.')' : '').':',
+            Console::add('Current cron list'.($custom_order ? ' (order:'.$custom_order.')' : '').':',
                          ['color' => '#CCC']);
             Console::add("Legend: ".'[dtc:creation date][r:repeat flag][rt:repeat time]');
             Console::add("\t".'[e:# of executions][dte:last execution date]');
@@ -181,7 +185,7 @@ class QueueCommand extends Command
 
             $tpl = '-> id:{{id}} dtc:{{dt_created}} r:{{repeat}} rt:{{repeat_time}}s e:{{execution}} dte:{{dt_executed}}';
 
-            foreach($queue as $q) {
+            foreach($cron as $q) {
                 $extra = '';
                 if($q->faulty == 1) {
                     $extra = '-> f:{{faulty}} fm:{{fault_msg}}';
@@ -200,7 +204,4 @@ class QueueCommand extends Command
 
         Console::output();
     }
-
-
-
 }

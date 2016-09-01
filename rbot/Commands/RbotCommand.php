@@ -143,13 +143,13 @@ class RbotCommand extends Command
         }
 
         // table exists ?
-        if(RBot::db()->schema()->hasTable('queue') || RBot::db()->schema()->hasTable('users')) {
+        if(RBot::db()->schema()->hasTable('cron') || RBot::db()->schema()->hasTable('users')) {
             Console::addAndOutput('System already installed or database is not empty');
             return;
         }
 
         // create tables
-        RBot::db()->schema()->create('queue', function($table) {
+        RBot::db()->schema()->create('cron', function($table) {
 
             $table->engine = 'InnoDB';
             $table->bigIncrements('id')->unsigned();

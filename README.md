@@ -80,7 +80,7 @@ The RBot prefix `#` can be changed in your app class.
 
 ### RBot configuration and database installation
 
-To use the WebCLI and/or queue system, you must configure and install RBot database.
+To use the WebCLI and/or cron system, you must configure and install RBot database.
 
 Once you have installed dependencies with composer, create an empty database and put connection 
 infos in your `app/configs/dev/app.php`
@@ -146,41 +146,41 @@ The disavantage is that http pull may induce a stress if the TTR(time to refresh
 Finally, you can't use the WebCLI if you don't install rbot database, but you still can use rbot in CLI.
 
 
-### Configure the queue system with crontab
+### Configure the rbot cron system with crontab
 
 Create a cron job to run every minutes.
 ```
 * * * * * php path/to/cron.php
 
 ```
-### Use the queue system
+### Use the cron system
 
-To add a command to rbot queue `#queue [-r] [-t=<int>] / [#][command] [options]`. 
+To add a command to rbot cron `#cron [-r] [-t=<int>] / [#][command] [options]`. 
 In the next example, rbot will execute the command every hour. 
 If you don't specify `-r`, rbot will execute the command only one time.:
 
 ```
-#queue -r -t=3600 / #say Hello you!
+#cron -r -t=3600 / #say Hello you!
 ```
 
-List current task in queue:
+List current task in cron:
 ```
-#queue -l
-```
-
-Clear all item(s) in queue:
-```
-#queue -c
+#cron -l
 ```
 
-Clear a specific item in queue:
+Clear all item(s) in cron:
 ```
-#queue -c 21
+#cron -c
 ```
 
-Execute manually all due tasks in queue:
+Clear a specific item in cron:
 ```
-#queue --run
+#cron -c 21
+```
+
+Execute manually all due tasks in cron:
+```
+#cron --run
 ```
 
 ### Create your own commands

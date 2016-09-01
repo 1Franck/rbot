@@ -266,13 +266,13 @@ select {
   font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
   font-family: "Source Code Pro";
   font-size: 14px;
-  line-height: 18px;
+  line-height: 14px;
 }
 .line-ts,
 .line-ts-block {
   position: absolute;
   font-size: 12px;
-  line-height: 18px;
+  line-height: 14px;
   color: #000000;
   background-color: #6b6b6b;
   display: inline-block;

@@ -3,7 +3,7 @@
 namespace App\Commands;
 define('NS_APP', __NAMESPACE__.'\\');
 
-session_start('rbot-web');
+session_start('rbot-webcli');
 
 require __DIR__.'/../rbot/loader.php';
 

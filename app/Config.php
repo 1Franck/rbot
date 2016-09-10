@@ -5,6 +5,13 @@
 return [
 
     'all' => [
+
+        'php' => [
+            'display_errors'         => 0,
+            'display_startup_errors' => 0,
+            'date.timezone'          => "America/Toronto"
+        ],
+
         'auth' => [
             'hash'          => 'sha512',
             // admin / admin
@@ -15,6 +22,10 @@ return [
     ],
 
     'dev' => [
+        'php' => [
+            'display_errors'         => 1,
+            'display_startup_errors' => 1,
+        ],
         'db' => [
             'driver'    => 'mysql',
             'host'      => '127.0.0.1',

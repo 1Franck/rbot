@@ -9,6 +9,7 @@
  */
 namespace RBot;
 
+use RBot\Config;
 use RBot\Exception;
 use PDOException;
 
@@ -16,7 +17,7 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Container\Container as Container;
 use Illuminate\Events\Dispatcher as Dispatcher;
 
-use Sinergi\Config\Config as Config;
+//use Sinergi\Config\Config as Config;
 
 use GetOptionKit\Option;
 use GetOptionKit\OptionCollection;
@@ -35,6 +36,7 @@ class RBot
     private static $_db;
     private static $_env;
     private static $_cmd_path;
+    private static $_app_path;
 
     /**
      * Init RBot config and database connexion
@@ -44,11 +46,9 @@ class RBot
     static function init($env)
     {
         self::$_env      = $env;
-        self::$_cmd_path = realpath(__DIR__).'/../app/Commands';
-        self::$_config   = new Config(__DIR__.'/../app/configs');
-        self::$_config->setEnvironment($env);
-
-        //print_r(self::$_config);
+        self::$_app_path = realpath(__DIR__).'/../app';
+        self::$_cmd_path = self::$_app_path.'/Commands';
+        self::$_config = new Config(self::$_app_path.'/Config.php');
 
         self::_connect();
     }
@@ -59,24 +59,11 @@ class RBot
      * @param   string $opt  
      * @return  mixed
      */
-    static function conf($opt)
+    static public function conf($opt)
     {
         $no = ['db'];
         if(in_array(trim($opt), $no)) return;
         return self::_conf($opt);
-    }
-
-    /**
-     * Check if conf exists
-     * 
-     * @param  string  $opt
-     * @return boolean     
-     */
-    static function hasConf($opt)
-    {
-        $conf_opt = self::_conf($opt);
-        if(isset($conf_opt)) return true;
-        return false;
     }
 
     /**
@@ -85,9 +72,9 @@ class RBot
      * @param   string $opt  
      * @return  mixed
      */
-    static public function _conf($opt)
+    static private function _conf($opt)
     {
-        return self::$_config->get('app.'.$opt);
+        return self::$_config->get($opt);
     }
 
     /**

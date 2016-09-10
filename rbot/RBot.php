@@ -17,8 +17,6 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Container\Container as Container;
 use Illuminate\Events\Dispatcher as Dispatcher;
 
-//use Sinergi\Config\Config as Config;
-
 use GetOptionKit\Option;
 use GetOptionKit\OptionCollection;
 use GetOptionKit\ContinuousOptionParser;

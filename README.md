@@ -2,7 +2,7 @@
 Experimental CLI and WebCLI php application framework with cron jobs system
 
 ### Requirements
-    PHP 5.5+
+    PHP 5.5.9+
     PHP Composer
     MySQL or MariaDB (for cron jobs system)
     HTTP server(for WebCLI)
@@ -18,7 +18,7 @@ Experimental CLI and WebCLI php application framework with cron jobs system
 $ composer install
 ```
 This will install those libraries:
- - [illuminate/database](https://github.com/illuminate/database) (Laravel 5.1 Database Component)
+ - [illuminate/database](https://github.com/illuminate/database) (Laravel 5.2 Database Component)
  - [c9s/GetOptionKit](https://github.com/c9s/GetOptionKit) (A powerful GetOpt toolkit for PHP)
   
 `3` (optionnal) Install grunt for editing/theming rbot WebCLI assets 

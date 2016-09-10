@@ -53,7 +53,7 @@ class Config extends DotNotation
         if($this->have('all')) {
             $newconfig = $this->arrayMergeRecursive($this->get('all'), $this->get(RBot::env()));
             $this->values = $newconfig;
-            print_r($newconfig);
+            //print_r($newconfig);
         }
     }
 

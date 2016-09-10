@@ -4,7 +4,7 @@
  */
 return [
 
-    'all' => [
+    'all' => [ // this is the default settings group, all others environments groups will overwrite/complete those settings
 
         'php' => [
             'display_errors'         => 0,

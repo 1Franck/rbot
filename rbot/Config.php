@@ -26,7 +26,9 @@ class Config extends DotNotation
         if(is_array($vars)) $this->values = $vars;
         elseif(is_string($vars)) $this->loadFile($vars);
         //else throw exception 
+        
         $this->initConfig();
+        $this->processConfig();
     }
 
     /**
@@ -50,8 +52,21 @@ class Config extends DotNotation
     {
         if($this->have('all')) {
             $newconfig = $this->arrayMergeRecursive($this->get('all'), $this->get(RBot::env()));
-            //print_r($newconfig);
             $this->values = $newconfig;
+            print_r($newconfig);
+        }
+    }
+
+    /**
+     * Process some config like php key
+     */
+    protected function processConfig()
+    {
+        if($this->have('php')) {
+            $php_settings = $this->get('php');
+            foreach($php_settings as $k => $v) {
+                ini_set($k, $v);
+            }
         }
     }
     

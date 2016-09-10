@@ -20,7 +20,6 @@ $ composer install
 This will install those libraries:
  - [illuminate/database](https://github.com/illuminate/database) (Laravel 5.1 Database Component)
  - [c9s/GetOptionKit](https://github.com/c9s/GetOptionKit) (A powerful GetOpt toolkit for PHP)
- - [sinergi/config](https://github.com/sinergi/config) (PHP configurations loading library)
   
 `3` (optionnal) Install grunt for editing/theming rbot WebCLI assets 
 
